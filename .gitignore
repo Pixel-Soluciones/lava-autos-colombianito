@@ -1,9 +1,9 @@
 # Angular (frontend)
 front-lava-autos/node_modules/
-front-lava-autos/dist/
+front-lava-autos/dist/*
 
 # Node (backend)
 back-lava-autos/node_modules/
 back-lava-autos/.env
-
+back-lava-autos/dist/*
 

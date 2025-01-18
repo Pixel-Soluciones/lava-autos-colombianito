@@ -1,4 +1,4 @@
-import express from 'express'
+import express, { response } from 'express'
 import cors from 'cors'
 import { DB_URI } from './utils/config.js'
 import loginRouter from './controllers/login.js'
@@ -13,6 +13,10 @@ app.use(cors())
 app.use(express.static('dist/front-lava-autos'))
 app.use(express.json())
 app.use(requestLogger)
+
+app.get('/', (req, res) => {
+    res.send('api funcionando')
+})
 
 app.use('/api/login', loginRouter)
 

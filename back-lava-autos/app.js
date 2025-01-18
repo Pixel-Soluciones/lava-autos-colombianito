@@ -9,8 +9,10 @@ const app = express()
 
 info('Connecting to', DB_URI)
 
-app.use(cors())
-app.use(express.static('dist/front-lava-autos'))
+app.use(cors({
+    origin: '*'
+}))
+app.use(express.static('dist/front-lava-autos/browser'))
 app.use(express.json())
 app.use(requestLogger)
 

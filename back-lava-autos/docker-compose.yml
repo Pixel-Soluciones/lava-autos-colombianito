@@ -1,0 +1,10 @@
+services:
+  mySqlDb:
+    image: mysql:8.0
+    container_name: db_lava_autos
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: lava_autos
+    ports:
+      - "3306:3306"
+

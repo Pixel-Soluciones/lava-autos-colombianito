@@ -19,7 +19,9 @@
     "module": "ES2022",
     "baseUrl": "./src",
     "paths": {
-      "@envs/*": ["/environments/*"]
+      "@envs/*": ["environments/*"],
+      "@services/*": ["app/core/services/*"],
+      "@guards/*": ["app/core/guards/*"]
     }
   },
   "angularCompilerOptions": {

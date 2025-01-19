@@ -36,10 +36,6 @@ app.use(express.static('dist/front-lava-autos/browser'))
 app.use(express.json())
 app.use(requestLogger)
 
-app.get('/', (req, res) => {
-    res.sendFile('index.html', { root: 'dist/front-lava-autos/browser' })
-})
-
 app.use('/api/login', loginRouter)
 
 app.use(unknownEndpoint)

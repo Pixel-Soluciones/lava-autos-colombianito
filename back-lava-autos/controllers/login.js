@@ -12,5 +12,12 @@ loginRouter.post('/', async (request, response) => {
         .send({ username, password })
 })
 
+loginRouter.get('/', async (request, response) => {
+    const [db] = await request.app.locals.db.execute('SELECT NOW() as now')
+    response
+        .status(200)
+        .json(db)
+})
+
 
 export default loginRouter

@@ -8,3 +8,12 @@ services:
     ports:
       - "3306:3306"
 
+  app:
+    build: .
+    depends_on:
+      - mySqlDb
+    links:
+      - mySqlDb
+    ports:
+      - "4000:4000"
+

@@ -17,14 +17,14 @@ const pool = mysql.createPool({
     database: MYSQL_DATABASE
 })
 
-/* pool.getConnection()
+pool.getConnection()
     .then((connection) => {
         info('Connected to MySQL database')
         connection.release()
     })
     .catch((e) => {
         error('Error connecting to MySQL database', e)
-    }) */
+    })
 
 app.locals.db = pool
 

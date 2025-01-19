@@ -13,11 +13,17 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
       - "${MYSQL_DOCKER_PORT}:${MYSQL_DOCKER_PORT}"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   app:
     build: .
     depends_on:
-      - mySqlDb
+      mySqlDb:
+        condition: service_healthy
     links:
       - mySqlDb
     ports:

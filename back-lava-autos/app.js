@@ -1,30 +1,11 @@
 import express, { response } from 'express'
+import pool from './database/connection.database.js'
 import cors from 'cors'
-import { MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, MYSQL_PORT } from './utils/config.js'
-import loginRouter from './controllers/login.js'
+import loginRouter from './routes/login.route.js'
+import userRouter from './routes/user.route.js'
 import { requestLogger, unknownEndpoint, errorHandler } from './utils/middleware.js'
-import { info, error } from './utils/logger.js'
-import mysql from 'mysql2/promise'
 
 const app = express()
-
-info('Connecting to mysql...')
-const pool = mysql.createPool({
-    host: MYSQL_HOST,
-    user: MYSQL_USER,
-    password: MYSQL_PASSWORD,
-    port: MYSQL_PORT,
-    database: MYSQL_DATABASE
-})
-
-pool.getConnection()
-    .then((connection) => {
-        info('Connected to MySQL database')
-        connection.release()
-    })
-    .catch((e) => {
-        error('Error connecting to MySQL database', e)
-    })
 
 app.locals.db = pool
 
@@ -37,6 +18,7 @@ app.use(express.json())
 app.use(requestLogger)
 
 app.use('/api/login', loginRouter)
+app.use('/api/users', userRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

@@ -1,3 +1,31 @@
-<div class="card flex justify-center">
-  <p-button label="Check" />
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company">
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form class="space-y-6" [formGroup]="loginForm" (ngSubmit)="login()">
+      <div>
+        <p-floatlabel variant="in">
+          <input class="w-full"
+            pInputText id="in_label"
+            autocomplete="off"
+            formControlName="user"/>
+          <label for="in_label">Usuario</label>
+      </p-floatlabel>
+      </div>
+      <div>
+        <p-floatlabel variant="in">
+          <p-password class="w-full" 
+            [feedback]="false"
+            [toggleMask]="true"
+            formControlName="password"/>
+          <label for="in_label">Contraseña</label>
+      </p-floatlabel>
+      </div>
+      <div>
+        <p-button type="ngSubmit" label="Acceder" class="flex w-full justify-center"></p-button>
+      </div>
+    </form>
+  </div>
 </div>

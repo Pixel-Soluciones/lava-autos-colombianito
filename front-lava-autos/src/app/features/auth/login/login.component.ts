@@ -1,20 +1,21 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   imports: [
-    FormsModule
+    ButtonModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
 
-  username : string = '';
-  password : string = '';
+  email: string = '';
+  password: string = '';
 
-  onLogin() {
-    console.log(this.username, this.password);
+  onSubmit() {
+    console.log('Email:', this.email);
+    console.log('Password:', this.password);
   }
 }

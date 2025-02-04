@@ -3,6 +3,7 @@ import pool from './database/connection.database.js'
 import cors from 'cors'
 import loginRouter from './routes/login.route.js'
 import userRouter from './routes/user.route.js'
+import employeesRouter from './routes/employees.route.js'
 import { requestLogger, unknownEndpoint, errorHandler } from './utils/middleware.js'
 
 const app = express()
@@ -19,6 +20,7 @@ app.use(requestLogger)
 
 app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
+app.use('/api/employees', employeesRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

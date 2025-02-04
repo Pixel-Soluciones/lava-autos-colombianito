@@ -5,7 +5,7 @@ import BaseModel from './base.model.js';
 class User extends BaseModel { }
 
 User.init({
-    uid: {
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -37,7 +37,6 @@ User.init({
 }, {
     sequelize,
     tableName: 'USERS',
-    paranoid: true,
     modelName: 'User'
 });
 

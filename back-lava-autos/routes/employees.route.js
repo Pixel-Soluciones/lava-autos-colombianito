@@ -1,25 +1,17 @@
 import { Router } from "express";
+import { employeeController } from "../controllers/employee.controller.js";
+import { validateEmployee, validateEmployeeId } from "../validators/employees.validator.js";
 
 const employeesRouter = Router();
 
-employeesRouter.post('/', (req, res) => {
-    // Logic to create a new employee
-    res.send('Employee created');
-});
+employeesRouter.post('/create', validateEmployee, employeeController.createEmployee);
 
-employeesRouter.put('/:id', (req, res) => {
-    // Logic to modify an existing employee
-    res.send(`Employee with id ${req.params.id} modified`);
-});
+employeesRouter.put('/update/:cedula', validateEmployeeId, validateEmployee, employeeController.updateEmployee);
 
-employeesRouter.get('/:id', (req, res) => {
-    // Logic to get an employee by id
-    res.send(`Employee with id ${req.params.id} fetched`);
-});
+employeesRouter.get('/get/:cedula', validateEmployeeId ,employeeController.getEmployeeById);
 
-employeesRouter.delete('/:id', (req, res) => {
-    // Logic to delete an employee by id
-    res.send(`Employee with id ${req.params.id} deleted`);
-});
+employeesRouter.delete('/delete/:cedula', validateEmployeeId ,employeeController.deleteEmployee);
+
+employeesRouter.get('/', employeeController.getEmployees);
 
 export default employeesRouter;

@@ -9,6 +9,7 @@ Employee.init({
         type: DataTypes.STRING(10),
         allowNull: false,
         primaryKey: true,
+        unique: true,
     },
     nombre: {
         type: DataTypes.STRING(25),
@@ -39,3 +40,5 @@ Employee.init({
     tableName: 'TRABAJADORES',
     modelName: 'Employee'
 });
+
+export default Employee;

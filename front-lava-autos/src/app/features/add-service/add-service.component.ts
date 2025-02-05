@@ -6,6 +6,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import { Servicio } from 'models/servicio.model';
 
 
 @Component({
@@ -16,23 +17,17 @@ import { ButtonModule } from 'primeng/button';
 })
 export class AddServiceComponent {
 
-  horaDefault: Date | null = null;
-
-  constructor(){
-    this.horaDefault = new Date();
-    this.horaDefault.setHours(1,30,0)
-    
-  }
+  time: Date = new Date(0, 0, 0, 1,0, 0);
+  servicios: Servicio[] = [];
   
   addServiceForm = new FormGroup({
       nombreServicio: new FormControl<string>('', Validators.required),
       descripcionServicio: new FormControl<string>('', Validators.required),
       valorServicio: new FormControl<number | null>(null,Validators.required),
-      duracionServicio: new FormControl<Date | null>(this.horaDefault, Validators.required )
+      duracionServicio: new FormControl<Date | null>(null, Validators.required )
     });
     
 
     saveData(){
-
     }
 }

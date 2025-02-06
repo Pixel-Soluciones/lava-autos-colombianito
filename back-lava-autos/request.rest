@@ -61,3 +61,34 @@ Content-Type: application/json
     "fecha_nacimiento": "1997-09-07",
     "porcentaje_servicio": 0.2
 }
+###
+POST http://localhost:4000/api/services/create
+Content-Type: application/json
+
+{    
+    "nombre_servicio": "Alistada",
+    "descrip_servicio": "Lavada de carroceria y aspirado",
+    "valor_servicio": 25000,
+    "tiempo_estimado": "01:30:00"
+}
+
+###
+
+DELETE http://localhost:4000/api/services/delete/2
+
+####
+GET http://localhost:4000/api/services/get/1
+
+####
+PUT http://localhost:4000/api/services/update/1
+Content-Type: application/json
+
+{    
+    "id_servicio": 1,
+    "nombre_servicio": "Alistada",
+    "descrip_servicio": "Lavada de carroceria y aspirado y lipiada de llantas",
+    "valor_servicio": 30000,
+    "tiempo_estimado": "01:30:00"
+}
+#####
+GET http://localhost:4000/api/services

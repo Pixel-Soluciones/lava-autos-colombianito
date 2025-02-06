@@ -14,8 +14,12 @@ export class ServicesService {
     private http: HttpClient
   ) {}
 
-  getAllServices(): Observable <Servicio>{
-    return this.http.get<Servicio>(`${this.url}/loadServices`).pipe(
+  getAllServices(): Observable<Servicio[]> {
+    return this.http.get<Servicio[]>(`${this.url}/services`);
+  }
+
+  getOneService(id_servicio: number): Observable<Servicio> {
+    return this.http.get<Servicio>(`${this.url}/services/get/${id_servicio}`).pipe(
       map((response: Servicio) => {
         return response;
       })
@@ -23,7 +27,20 @@ export class ServicesService {
   }
 
   saveService(servicio: Servicio): Observable<any> {      
-    const response = this.http.post<any>(`${this.url}/saveService`, servicio);
+    const response = this.http.post<any>(`${this.url}/services/create`, servicio);
     return response;
   }
+
+  updateService(servicio: Servicio, id_servicio: number): Observable<any> {
+    const response = this.http.put<any>(
+      `${this.url}/services/update/${id_servicio}`,servicio );
+    return response;
+  }
+
+  deletService(id_servicio: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.url}/services/delete/${id_servicio}`
+    );
+  }
+  
 }

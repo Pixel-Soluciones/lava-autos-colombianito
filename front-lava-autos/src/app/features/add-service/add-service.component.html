@@ -1,8 +1,9 @@
 <div
-  class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 h-screen"
+  class="flex flex-col justify-center px-6 py-12 h-screen w-screen"
 >
+  
   <div class="flex items-center justify-center">
-    <h1 class="text-white text-3xl font-bold">Nuevo servicio</h1>
+    <h1 class="text-white text-4xl font-bold">NUEVO SERVICIO</h1>
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -20,7 +21,7 @@
             autocomplete="off"
             formControlName="nombreServicio"
           />
-          <label for="n-servicio">Nombre del Servicio</label>
+          <label for="n-servicio">Nombre del servicio</label>
         </p-floatlabel>
       </div>
       <div>
@@ -32,7 +33,7 @@
             autocomplete="off"
             formControlName="descripcionServicio"
           />
-          <label for="d-servicio">Descripción del Servicio</label>
+          <label for="d-servicio">Descripción del servicio</label>
         </p-floatlabel>
       </div>
       <div>
@@ -44,26 +45,29 @@
             autocomplete="off"
             formControlName="valorServicio"
           />
-          <label for="v-servicio">Valor del Servicio</label>
+          <label for="v-servicio">Valor del servicio</label>
         </p-floatlabel>
       </div>
       <div>
         <p-floatLabel variant="in">
           <p-datepicker
-            class="w-full"
             inputId="calendar-timeonly"
             [(ngModel)]="time"
             [timeOnly]="true"
             formControlName="duracionServicio"
           />
-          <label for="d-servicio">Duración del Servicio</label>
+          <label for="d-servicio">Duración del servicio</label>
         </p-floatLabel>
       </div>
-      <div>
+      <div class="flex justify-center gap-4">
         <p-button
           type="ngSubmit"
           label="GUARDAR"
-          class="flex w-full justify-center"
+        ></p-button>
+        <p-button
+          severity="danger"
+          label="CANCELAR"
+          (onClick)="cancelar()"          
         ></p-button>
       </div>
     </form>

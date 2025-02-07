@@ -12,7 +12,7 @@ import { DatePicker } from 'primeng/datepicker';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
 import { Servicio } from 'models/servicio.model';
-import { ServicesService } from 'app/services/services.service';
+import { ServicesService } from '@services/services.service';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';

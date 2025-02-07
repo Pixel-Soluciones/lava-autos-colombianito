@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { ServicesService } from 'app/services/services.service';
+import { ServicesService } from '@services/services.service';
 import { Servicio } from 'models/servicio.model';
 import { TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';

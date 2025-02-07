@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@envs/environment.development';
 import { Servicio } from 'models/servicio.model';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,16 @@ export class ServicesService {
   constructor(
     private http: HttpClient
   ) {}
+
+  private idServicioSource : number | null = null;
+
+  setIdServicio(id_servicio: number | null): void {
+    this.idServicioSource = id_servicio;   
+  }
+
+  getIdServicio(){
+    return this.idServicioSource;
+  }
 
   getAllServices(): Observable<Servicio[]> {
     return this.http.get<Servicio[]>(`${this.url}/services`);
@@ -33,7 +43,7 @@ export class ServicesService {
 
   updateService(servicio: Servicio, id_servicio: number): Observable<any> {
     const response = this.http.put<any>(
-      `${this.url}/services/update/${id_servicio}`,servicio );
+      `${this.url}/services/update/${id_servicio}`, servicio );
     return response;
   }
 

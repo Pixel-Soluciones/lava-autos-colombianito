@@ -1,9 +1,11 @@
-<div
-  class="flex flex-col justify-center px-6 py-12 h-screen w-screen"
->
-  
+<div class="flex flex-col justify-center px-6 py-12 h-screen w-screen">
   <div class="flex items-center justify-center">
-    <h1 class="text-white text-4xl font-bold">NUEVO SERVICIO</h1>
+    
+      @if(flagEdit){
+        <h1 class="text-white text-4xl font-bold">MODIFICAR SERVICIO</h1>
+      } @else {
+        <h1 class="text-white text-4xl font-bold">NUEVO SERVICIO</h1>
+      }
   </div>
 
   <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -59,15 +61,22 @@
           <label for="d-servicio">Duración del servicio</label>
         </p-floatLabel>
       </div>
-      <div class="flex justify-center gap-4">
+      <div class="flex justify-center gap-4 mt-10">
+        @if (flagEdit) {
         <p-button
-          type="ngSubmit"
-          label="GUARDAR"
+          ngIf="flagEdit"
+          severity="success"
+          label="EDITAR"
+          (onClick)="editService()"
         ></p-button>
+        } @else {
+        <p-button type="ngSubmit" label="GUARDAR"></p-button>
+        }
+
         <p-button
           severity="danger"
           label="CANCELAR"
-          (onClick)="cancelar()"          
+          (onClick)="cancelar()"
         ></p-button>
       </div>
     </form>

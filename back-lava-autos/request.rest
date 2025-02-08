@@ -2,7 +2,7 @@ POST http://localhost:4000/api/login
 Content-Type: application/json
 
 {
-    "email": "carlos_97.eog97@gmail.com",
+    "email": "carlos_979.eog97@gmail.com",
     "password": "caeforga"
 }
 
@@ -17,9 +17,9 @@ POST http://localhost:4000/api/users
 Content-Type: application/json
 
 {
-    "email": "carlos_979.eog97@gmail.com",
-    "password": "caeforga",
-    "username": "carlosO"
+    "email": "admin@correo.com",
+    "password": "admin",
+    "username": "1234"
 }
 
 ###

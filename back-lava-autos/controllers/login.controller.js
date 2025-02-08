@@ -29,10 +29,9 @@ const login = async (req, res) => {
         return res.status(200).json({
             token,
             user: {
-                uid: user.uid,
+                id: user.id,
                 email: user.email,
                 username: user.username,
-                role: user.role,
                 status: user.status
             },
             expiresIn: '1h', });

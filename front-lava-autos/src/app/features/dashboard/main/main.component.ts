@@ -18,6 +18,10 @@ export class MainComponent {
     this.router.navigate(['list-services']);
   }
 
+  goToEmployees(){
+    this.router.navigate(['employees']);
+  }
+
   logout(){
     this.auth.logout();
     this.router.navigate(['login']);

@@ -28,6 +28,12 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'employees',
+        loadComponent: () => import('./features/employees/employees.component')
+        .then(c => c.EmployeesComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

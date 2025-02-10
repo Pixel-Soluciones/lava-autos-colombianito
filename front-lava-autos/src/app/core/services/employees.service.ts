@@ -1,0 +1,21 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { environment } from '@envs/environment';
+import { IEmployee } from 'app/shared/interfaces/employee';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EmployeesService {
+
+  private readonly url = environment.API_URL
+
+  constructor(
+    private http: HttpClient
+  ) { }
+
+  getAll(): Observable<IEmployee[]> {
+    return this.http.get<IEmployee[]>(`${this.url}/employees`);
+  }
+}

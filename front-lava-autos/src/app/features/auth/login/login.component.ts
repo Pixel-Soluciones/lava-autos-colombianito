@@ -11,7 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { User } from 'models/user.model';
+import { IUser } from 'app/shared/interfaces/user';
 import { AuthService } from '@services/auth.service';
 import { Router } from '@angular/router';
 
@@ -29,7 +29,7 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  user!: User;
+  user!: IUser;
 
   loginForm = new FormGroup({
     user: new FormControl<string>('', Validators.required),

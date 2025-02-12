@@ -1,6 +1,6 @@
 import { Password } from "primeng/password";
 
-export interface User {
+export interface IUser {
     email: string;
     pasword: string;
 }

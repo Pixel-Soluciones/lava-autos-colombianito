@@ -2,7 +2,7 @@ import { Password } from 'primeng/password';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { environment } from '@envs/environment.development';
-import { User } from 'models/user.model';
+import { IUser } from 'app/shared/interfaces/user';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({

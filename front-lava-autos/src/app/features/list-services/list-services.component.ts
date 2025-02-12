@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ServicesService } from '@services/services.service';
-import { Servicio } from 'models/servicio.model';
+import { IServicio } from 'app/shared/interfaces/servicio';
 import { TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class ListServicesComponent {
   
-  servicios: Servicio[] = []
+  servicios: IServicio[] = []
 
   constructor(
     private servicesService : ServicesService,

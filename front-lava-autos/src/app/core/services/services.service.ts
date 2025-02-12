@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '@envs/environment.development';
-import { Servicio } from 'models/servicio.model';
+import { IServicio } from 'app/shared/interfaces/servicio';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 
 @Injectable({
@@ -24,24 +24,24 @@ export class ServicesService {
     return this.idServicioSource;
   }
 
-  getAllServices(): Observable<Servicio[]> {
-    return this.http.get<Servicio[]>(`${this.url}/services`);
+  getAllServices(): Observable<IServicio[]> {
+    return this.http.get<IServicio[]>(`${this.url}/services`);
   }
 
-  getOneService(id_servicio: number): Observable<Servicio> {
-    return this.http.get<Servicio>(`${this.url}/services/get/${id_servicio}`).pipe(
-      map((response: Servicio) => {
+  getOneService(id_servicio: number): Observable<IServicio> {
+    return this.http.get<IServicio>(`${this.url}/services/get/${id_servicio}`).pipe(
+      map((response: IServicio) => {
         return response;
       })
     );
   }
 
-  saveService(servicio: Servicio): Observable<any> {      
+  saveService(servicio: IServicio): Observable<any> {      
     const response = this.http.post<any>(`${this.url}/services/create`, servicio);
     return response;
   }
 
-  updateService(servicio: Servicio, id_servicio: number): Observable<any> {
+  updateService(servicio: IServicio, id_servicio: number): Observable<any> {
     const response = this.http.put<any>(
       `${this.url}/services/update/${id_servicio}`, servicio );
     return response;

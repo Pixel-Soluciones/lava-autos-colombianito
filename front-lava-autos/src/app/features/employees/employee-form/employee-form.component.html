@@ -1,1 +1,66 @@
-<p>employee-form works!</p>
+<div class="flex flex-col justify-center px-6 py-12 h-screen w-screen">
+    <div class="flex items-center justify-center">
+        @if(editMode){
+            <h1 class="text-white text-4xl font-bold text-center">MODIFICAR TRABAJADOR</h1>
+        } @else {
+            <h1 class="text-white text-4xl font-bold text-center">NUEVO TRABAJADOR</h1>
+        }
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="space-y-6">
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="cedula" autocomplete="off" formControlName="cedula" />
+                <label for="cedula">Cédula</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="nombre" autocomplete="off" formControlName="nombre" />
+                <label for="nombre">Nombres</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="apellidos" autocomplete="off" formControlName="apellido" />
+                <label for="apellidos">Apellidos</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="contacto" autocomplete="off" formControlName="contacto" />
+                <label for="contacto">Contacto</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="direccion" autocomplete="off" formControlName="direccion" />
+                <label for="direccion">Dirección</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <p-datepicker  showIcon iconDisplay="input" formControlName="fecha_nacimiento"/>
+                <label for="fechaNacimiento">Fecha de Nacimiento</label>
+            </p-floatlabel>
+
+            <p-floatlabel variant="in">
+                <input class="w-full" pInputText id="porcentajeServicio" type="number" autocomplete="off" formControlName="porcentaje_servicio" />
+                <label for="porcentajeServicio">Porcentaje de Servicio</label>
+            </p-floatlabel>
+
+            <div class="flex justify-center gap-4 mt-10">
+                @if (editMode) {
+                    <p-button
+                        severity="success"
+                        label="EDITAR"
+                        (onClick)="edit()"/>
+                } @else {
+                    <p-button
+                        severity="success"
+                        label="GUARDAR"
+                        (onClick)="save()"/>
+                }
+                <p-button
+                    severity="danger"
+                    label="CANCELAR"
+                    (onClick)="cancel()"/>
+            </div>
+        </form>
+    </div>
+</div>

@@ -5,41 +5,53 @@
 
   <div class="flex justify-center gap-2 mt-10">
     <button
-    (click)="goToServices()"
-     class="transition-all duration-300 active:brightness-80">
+      (click)="goToServices()"
+      class="transition-all duration-300 active:brightness-80"
+    >
       <img
         class="w-[150px]"
         src="iconos-botones/registro-servicios.png"
-        alt=""
+        alt="Servicios"
       />
     </button>
 
     <button
       (click)="goToEmployees()"
-      class="transition-all duration-300 active:brightness-80">
+      class="transition-all duration-300 active:brightness-80"
+    >
       <img
         class="w-[150px]"
-        src="iconos-botones/registro-trabajadores.png" alt="trabajadores" />
+        src="iconos-botones/registro-trabajadores.png"
+        alt="trabajadores"
+      />
     </button>
   </div>
 
   <div class="flex justify-center gap-2 mt-3">
-    <button class="transition-all duration-300 active:brightness-80">
+    <button 
+    (click)="goToVehicles()"
+    class="transition-all duration-300 active:brightness-80">
       <img
         class="w-[150px]"
         src="iconos-botones/gestion-vehiculos.png"
-        alt=""
+        alt="Vehiculos"
       />
     </button>
 
-    <button class="transition-all duration-300 active:brightness-80">
-      <img class="w-[150px]" src="iconos-botones/reportes.png" alt="" />
+    <button
+      (click)="goToReports()"
+      class="transition-all duration-300 active:brightness-80"
+    >
+      <img class="w-[150px]" src="iconos-botones/reportes.png" alt="Reportes" />
     </button>
   </div>
 
   <div class="flex items-center justify-center mt-10">
-    <button (click)="logout()" class="transition-all duration-300 active:brightness-80">
-      <img class="w-[100px]" src="iconos-botones/cerrar-sesion.png" alt="" />
+    <button
+      (click)="logout()"
+      class="transition-all duration-300 active:brightness-80"
+    >
+      <img class="w-[100px]" src="iconos-botones/cerrar-sesion.png" alt="cerrar sesion" />
     </button>
   </div>
 </div>

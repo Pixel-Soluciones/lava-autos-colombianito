@@ -22,6 +22,14 @@ export class MainComponent {
     this.router.navigate(['employees']);
   }
 
+  goToReports(){
+    this.router.navigate(['reports']);
+  }
+
+  goToVehicles(){
+    this.router.navigate(['vehicles']);
+  }
+
   logout(){
     this.auth.logout();
     this.router.navigate(['login']);

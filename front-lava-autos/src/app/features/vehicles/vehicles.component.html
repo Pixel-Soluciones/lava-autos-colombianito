@@ -4,16 +4,11 @@
       GESTIÓN DE VEHÍCULOS
     </h1>
   </div>
-  <!-- <app-table
-        [title]="'LISTA DE TRABAJADORES'"
+  <app-table
+        [title]="'LISTA DE VEHÍCULOS'"
         [cols]="columns"
-        [dataSource]="employees" /> -->
-
-  <div
-    class="mt-5 h-[500px] bg-white rounded-lg p-4 flex flex-col items-center"
-  >
-    <div class="w-full overflow-auto"></div>
-  </div>
+        [dataSource]="entries" />
+        
   <div class="flex justify-center gap-2 mt-5">
     <button
       (click)="atras()"

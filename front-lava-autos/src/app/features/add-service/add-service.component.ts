@@ -11,7 +11,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { DatePicker } from 'primeng/datepicker';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
-import { Servicio } from 'models/servicio.model';
+import { IServicio } from 'app/shared/interfaces/servicio';
 import { ServicesService } from '@services/services.service';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
@@ -41,8 +41,8 @@ export class AddServiceComponent {
   ) {}
 
   time: Date = new Date(0, 0, 0, 1, 0, 0);
-  servicios: Servicio[] = [];
-  serviceToEdit!: Servicio;
+  servicios: IServicio[] = [];
+  serviceToEdit!: IServicio;
   flagEdit = false;
   id_service: any;
 
@@ -152,7 +152,7 @@ export class AddServiceComponent {
       const tiempoFormateado = duracionServicio
         ? duracionServicio.toTimeString().split(' ')[0]
         : '';
-      const servicio: Servicio = {
+      const servicio: IServicio = {
         nombre_servicio: this.addServiceForm.get('nombreServicio')?.value!,
         descrip_servicio: this.addServiceForm.get('descripcionServicio')
           ?.value!,
@@ -203,7 +203,7 @@ export class AddServiceComponent {
         ? duracionServicio.toTimeString().split(' ')[0]
         : '';
       
-      const servicio: Servicio = {
+      const servicio: IServicio = {
         nombre_servicio: this.addServiceForm.get('nombreServicio')?.value!,
         descrip_servicio: this.addServiceForm.get('descripcionServicio')
           ?.value!,

@@ -18,4 +18,8 @@ export class EmployeesService {
   getAll(): Observable<IEmployee[]> {
     return this.http.get<IEmployee[]>(`${this.url}/employees`);
   }
+
+  delete(cedula: number): Observable<any> {
+    return this.http.delete(`${this.url}/employees/delete/${cedula}`);
+  }
 }

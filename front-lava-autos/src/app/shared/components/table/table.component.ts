@@ -17,7 +17,7 @@ export class TableComponent {
 
   @Output() action: EventEmitter<Action> = new EventEmitter();
 
-  onAction(action: string, row: any): void {
+  onAction(action: string, row: any) {
     this.action.emit({ action, row });
   }
 }

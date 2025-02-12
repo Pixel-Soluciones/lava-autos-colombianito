@@ -29,8 +29,12 @@ export const routes: Routes = [
     },
     {
         path: 'employees',
-        loadComponent: () => import('./features/employees/employees.component')
-        .then(c => c.EmployeesComponent),
+        loadComponent: () => import('./features/employees/employees.component'),
+        canActivate: [authGuard]
+    },
+    {
+        path: 'employees/new',
+        loadComponent: () => import('./features/employees/employee-form/employee-form.component'),
         canActivate: [authGuard]
     },
     {

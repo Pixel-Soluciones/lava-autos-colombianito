@@ -1,10 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/connection.database.js";
-import BaseModel from "./base.model.js";
 
-class Employee extends BaseModel { }
-
-Employee.init({
+const Employee = sequelize.define('Employee', {
     cedula: {
         type: DataTypes.STRING(10),
         allowNull: false,
@@ -34,9 +31,15 @@ Employee.init({
     porcentaje_servicio: {
         type: DataTypes.DECIMAL(5, 2),
         allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM('active', 'inactive', 'pending'),
+        defaultValue: 'active',
     }
 }, {
     sequelize,
+    timestamps: true,
+    paranoid: true,
     tableName: 'TRABAJADORES',
     modelName: 'Employee'
 });

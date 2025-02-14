@@ -1,6 +1,5 @@
 import { validationResult } from 'express-validator';
 import Employee from '../models/employee.model.js';
-import { info } from '../utils/logger.js';
 
 const createEmployee = async (req, res) => {
 

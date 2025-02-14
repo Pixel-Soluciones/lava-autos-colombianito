@@ -6,7 +6,7 @@ const validateEmployee = [
     body('apellido').notEmpty().withMessage('Apellido es requerido'),
     body('contacto').notEmpty().withMessage('Contacto es requerido'),
     body('direccion').notEmpty().withMessage('Dirección es requerida'),
-    body('fecha_nacimiento').isDate().withMessage('Fecha de nacimiento no válida'),
+    body('fecha_nacimiento').isISO8601().withMessage('Fecha de nacimiento no válida'),
     body('porcentaje_servicio').isFloat({ min: 0, max: 100 }).withMessage('Porcentaje no válido'),
 ];
 

@@ -4,6 +4,6 @@ export interface IEmployee {
     apellido: string;
     contacto: string;
     direccion: string;
-    fecha_nacimiento: string;
+    fecha_nacimiento: Date;
     porcentaje_servicio: number;
 }

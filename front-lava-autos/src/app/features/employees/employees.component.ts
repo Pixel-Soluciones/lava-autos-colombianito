@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TableComponent } from "../../shared/components/table/table.component";
 import { IEmployee } from 'app/shared/interfaces/employee';
 import { EmployeesService } from '@services/employees.service';
@@ -14,17 +14,15 @@ import Swal from 'sweetalert2';
   templateUrl: './employees.component.html',
   styleUrl: './employees.component.scss'
 })
-export default class EmployeesComponent {
+export default class EmployeesComponent implements OnInit {
+
+  #router = inject(Router);
+  #employeesService = inject(EmployeesService);
 
   employees: IEmployee[] = []
   columns: string[] = []
 
   icon: string = 'iconos-botones/nuevo-trabajador.png';
-
-  constructor(
-    private employeesService : EmployeesService,
-    private router : Router
-  ) {}
 
   ngOnInit(): void {
     this.columns = getEntityPropiedades('employees');
@@ -32,7 +30,7 @@ export default class EmployeesComponent {
   }
 
   loadEmployees(){
-      this.employeesService.getAll().subscribe({
+      this.#employeesService.getAll().subscribe({
         next: (data: IEmployee[]) => {
           this.employees = data;
         },
@@ -43,11 +41,11 @@ export default class EmployeesComponent {
   }
 
   atras(){
-    this.router.navigate(['dashboard']);
+    this.#router.navigate(['dashboard']);
   }
 
   newEmplooye(){
-    this.router.navigate(['employees/new']);
+    this.#router.navigate(['employees/new']);
   }
 
   handleAction(action: Action) {
@@ -59,8 +57,7 @@ export default class EmployeesComponent {
   }
 
   edit(employee: IEmployee) {
-    console.log('edit', employee);
-    this.router.navigate(['employees/new', employee]);
+    this.#router.navigate(['employees/new', employee]);
   }
 
   delete(id: number) {
@@ -80,7 +77,7 @@ export default class EmployeesComponent {
           icon: "error",
           timer:1500
         });
-        this.employeesService.delete(id).subscribe((res) => {
+        this.#employeesService.delete(id).subscribe((res) => {
           this.loadEmployees();
         });
       }

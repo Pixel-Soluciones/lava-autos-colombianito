@@ -22,4 +22,12 @@ export class EmployeesService {
   delete(cedula: number): Observable<any> {
     return this.http.delete(`${this.url}/employees/delete/${cedula}`);
   }
+
+  save(employee: IEmployee): Observable<any> {
+    return this.http.post(`${this.url}/employees/create`, employee);
+  }
+
+  update(employee: IEmployee): Observable<any> {
+    return this.http.put(`${this.url}/employees/update/${employee.cedula}`, employee);
+  }
 }

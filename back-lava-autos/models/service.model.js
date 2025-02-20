@@ -1,10 +1,7 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/connection.database.js";
-import BaseModel from "./base.model.js";
 
-class Service extends BaseModel { }
-
-Service.init({
+const Service = sequelize.define('Service', {
     id_servicio: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -25,9 +22,15 @@ Service.init({
     tiempo_estimado: {
         type: DataTypes.TIME,
         allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM('active', 'inactive', 'pending'),
+        defaultValue: 'active',
     }
 }, {
     sequelize,
+    timestamps: true,
+    paranoid: true,
     tableName: 'SERVICES',
     modelName: 'Service'
 });

@@ -50,6 +50,12 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'nuevo-ingreso',
+        loadComponent: () => import('./features/entry/entry.component')
+        .then(c => c.EntryComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

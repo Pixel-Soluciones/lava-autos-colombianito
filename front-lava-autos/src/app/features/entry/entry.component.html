@@ -1,1 +1,197 @@
-<p>entry works!</p>
+<div class="flex flex-col justify-center px-6 py-12 w-screen">
+  <div class="flex items-center justify-center">
+    @if(flagEdit){
+    <h1 class="text-white text-4xl font-bold text-center">MODIFICAR INGRESO</h1>
+    } @else {
+    <h1 class="text-white text-4xl font-bold text-center">NUEVO INGRESO</h1>
+    }
+  </div>
+
+  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="text-white text-2xl">Información del vehículo</h2>
+    <div class="border-2 rounded-xl border-white p-4">
+      <form
+        class="space-y-3"
+        [formGroup]="vehicleForm"
+        (ngSubmit)="saveVehicle()"
+      >
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="placa"
+                autocomplete="off"
+                formControlName="placa"
+              />
+              <label for="placa">Placa</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="marca"
+                autocomplete="on"
+                formControlName="marca"
+              />
+              <label for="marca">Marca</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="linea"
+                autocomplete="on"
+                formControlName="linea"
+              />
+              <label for="linea">Línea</label>
+            </p-floatlabel>
+          </div>
+
+          <!-- Columna 2 -->
+          <div>
+            <p-floatlabel variant="in">
+              <p-select
+                formControlName="tipo"
+                [options]="tiposVehiculo"
+                optionLabel="tipo"
+                class="w-full"
+              />
+              <label for="tipo">Tipo</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="propietario"
+                autocomplete="off"
+                formControlName="propietario"
+              />
+              <label for="propietario">Propietario</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="contacto"
+                autocomplete="off"
+                formControlName="contacto"
+              />
+              <label for="contacto">Contacto</label>
+            </p-floatlabel>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="text-white text-2xl">Asignación de servicio</h2>
+    <div class="border-2 rounded-xl border-white p-4">
+      <form
+        class="space-y-3"
+        [formGroup]="serviceForm"
+      >
+        <div>
+          <p-floatlabel variant="in">
+            <p-select
+              formControlName="servicio"
+              [(ngModel)]="selectedService"
+              [options]="servicios"
+              optionLabel="nombre_servicio"
+              class="w-full"
+            />
+            <label for="servicio">Servicios</label>
+          </p-floatlabel>
+        </div>
+        <div class="flex justify-center">
+            <p-button
+            severity="info"
+            label="ASIGNAR"
+            (onClick)="addService()"
+          ></p-button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div
+    class="mt-5 h-[300px] bg-white rounded-lg p-4 flex flex-col items-center"
+  >
+    <h2 class="text-xl font-bold mb-4 italic text-gray-400">
+      LISTA DE SERVICIOS ASIGNADOS
+    </h2>
+    <div class="w-full overflow-auto">
+      <p-table
+        [value]="selectedServices"
+        stripedRows
+        [scrollable]="true"
+        scrollHeight="300px"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="color: cornflowerblue; width: 30%">Servicio</th>
+            <th style="color: cornflowerblue; width: 40%">Descripción</th>
+            <th style="color: cornflowerblue; width: 10%">Valor</th>
+            <th style="color: cornflowerblue; width: 10%">Duración</th>
+            <th style="color: cornflowerblue; width: 10%">Opción</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-servicio>
+          <tr>
+            <td>{{ servicio.nombre_servicio }}</td>
+            <td>{{ servicio.descrip_servicio }}</td>
+            <td>{{ servicio.valor_servicio }}</td>
+            <td>{{ servicio.tiempo_estimado }}</td>
+            <td>
+              <div class="w-full flex flex-row items-center">
+                <button
+                (click)="eliminarServicio(servicio.id_servicio)"
+                  title="eliminar"
+                  class="transition-all duration-300 active:brightness-80"
+                >
+                  <img
+                    class="w-[30px]"
+                    src="iconos-botones/eliminar.png"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <h2 class="text-l font-bold mb-4 italic text-white">
+    Total a pagar: {{ getTotalServicios() | currency }}
+  </h2>
+
+  <div class="flex justify-center gap-4">
+    @if (flagEdit) {
+    <p-button
+      ngIf="flagEdit"
+      severity="success"
+      label="EDITAR"
+    ></p-button>
+    } @else {
+    <p-button type="ngSubmit" label="GUARDAR"></p-button>
+    }
+
+    <p-button
+      severity="danger"
+      label="CANCELAR"
+    ></p-button>
+  </div>
+</div>
+
+

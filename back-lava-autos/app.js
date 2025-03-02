@@ -4,6 +4,8 @@ import cors from 'cors'
 import loginRouter from './routes/login.route.js'
 import userRouter from './routes/user.route.js'
 import employeesRouter from './routes/employees.route.js'
+import vehiclesRouter from './routes/vehicles.route.js'
+import vehicleEntryRouter from './routes/vehicleEntry.route.js'
 import { requestLogger, unknownEndpoint, errorHandler } from './utils/middleware.js'
 import servicesRouter from './routes/services.route.js'
 
@@ -23,6 +25,8 @@ app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/employees', employeesRouter)
 app.use('/api/services', servicesRouter)
+app.use('/api/cehicles', vehiclesRouter)
+app.use('/api/vehicle-entry', vehicleEntryRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

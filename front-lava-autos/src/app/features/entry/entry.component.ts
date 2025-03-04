@@ -121,4 +121,30 @@ export class EntryComponent {
       0
     );
   }
+
+  cancelar() {
+      Swal.fire({
+        title: '¿Esta seguro?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#32cd32',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Confirmar',
+        cancelButtonText: 'Cancelar',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            showConfirmButton: false,
+            title: 'Registro cancelado',
+            icon: 'error',
+            timer: 1500,
+          });
+          this.serviceForm.reset();
+          this.vehicleForm.reset();
+          this.selectedServices.length = 0;
+          this.router.navigate(['vehicles']);
+        }
+      });
+    }
+  
 }

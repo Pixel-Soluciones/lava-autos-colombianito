@@ -25,7 +25,7 @@ app.use('/api/login', loginRouter)
 app.use('/api/users', userRouter)
 app.use('/api/employees', employeesRouter)
 app.use('/api/services', servicesRouter)
-app.use('/api/cehicles', vehiclesRouter)
+app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/vehicle-entry', vehicleEntryRouter)
 
 app.use(unknownEndpoint)

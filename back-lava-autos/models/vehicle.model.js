@@ -26,7 +26,7 @@ const Vehicle = sequelize.define("Vehicle", {
   },
   clave_vehiculo: {
     type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
   status: {
     type: DataTypes.ENUM('active', 'inactive', 'pending'),

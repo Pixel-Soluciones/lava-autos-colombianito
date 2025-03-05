@@ -74,3 +74,11 @@ div:where(.swal2-container) div:where(.swal2-actions) {
     margin: 10px !important;
     padding: 0;
 }
+
+.p-datatable-thead > tr > th {
+    text-align: center !important;
+}
+
+.p-datatable-tbody > tr > td {
+    text-align: center !important;
+}

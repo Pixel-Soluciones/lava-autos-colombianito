@@ -3,17 +3,20 @@ import { Component } from '@angular/core';
 import {
   FormControl,
   FormGroup,
+  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ServicesService } from '@services/services.service';
+import { VehiclesService } from '@services/vehicles.service';
 import { IServicio } from 'app/shared/interfaces/servicio';
+import { IVehicle } from 'app/shared/interfaces/vehicle';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
-import { SelectModule } from 'primeng/select';
+import { Select, SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
 
@@ -28,6 +31,8 @@ import Swal from 'sweetalert2';
     SelectModule,
     TableModule,
     CommonModule,
+    FormsModule,
+    Select,
   ],
   templateUrl: './entry.component.html',
   styleUrl: './entry.component.scss',
@@ -39,13 +44,17 @@ export class EntryComponent {
   selectedService: any;
   selectedServices: IServicio[] = [];
   totalToPay: number = 0;
+  vehicles: IVehicle[] = [];
+  vehicles_filtered: IVehicle[] = [];
+  tipo_selected: any;
 
   vehicleForm = new FormGroup({
-    placa: new FormControl<string>('', Validators.required),
+    placa: new FormControl<string | null>(null, Validators.required),
     marca: new FormControl<string>('', Validators.required),
     linea: new FormControl<string>('', Validators.required),
     tipo: new FormControl<string | null>(null, Validators.required),
-    propietario: new FormControl<string>('', Validators.required),
+    clave: new FormControl<string>('', Validators.required),
+    nombre_prop: new FormControl<string>('', Validators.required),
     contacto: new FormControl<string>('', Validators.required),
   });
 
@@ -55,8 +64,21 @@ export class EntryComponent {
 
   constructor(
     private servicesService: ServicesService,
-    private router: Router
+    private router: Router,
+    private vehiclesService: VehiclesService
   ) {
+    this.tiposVehiculo = [
+      { tipo: 'Moto' },
+      { tipo: 'Automóvil' },
+      { tipo: 'Camioneta' },
+      { tipo: 'Camión' },
+      { tipo: 'Furgoneta' },
+      { tipo: 'Pickup' },
+      { tipo: 'Bus' },
+      { tipo: 'Buseta' },
+      { tipo: 'Ambulancia' },
+    ];
+
     this.servicesService.getAllServices().subscribe({
       next: (data) => {
         this.servicios = data;
@@ -65,9 +87,41 @@ export class EntryComponent {
         console.error('Error obteniendo servicios:', error);
       },
     });
+
+    this.vehiclesService.getAll().subscribe((res) => {
+      this.vehicles = res;
+      console.log(this.vehicles);
+    });
   }
 
-  saveVehicle() {}
+  filterVehicle(event: SelectChangeEvent) {
+    if (event.value.placa) {
+      this.vehicleForm.patchValue(event.value);
+      this.tipo_selected = event.value.tipo;
+      console.log(this.tipo_selected);
+      return;
+    }
+    const textoBusqueda = event.value.trim();
+    
+
+    if (textoBusqueda && textoBusqueda.length > 1) {
+      this.vehicles_filtered = this.vehicles.filter((vehicle) => {
+        const placa = vehicle.placa.replace(/[a-zA-Z]/g, (c) =>
+          c.toLowerCase()
+        );
+        const busqueda = textoBusqueda.replace(/[a-zA-Z]/g, (c: string) =>
+          c.toLowerCase()
+        );
+        return placa.startsWith(busqueda);
+      });
+    } if (textoBusqueda === ''){
+      this.vehicleForm.reset();
+    }
+  }
+
+  saveVehicle() {
+    console.log(this.vehicleForm.value);    
+  }
 
   addService() {
     const selectedService = this.serviceForm.get('servicio')?.value;
@@ -104,7 +158,9 @@ export class EntryComponent {
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.selectedServices = this.selectedServices.filter(s => s.id_servicio !== id_servicio);
+        this.selectedServices = this.selectedServices.filter(
+          (s) => s.id_servicio !== id_servicio
+        );
         Swal.fire({
           showConfirmButton: false,
           title: 'Servicio eliminado',
@@ -123,28 +179,27 @@ export class EntryComponent {
   }
 
   cancelar() {
-      Swal.fire({
-        title: '¿Esta seguro?',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#32cd32',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirmar',
-        cancelButtonText: 'Cancelar',
-      }).then((result) => {
-        if (result.isConfirmed) {
-          Swal.fire({
-            showConfirmButton: false,
-            title: 'Registro cancelado',
-            icon: 'error',
-            timer: 1500,
-          });
-          this.serviceForm.reset();
-          this.vehicleForm.reset();
-          this.selectedServices.length = 0;
-          this.router.navigate(['vehicles']);
-        }
-      });
-    }
-  
+    Swal.fire({
+      title: '¿Esta seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: 'Registro cancelado',
+          icon: 'error',
+          timer: 1500,
+        });
+        this.serviceForm.reset();
+        this.vehicleForm.reset();
+        this.selectedServices.length = 0;
+        this.router.navigate(['vehicles']);
+      }
+    });
+  }
 }

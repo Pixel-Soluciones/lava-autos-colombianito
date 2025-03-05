@@ -12,19 +12,23 @@ const Vehicle = sequelize.define("Vehicle", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  marca: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   tipo: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  nombre_propietario: {
+  nombre_prop: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  contacto_propietario: {
+  contacto: {
     type: DataTypes.STRING(15),
     allowNull: false,
   },
-  clave_vehiculo: {
+  clave: {
     type: DataTypes.STRING,
     allowNull: true,
   },

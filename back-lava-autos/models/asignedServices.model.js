@@ -1,5 +1,8 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/connection.database.js";
+import VehicleEntry from "./vehicleEntry.model.js";
+import Service from "./service.model.js";
+import Employee from "./employee.model.js";
 
 const AsignedServices = sequelize.define('AsignedServices', {
     id: {
@@ -35,5 +38,9 @@ const AsignedServices = sequelize.define('AsignedServices', {
     tableName: "SERVICIOS_ASIGNADOS",
     modelName: "AsignedServices",
 });
+
+AsignedServices.belongsTo(VehicleEntry, { foreignKey: 'placa', targetKey: 'placa' });
+AsignedServices.belongsTo(Service, { foreignKey: 'id_servicio', targetKey: 'id_servicio' });
+AsignedServices.belongsTo(Employee, { foreignKey: 'id_trabajador', targetKey: 'cedula' });
 
 export default AsignedServices;

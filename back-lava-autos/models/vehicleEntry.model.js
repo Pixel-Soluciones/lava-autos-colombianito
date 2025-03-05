@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/connection.database.js';
+import Vehicle from './vehicle.model.js';
 
 const VehicleEntry = sequelize.define('VehicleEntry', {
     id_ingreso: {
@@ -26,6 +27,11 @@ const VehicleEntry = sequelize.define('VehicleEntry', {
     paranoid: true,
     tableName: 'INGRESO_VEHICULO',
     modelName: 'VehicleEntry',
+});
+
+VehicleEntry.belongsTo(Vehicle, {
+    foreignKey: 'placa',
+    targetKey: 'placa'
 });
 
 export default VehicleEntry;

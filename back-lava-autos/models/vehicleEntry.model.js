@@ -12,14 +12,6 @@ const VehicleEntry = sequelize.define('VehicleEntry', {
         type: DataTypes.STRING(6),
         allowNull: false,
     },
-    id_servicio: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
-    cedula: {
-        type: DataTypes.STRING(10),
-        allowNull: false,
-    },
     tipo_pago: {
         type: DataTypes.ENUM('efectivo', 'tarjeta'),
         allowNull: false,
@@ -27,10 +19,6 @@ const VehicleEntry = sequelize.define('VehicleEntry', {
     estado: {
         type: DataTypes.ENUM('en_proceso', 'terminado', 'cancelado'),
         defaultValue: 'en_proceso',
-    },
-    status: {
-        type: DataTypes.ENUM('active', 'inactive', 'pending'),
-        defaultValue: 'active',
     }
 }, {
     sequelize,

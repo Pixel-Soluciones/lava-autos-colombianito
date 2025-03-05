@@ -1,8 +1,5 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/connection.database.js';
-// import BaseModel from './base.model.js';
-
-// class User extends BaseModel { }
 
 const User = sequelize.define('User',{
     id: {

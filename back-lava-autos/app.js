@@ -6,6 +6,7 @@ import userRouter from './routes/user.route.js'
 import employeesRouter from './routes/employees.route.js'
 import vehiclesRouter from './routes/vehicles.route.js'
 import vehicleEntryRouter from './routes/vehicleEntry.route.js'
+import asignedServicesRouter from './routes/asignedServices.route.js'
 import { requestLogger, unknownEndpoint, errorHandler } from './utils/middleware.js'
 import servicesRouter from './routes/services.route.js'
 
@@ -27,6 +28,7 @@ app.use('/api/employees', employeesRouter)
 app.use('/api/services', servicesRouter)
 app.use('/api/vehicles', vehiclesRouter)
 app.use('/api/vehicle-entry', vehicleEntryRouter)
+app.use('/api/asigned-services', asignedServicesRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

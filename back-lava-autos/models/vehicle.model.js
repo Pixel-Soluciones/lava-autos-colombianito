@@ -8,6 +8,10 @@ const Vehicle = sequelize.define("Vehicle", {
     primaryKey: true,
     unique: true,
   },
+  marca: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   linea: {
     type: DataTypes.STRING,
     allowNull: false,

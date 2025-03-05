@@ -4,5 +4,6 @@ import { vehicleEntryController } from "../controllers/vehicleEntry.controller.j
 const vehicleEntryRouter = Router();
 
 vehicleEntryRouter.get('/', vehicleEntryController.getVehicleEntries);
+vehicleEntryRouter.post('/create', vehicleEntryController.createVehicleEntry);
 
 export default vehicleEntryRouter;

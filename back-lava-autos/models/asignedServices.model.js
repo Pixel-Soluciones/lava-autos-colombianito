@@ -39,7 +39,7 @@ const AsignedServices = sequelize.define('AsignedServices', {
     modelName: "AsignedServices",
 });
 
-AsignedServices.belongsTo(VehicleEntry, { foreignKey: 'placa', targetKey: 'placa' });
+// AsignedServices.belongsTo(VehicleEntry, { foreignKey: 'placa', targetKey: 'placa' });
 AsignedServices.belongsTo(Service, { foreignKey: 'id_servicio', targetKey: 'id_servicio' });
 // AsignedServices.belongsTo(Employee, { foreignKey: 'id_trabajador', targetKey: 'cedula' });
 

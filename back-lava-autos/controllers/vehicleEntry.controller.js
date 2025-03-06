@@ -1,10 +1,28 @@
 import VehicleEntry from '../models/vehicleEntry.model.js';
 import Vehicle from '../models/vehicle.model.js';
 import AsignedServices from '../models/asignedServices.model.js';
+import { Op, Sequelize } from 'sequelize';
 
 const getVehicleEntries = async (req, res) => {
     try {
-        const vehicleEntries = await VehicleEntry.findAll();
+        const vehicleEntries = await VehicleEntry.findAll({
+            include: [
+                {
+                    model: Vehicle
+                },
+                {
+                    model: AsignedServices,
+                    where: {
+                        placa: {
+                            [Op.eq]: Sequelize.col('VehicleEntry.placa')
+                        },
+                        createdAt: {
+                            [Op.eq]: Sequelize.col('VehicleEntry.createdAt')
+                        }
+                    }
+                }
+            ]
+        });
         return res.status(200).json(vehicleEntries);
     } catch (error) {
         return res.status(500).json({

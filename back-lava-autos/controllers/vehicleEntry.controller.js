@@ -1,5 +1,6 @@
 import VehicleEntry from '../models/vehicleEntry.model.js';
 import Vehicle from '../models/vehicle.model.js';
+import AsignedServices from '../models/asignedServices.model.js';
 
 const getVehicleEntries = async (req, res) => {
     try {
@@ -17,10 +18,11 @@ const createVehicleEntry = async (req, res) => {
     const transaction = await req.app.locals.db.transaction();
 
     try {
-        const vehicleData = req.body.vehicle;
-        const serviceData = req.body.service;
+        // const vehicleData = req.body.vehicle;
+        // const serviceData = req.body.service;
+        const { vehicle: vehicleData, services } = req.body;      
 
-        //find or create vehicle
+        // Find or create vehicle
         const [vehicle, created] = await Vehicle.findOrCreate({
             where: {
                 placa: vehicleData.placa
@@ -29,27 +31,35 @@ const createVehicleEntry = async (req, res) => {
             transaction
         });
 
-        // If vehicle exist, update its information
+        // If vehicle exists, update its information
         if (!created) {
             await vehicle.update(vehicleData, { transaction });
         }
 
         // Create vehicle entry
         const vehicleEntry = await VehicleEntry.create({
-            ...serviceData,
-            placa: vehicle.placa,
+            placa: vehicleData.placa,
         }, {
             transaction
         });
 
-        // Create service
-        // ...
+        // Create services entries
+        const vehicleServices = await Promise.all(services.map(async (service) => {
+            const asignedService = await AsignedServices.create({
+                placa: vehicleData.placa,
+                id_servicio: service.id_servicio,
+                valor: service.valor_servicio,
+            }, { transaction });
+
+            return asignedService;
+        }));
 
         await transaction.commit();
         return res.status(201).json({
             message: 'Entrada de vehículo creada con éxito',
             vehicleEntry,
-            vehicle
+            vehicleData,
+            vehicleServices
         });
     } catch (error) {
         await transaction.rollback();

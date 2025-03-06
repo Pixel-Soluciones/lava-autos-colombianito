@@ -21,7 +21,7 @@ const AsignedServices = sequelize.define('AsignedServices', {
     },
     id_trabajador: {
         type: DataTypes.STRING(10),
-        allowNull: false,
+        allowNull: true,
     },
     valor: {
         type: DataTypes.INTEGER,
@@ -41,6 +41,6 @@ const AsignedServices = sequelize.define('AsignedServices', {
 
 AsignedServices.belongsTo(VehicleEntry, { foreignKey: 'placa', targetKey: 'placa' });
 AsignedServices.belongsTo(Service, { foreignKey: 'id_servicio', targetKey: 'id_servicio' });
-AsignedServices.belongsTo(Employee, { foreignKey: 'id_trabajador', targetKey: 'cedula' });
+// AsignedServices.belongsTo(Employee, { foreignKey: 'id_trabajador', targetKey: 'cedula' });
 
 export default AsignedServices;

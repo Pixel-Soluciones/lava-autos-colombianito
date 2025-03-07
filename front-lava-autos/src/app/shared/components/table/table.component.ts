@@ -3,6 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Action } from 'app/shared/interfaces/action';
 import { TableModule } from 'primeng/table';
 
+export interface ActionButton {
+  title: string;
+  action: string;
+  icon: string;
+}
+
 @Component({
   selector: 'app-table',
   imports: [CommonModule, TableModule],
@@ -14,6 +20,7 @@ export class TableComponent {
   @Input() title: string = '';
   @Input() cols: any[] = [];
   @Input() dataSource: any[] = [];
+  @Input() actions: ActionButton[] = [];
 
   @Output() action: EventEmitter<Action> = new EventEmitter();
 

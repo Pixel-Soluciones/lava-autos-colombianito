@@ -37,6 +37,14 @@
                                 class="transition-all duration-300 active:brightness-80">
                                 <img class="w-[30px]" src="iconos-botones/eliminar.png" alt="" />
                             </button>
+                            <ng-container *ngIf="actions.length > 0">
+                                @for (btn of actions; track $index) {
+                                    <button title="{{btn.title}}" (click)="onAction(btn.action,employee)"
+                                        class="transition-all duration-300 active:brightness-80">
+                                        <img class="w-[30px]" src="{{btn.icon}}" alt="">
+                                    </button>
+                                }
+                            </ng-container>
                         </div>
                     </td>
                 </tr>

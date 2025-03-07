@@ -18,8 +18,8 @@ const VehicleEntry = sequelize.define('VehicleEntry', {
         allowNull: true,
     },
     estado: {
-        type: DataTypes.ENUM('en_proceso', 'terminado', 'cancelado'),
-        defaultValue: 'en_proceso',
+        type: DataTypes.ENUM('EN PROCESO', 'TERMINADO', 'CANCELADO'),
+        defaultValue: 'EN PROCESO',
     }
 }, {
     sequelize,

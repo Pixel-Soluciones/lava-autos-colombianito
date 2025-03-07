@@ -2,12 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Action } from 'app/shared/interfaces/action';
 import { TableModule } from 'primeng/table';
-
-export interface ActionButton {
-  title: string;
-  action: string;
-  icon: string;
-}
+import { ActionButton } from 'app/shared/interfaces/actionButton';
 
 @Component({
   selector: 'app-table',

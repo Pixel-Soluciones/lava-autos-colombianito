@@ -28,20 +28,20 @@
                         </td>
                     }
                     <td>
-                        <div class="w-full flex flex-row items-center">
+                        <div class="w-full contents">
                             <button title="editar" (click)="onAction('Edit',employee)"
                                 class="transition-all duration-300 active:brightness-80">
-                                <img class="w-[30px]" src="iconos-botones/editar.png" alt="" />
+                                <img class="w-[30px] ml-1" src="iconos-botones/editar.png" alt="" />
                             </button>
                             <button title="eliminar" (click)="onAction('Delete',employee)"
                                 class="transition-all duration-300 active:brightness-80">
-                                <img class="w-[30px]" src="iconos-botones/eliminar.png" alt="" />
+                                <img class="w-[30px] ml-1" src="iconos-botones/eliminar.png" alt="" />
                             </button>
                             <ng-container *ngIf="actions.length > 0">
                                 @for (btn of actions; track $index) {
                                     <button title="{{btn.title}}" (click)="onAction(btn.action,employee)"
                                         class="transition-all duration-300 active:brightness-80">
-                                        <img class="w-[30px]" src="{{btn.icon}}" alt="">
+                                        <img class="w-[30px] ml-1" src="{{btn.icon}}" alt="">
                                     </button>
                                 }
                             </ng-container>

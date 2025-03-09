@@ -18,8 +18,8 @@ Content-Type: application/json
 
 {
     "email": "admin@correo.com",
-    "password": "admin",
-    "username": "1234"
+    "password": "1234",
+    "username": "admin"
 }
 
 ###

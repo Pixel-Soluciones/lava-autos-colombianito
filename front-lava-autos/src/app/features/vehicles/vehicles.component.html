@@ -7,7 +7,10 @@
   <app-table
         [title]="'LISTA DE VEHÍCULOS'"
         [cols]="columns"
-        [dataSource]="entries" />
+        [dataSource]="entries" 
+        [actions]="actions" 
+        (action)="handleAction($event)"
+  />       
         
   <div class="flex justify-center gap-2 mt-5">
     <button

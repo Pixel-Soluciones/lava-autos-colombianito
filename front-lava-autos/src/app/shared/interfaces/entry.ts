@@ -3,9 +3,9 @@ import { IEmployee } from "./employee"
 import { IVehicle } from "./vehicle"
 
 export interface IEntry{
-    vehiculo: IVehicle[];
-    servicio:  IServicio[];
-    trabajador: IEmployee[];
+    Vehicle: IVehicle;
+    AsignedServices:  IServicio[]; 
+    placa: string;   
     tipo_pago: string;
     estado: string;
 }

@@ -8,8 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EntryService } from '@services/entry.service';
 import { ServicesService } from '@services/services.service';
 import { VehiclesService } from '@services/vehicles.service';
+import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
 import { IVehicle } from 'app/shared/interfaces/vehicle';
 import { ButtonModule } from 'primeng/button';
@@ -47,6 +49,7 @@ export class EntryComponent {
   vehicles: IVehicle[] = [];
   vehicles_filtered: IVehicle[] = [];
   tipo_selected: any;
+  entryToEdit?: IEntry | null;
 
   vehicleForm = new FormGroup({
     placa: new FormControl<string | null>(null, Validators.required),
@@ -65,7 +68,8 @@ export class EntryComponent {
   constructor(
     private servicesService: ServicesService,
     private router: Router,
-    private vehiclesService: VehiclesService
+    private vehiclesService: VehiclesService,
+    private entryService: EntryService
   ) {
     this.tiposVehiculo = [
       { tipo: 'Moto' },
@@ -94,6 +98,15 @@ export class EntryComponent {
     });
   }
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.entryToEdit = this.entryService.getEntrySelected();
+    if(this.entryToEdit !== null){
+      this.flagEdit = true;
+    }
+  }
+
   filterVehicle(event: SelectChangeEvent) {
     if (event.value.placa) {
       this.vehicleForm.patchValue(event.value);
@@ -102,7 +115,6 @@ export class EntryComponent {
       return;
     }
     const textoBusqueda = event.value.trim();
-    
 
     if (textoBusqueda && textoBusqueda.length > 1) {
       this.vehicles_filtered = this.vehicles.filter((vehicle) => {
@@ -114,19 +126,64 @@ export class EntryComponent {
         );
         return placa.startsWith(busqueda);
       });
-    } if (textoBusqueda === ''){
+    }
+    if (textoBusqueda === '') {
       this.vehicleForm.reset();
     }
   }
 
   saveVehicle() {
-    console.log(this.vehicleForm.value);    
+    if (this.vehicleForm.invalid) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe ingresar la información en todos los campos',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else if (this.selectedServices.length === 0) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe asignar por lo menos 1 servicio',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
+      console.log(vehiculo);
+      this.entryService.saveEntry(vehiculo, this.selectedServices).subscribe(
+        (response) => {
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Ingreso registrado',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          this.serviceForm.reset();
+          this.vehicleForm.reset();
+          this.selectedServices.length = 0;
+          this.router.navigate(['vehicles']);
+        },
+        (error) => {
+          Swal.fire({
+            position: 'center',
+            icon: 'error',
+            title: 'Ocurrió un error',
+            text: 'No fue posible registrar el ingreso',
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      );
+    }
   }
 
   addService() {
     const selectedService = this.serviceForm.get('servicio')?.value;
-
-    // Verificar que el servicio no sea nulo y que no esté repetido
     if (
       selectedService &&
       !this.selectedServices.some(

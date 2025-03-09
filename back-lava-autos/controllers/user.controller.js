@@ -18,6 +18,14 @@ const getAll = async (req, res) => {
 const register = async (req, res) => {
     try {
         const { email, password, username } = req.body
+
+        const userExists = await User.findOne({
+            where: { email }
+        });
+
+        if (userExists) {
+            return res.status(400).json({ error: 'User already exists' })
+        }
         const hash = await bcrypt.hash(password, 10);
 
         const user = await User.create({

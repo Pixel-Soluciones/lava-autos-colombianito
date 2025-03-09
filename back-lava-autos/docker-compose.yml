@@ -18,14 +18,22 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - lava-autos-network
 
   app:
     build: .
     depends_on:
       mySqlDb:
         condition: service_healthy
-    links:
-      - mySqlDb
+    environment:
+       - MYSQL_HOST=mySqlDb
     ports:
       - "4000:4000"
+    networks:
+      - lava-autos-network
+
+networks:
+  lava-autos-network:
+    driver: bridge
 

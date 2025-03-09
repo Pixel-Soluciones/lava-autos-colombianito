@@ -1,0 +1,23 @@
+name: publish
+
+on:
+  push:
+    branches: ["develop"]
+
+jobs:
+  create-docker-image:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.lavaAutos_token }}
+
+      - name: Build image
+        run: docker build . -t ghcr.io/lava-autos-colombianito/lavaautos:latest
+        run: docker push ghcr.io/lava-autos-colombianito/lavaautos:latest

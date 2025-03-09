@@ -3,8 +3,82 @@
 
 html,
 body {
-    height: 100%;
+    min-height: 100vh; /* Asegura que ocupe al menos el alto de la pantalla */
     margin: 0;
     padding: 0;
     background: linear-gradient(to bottom, #00c0f1, #3b6bb5);
+    display: flex;
+    flex-direction: column;
+}
+
+
+.p-datepicker-input {
+    width: 390px !important;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    grid-template-columns: minmax(0, 100%);
+    width: 32em;
+    max-width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #fff;
+    color: #545454;
+    font-family: inherit;
+    font-size: 12px !important;
+}
+
+div:where(.swal2-icon) {
+    position: relative;
+    box-sizing: content-box;
+    justify-content: center;
+    width: 5em;
+    height: 5em;
+    margin: 20px auto !important;
+    border: .25em solid rgba(0, 0, 0, 0);
+    border-radius: 50%;
+    border-color: #000;
+    font-family: inherit;
+    line-height: 5em;
+    cursor: default;
+    user-select: none;
+}
+
+div:where(.swal2-container) h2:where(.swal2-title) {
+    position: relative;
+    max-width: 100%;
+    margin: 0;
+    padding: 5px !important;
+    color: inherit;
+    font-size: 1.875em;
+    font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    word-wrap: break-word;
+    cursor: initial;
+}
+
+div:where(.swal2-container) div:where(.swal2-actions) {
+    display: flex
+;
+    z-index: 1;
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    margin: 10px !important;
+    padding: 0;
+}
+
+.p-datatable-thead > tr > th {
+    text-align: center !important;
+}
+
+.p-datatable-tbody > tr > td {
+    text-align: center !important;
 }

@@ -1,0 +1,82 @@
+<div class="flex flex-col justify-center px-6 py-12 w-screen">
+  <div class="flex items-center justify-center">
+    <h1 class="text-white text-4xl font-bold text-center">REGISTRO DE SERVICIOS</h1>
+  </div>
+
+  <div
+    class="mt-5 h-[500px] bg-white rounded-lg p-4 flex flex-col items-center"
+  >
+    <h2 class="text-xl font-bold mb-4 italic text-gray-400">
+      LISTA DE SERVICIOS
+    </h2>
+    <div class="w-full overflow-auto">
+      <p-table
+        [value]="servicios"
+        stripedRows
+        [scrollable]="true"
+        scrollHeight="400px"
+      >
+        <ng-template pTemplate="header">
+          <tr class="text-center">
+            <th style="color: cornflowerblue; width: 30%;">Servicio</th>
+            <th style="color: cornflowerblue; width: 40%">Descripción</th>
+            <th style="color: cornflowerblue; width: 10%">Valor</th>
+            <th style="color: cornflowerblue; width: 10%">Duración</th>
+            <th style="color: cornflowerblue; width: 10%">Opción</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-servicio>
+          <tr>
+            <td>{{ servicio.nombre_servicio }}</td>
+            <td>{{ servicio.descrip_servicio }}</td>
+            <td>{{ servicio.valor_servicio }}</td>
+            <td>{{ servicio.tiempo_estimado }}</td>
+            <td>
+              <div class="w-full flex justify-center">
+                <button
+                  title="editar"
+                  (click)="editarServicio(servicio.id_servicio)"
+                  class="transition-all duration-300 active:brightness-80"
+                >
+                  <img
+                    class="w-[30px]"
+                    src="iconos-botones/editar.png"
+                    alt=""
+                  />
+                </button>
+                <button
+                  title="eliminar"
+                  (click)="eliminarServicio(servicio.id_servicio)"
+                  class="transition-all duration-300 active:brightness-80"
+                >
+                  <img
+                    class="w-[30px]"
+                    src="iconos-botones/eliminar.png"
+                    alt=""
+                  />
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <div class="flex justify-center gap-2 mt-5">
+    <button
+    (click)="atras()"
+      title="atras"
+      class="transition-all duration-300 active:brightness-80"
+    >
+      <img class="w-[120px]" src="iconos-botones/atras.png" alt="" />
+    </button>
+    <button
+      title="nuevo-servicio"
+      (click)="nuevoServicio()"
+      class="transition-all duration-300 active:brightness-80"
+    >
+      <img class="w-[120px]" src="iconos-botones/nuevo-servicio.png" alt="" />
+    </button>
+  </div>
+</div>

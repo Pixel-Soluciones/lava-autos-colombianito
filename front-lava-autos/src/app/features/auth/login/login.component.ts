@@ -4,7 +4,16 @@ import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabel } from 'primeng/floatlabel';
 import { PasswordModule } from 'primeng/password';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import Swal from 'sweetalert2';
+import { IUser } from 'app/shared/interfaces/user';
+import { AuthService } from '@services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -14,20 +23,54 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
     ButtonModule,
     FloatLabel,
     InputTextModule,
-    PasswordModule
+    PasswordModule,
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
 })
 export class LoginComponent {
+  user!: IUser;
 
   loginForm = new FormGroup({
     user: new FormControl<string>('', Validators.required),
-    password: new FormControl<string>('', Validators.required)
+    password: new FormControl<string>('', Validators.required),
   });
 
+  constructor(private authService: AuthService, private router: Router) {}
+
   login() {
-    console.log(this.loginForm.value);
-    this.loginForm.reset();
+    if (this.loginForm.invalid) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: 'Ups',
+        text: 'Ambos campos son requeridos',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      this.authService
+        .login(
+          this.loginForm.get('user')?.value!,
+          this.loginForm.get('password')?.value!
+        )
+        .subscribe({
+          next: (res) => {
+            console.log('Usuario logueado');
+            this.loginForm.reset();
+            this.router.navigate(['dashboard']);
+          },
+          error: (err) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Atencion',
+              text: 'Su usuario o contraseña es icorrecto',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          },
+        });
+    }
   }
 }

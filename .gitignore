@@ -5,6 +5,7 @@ front-lava-autos/dist/*
 # Node (backend)
 back-lava-autos/node_modules/
 back-lava-autos/.env
+back-lava-autos/dist
 
 node_modules
 .env

@@ -2,7 +2,7 @@ POST http://localhost:4000/api/login
 Content-Type: application/json
 
 {
-    "email": "carlos_97.eog97@gmail.com",
+    "email": "carlos_979.eog97@gmail.com",
     "password": "caeforga"
 }
 
@@ -17,10 +17,78 @@ POST http://localhost:4000/api/users
 Content-Type: application/json
 
 {
-    "email": "carlos_979.eog97@gmail.com",
-    "password": "caeforga",
-    "username": "carlosO"
+    "email": "admin@correo.com",
+    "password": "1234",
+    "username": "admin"
 }
 
 ###
 DELETE http://localhost:4000/api/users/2
+
+### employees
+GET http://localhost:4000/api/employees
+
+###
+POST http://localhost:4000/api/employees/create
+Content-Type: application/json
+
+{
+    "cedula": "1088975785",
+    "nombre": "Carlos Efrain",
+    "apellido": "Ortiz Martines",
+    "contacto": "3155952543",
+    "direccion": "Calle 10 # 10-10",
+    "fecha_nacimiento": "1997-09-07",
+    "porcentaje_servicio": 0.1
+}
+
+###
+DELETE http://localhost:4000/api/employees/delete/1088975785
+
+###
+GET http://localhost:4000/api/employees/get/1088975785
+
+###
+PUT http://localhost:4000/api/employees/update/1088975785
+Content-Type: application/json
+
+{
+    "cedula": "1088975777",
+    "nombre": "Carlos Andres",
+    "apellido": "Ortiz Martines",
+    "contacto": "3127358126",
+    "direccion": "Calle 10 # 10-10",
+    "fecha_nacimiento": "1997-09-07",
+    "porcentaje_servicio": 0.2
+}
+###
+POST http://localhost:4000/api/services/create
+Content-Type: application/json
+
+{    
+    "nombre_servicio": "Alistada",
+    "descrip_servicio": "Lavada de carroceria y aspirado",
+    "valor_servicio": 25000,
+    "tiempo_estimado": "01:30:00"
+}
+
+###
+
+DELETE http://localhost:4000/api/services/delete/2
+
+####
+GET http://localhost:4000/api/services/get/1
+
+####
+PUT http://localhost:4000/api/services/update/1
+Content-Type: application/json
+
+{    
+    "id_servicio": 1,
+    "nombre_servicio": "Alistada",
+    "descrip_servicio": "Lavada de carroceria y aspirado y lipiada de llantas",
+    "valor_servicio": 30000,
+    "tiempo_estimado": "01:30:00"
+}
+#####
+GET http://localhost:4000/api/services

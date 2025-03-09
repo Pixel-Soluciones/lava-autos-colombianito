@@ -5,7 +5,7 @@ const getAll = async (req, res) => {
     try {
         const users = await User.findAll(
             { 
-                whwre: { status: 'active' },
+                where: { status: 'active' },
                 attributes: { exclude: ['password'] }
             }
         );

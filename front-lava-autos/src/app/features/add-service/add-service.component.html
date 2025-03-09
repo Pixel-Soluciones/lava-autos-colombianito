@@ -1,0 +1,84 @@
+<div class="flex flex-col justify-center px-6 py-12 w-screen">
+  <div class="flex items-center justify-center">
+    
+      @if(flagEdit){
+        <h1 class="text-white text-4xl font-bold text-center">MODIFICAR SERVICIO</h1>
+      } @else {
+        <h1 class="text-white text-4xl font-bold text-center">NUEVO SERVICIO</h1>
+      }
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form
+      class="space-y-6"
+      [formGroup]="addServiceForm"
+      (ngSubmit)="saveData()"
+    >
+      <div>
+        <p-floatlabel variant="in">
+          <input
+            class="w-full"
+            pInputText
+            id="n-servicio"
+            autocomplete="off"
+            formControlName="nombreServicio"
+          />
+          <label for="n-servicio">Nombre del servicio</label>
+        </p-floatlabel>
+      </div>
+      <div>
+        <p-floatlabel variant="in">
+          <input
+            class="w-full"
+            pInputText
+            id="d-servicio"
+            autocomplete="off"
+            formControlName="descripcionServicio"
+          />
+          <label for="d-servicio">Descripción del servicio</label>
+        </p-floatlabel>
+      </div>
+      <div>
+        <p-floatlabel variant="in">
+          <input
+            class="w-full"
+            pInputText
+            id="v-servicio"
+            autocomplete="off"
+            formControlName="valorServicio"
+          />
+          <label for="v-servicio">Valor del servicio</label>
+        </p-floatlabel>
+      </div>
+      <div>
+        <p-floatLabel variant="in">
+          <p-datepicker
+            inputId="calendar-timeonly"
+            [(ngModel)]="time"
+            [timeOnly]="true"
+            formControlName="duracionServicio"
+          />
+          <label for="d-servicio">Duración del servicio</label>
+        </p-floatLabel>
+      </div>
+      <div class="flex justify-center gap-4 mt-10">
+        @if (flagEdit) {
+        <p-button
+          ngIf="flagEdit"
+          severity="success"
+          label="EDITAR"
+          (onClick)="editService()"
+        ></p-button>
+        } @else {
+        <p-button type="ngSubmit" label="GUARDAR"></p-button>
+        }
+
+        <p-button
+          severity="danger"
+          label="CANCELAR"
+          (onClick)="cancelar()"
+        ></p-button>
+      </div>
+    </form>
+  </div>
+</div>

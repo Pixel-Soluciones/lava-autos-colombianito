@@ -1,11 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/connection.database.js';
-import BaseModel from './base.model.js';
 
-class User extends BaseModel { }
-
-User.init({
-    uid: {
+const User = sequelize.define('User',{
+    id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -13,7 +10,6 @@ User.init({
     email: {
         type: DataTypes.STRING(50),
         allowNull: false,
-        unique: true,
         validate: {
             isEmail: true,
             notEmpty: true
@@ -33,11 +29,16 @@ User.init({
         validate: {
             notEmpty: true
         }
+    },
+    status: {
+        type: DataTypes.ENUM('active', 'inactive', 'pending'),
+        defaultValue: 'active',
     }
 }, {
     sequelize,
-    tableName: 'USERS',
+    timestamps: true,
     paranoid: true,
+    tableName: 'USERS',
     modelName: 'User'
 });
 

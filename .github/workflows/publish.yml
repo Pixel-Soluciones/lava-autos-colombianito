@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.lavaAutos_token }}
 
       - name: Build image
-        run: docker build ./back-lava-autos -t ghcr.io/Pixel-Soluciones/lava-autos-colombianito:latest
+        run: docker build ./back-lava-autos -t ghcr.io/pixel-soluciones/lava-autos-colombianito:latest
 
       - name: Push image
-        run: docker push ghcr.io/Pixel-Soluciones/lava-autos-colombianito:latest
+        run: docker push ghcr.io/pixel-soluciones/lava-autos-colombianito:latest

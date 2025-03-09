@@ -24,6 +24,8 @@ services:
     depends_on:
       mySqlDb:
         condition: service_healthy
+    environment:
+       - MYSQL_HOST=mySqlDb
     ports:
       - "4000:4000"
     networks:

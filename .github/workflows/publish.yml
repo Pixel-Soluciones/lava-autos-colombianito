@@ -20,4 +20,6 @@ jobs:
 
       - name: Build image
         run: docker build . -t ghcr.io/lava-autos-colombianito/lavaautos:latest
-             docker push ghcr.io/lava-autos-colombianito/lavaautos:latest
+
+      - name: Push image
+        run: docker push ghcr.io/lava-autos-colombianito/lavaautos:latest

@@ -2,7 +2,7 @@ name: publish
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["main"]
 
 jobs:
   create-docker-image:

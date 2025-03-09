@@ -25,7 +25,13 @@ services:
       mySqlDb:
         condition: service_healthy
     environment:
-       - MYSQL_HOST=mySqlDb
+      - MYSQL_HOST=mySqlDb
+      - PORT=4000
+      - SECRET_KEY=${SECRET_KEY}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PORT=${MYSQL_PORT}
     ports:
       - "4000:4000"
     networks:
@@ -34,4 +40,3 @@ services:
 networks:
   lava-autos-network:
     driver: bridge
-

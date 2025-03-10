@@ -16,10 +16,14 @@ const getVehicleEntries = async (req, res) => {
                         placa: {
                             [Op.eq]: Sequelize.col('VehicleEntry.placa')
                         },
-                        // createdAt: {
-                        //     [Op.eq]: Sequelize.col('VehicleEntry.createdAt')
-                        // }
-                    }
+                        createdAt: {
+                            [Op.eq]: [
+                                Sequelize.fn('DATE', Sequelize.col('VehicleEntry.createdAt')),
+                                Sequelize.fn('DATE', Sequelize.col('AsignedServices.createdAt'))
+                            ]
+                        }
+                    },
+                    required: false
                 }
             ]
         });

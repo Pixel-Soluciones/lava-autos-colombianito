@@ -3,38 +3,52 @@ import Vehicle from '../models/vehicle.model.js';
 import AsignedServices from '../models/asignedServices.model.js';
 import { Op, Sequelize } from 'sequelize';
 
+
 const getVehicleEntries = async (req, res) => {
     try {
         const vehicleEntries = await VehicleEntry.findAll({
             include: [
                 {
-                    model: Vehicle
+                    model: Vehicle,
+                    required: false 
                 },
                 {
                     model: AsignedServices,
+                    required: false, 
                     where: {
                         placa: {
-                            [Op.eq]: Sequelize.col('VehicleEntry.placa')
+                            [Op.eq]: Sequelize.col("VehicleEntry.placa")
                         },
-                        createdAt: {
-                            [Op.eq]: [
-                                Sequelize.fn('DATE', Sequelize.col('VehicleEntry.createdAt')),
-                                Sequelize.fn('DATE', Sequelize.col('AsignedServices.createdAt'))
-                            ]
-                        }
-                    },
-                    required: false
+                        [Op.and]: [
+                            Sequelize.where(
+                                Sequelize.fn("DATE", Sequelize.col("AsignedServices.createdAt")),
+                                "=",
+                                Sequelize.fn("DATE", Sequelize.col("VehicleEntry.createdAt"))
+                            )
+                        ]
+                    }
                 }
-            ]
+            ],
+            where: {
+                [Op.and]: [
+                    Sequelize.where(
+                        Sequelize.fn("DATE", Sequelize.col("VehicleEntry.createdAt")),
+                        "=",
+                        Sequelize.fn("CURDATE")
+                    )
+                ]
+            }
         });
+
         return res.status(200).json(vehicleEntries);
     } catch (error) {
         return res.status(500).json({
-            error: 'Error al obtener entradas de vehículos',
+            error: "Error al obtener entradas de vehículos",
             details: error.message
         });
     }
-}
+};
+
 
 const createVehicleEntry = async (req, res) => {
     const transaction = await req.app.locals.db.transaction();

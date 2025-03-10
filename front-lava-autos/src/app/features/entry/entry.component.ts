@@ -102,8 +102,9 @@ export class EntryComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.entryToEdit = this.entryService.getEntrySelected();
-    if(this.entryToEdit !== null){
+    if(this.entryToEdit!== null){
       this.flagEdit = true;
+      this.vehicleForm.patchValue(this.entryToEdit.Vehicle)
     }
   }
 

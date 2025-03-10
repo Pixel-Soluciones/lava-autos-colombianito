@@ -21,13 +21,13 @@ export class VehiclesComponent implements OnInit {
     {
       title: 'Ver Info',
       action: 'View',
-      icon: 'iconos-botones/ver.png'
+      icon: 'iconos-botones/ver.png',
     },
     {
       title: 'Registrar Salida',
       action: 'Checkout',
-      icon: 'iconos-botones/reg-salida.png'
-    }
+      icon: 'iconos-botones/reg-salida.png',
+    },
   ];
   constructor(private router: Router, private entryService: EntryService) {}
 
@@ -35,40 +35,41 @@ export class VehiclesComponent implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.columns = getEntityPropiedades('entries');
-    this.entryService.getAll().subscribe((res : IEntry[])=> {
-      this.entries = res
-      console.log(this.entries);      
-    })
+    this.entryService.getAll().subscribe((res: IEntry[]) => {
+      this.entries = res;
+      console.log(this.entries);
+    });
   }
 
   handleAction(action: Action) {
-      if (action.action == 'Edit') {
-        this.edit(action.row)
-      } else if (action.action == 'Delete') {
-        this.delete(action.row.placa)
-      } else if (action.action == 'View') {
-        this.view(action.row)
-      } else if (action.action == 'Checkout') {
-        this.checkout(action.row)
-      }
+    if (action.action == 'Edit') {
+      this.edit(action.row);
+    } else if (action.action == 'Delete') {
+      this.delete(action.row.placa);
+    } else if (action.action == 'View') {
+      this.view(action.row);
+    } else if (action.action == 'Checkout') {
+      this.checkout(action.row);
     }
+  }
 
-    edit(data: any){
-      console.log("edit", data);      
-    }
+  edit(data: IEntry) {
+    console.log('edit', data);
+    this.entryService.setEntry(data);
+    this.router.navigate(['nuevo-ingreso']);
+  }
 
-    delete(data: any){
-      console.log("delete",data);
-    }
+  delete(data: any) {
+    console.log('delete', data);
+  }
 
-    view(data: any){
-      console.log("view",data);
-    }
+  view(data: any) {
+    console.log('view', data);
+  }
 
-    checkout(data: any) {
-      console.log("checkout",data);
-    }
-
+  checkout(data: any) {
+    console.log('checkout', data);
+  }
 
   atras() {
     this.router.navigate(['dahsboard']);

@@ -8,7 +8,7 @@ import vehiclesRouter from './routes/vehicles.route.js'
 import vehicleEntryRouter from './routes/vehicleEntry.route.js'
 import asignedServicesRouter from './routes/asignedServices.route.js'
 import './models/associations.js';
-import { requestLogger, unknownEndpoint, errorHandler } from './utils/middleware.js'
+import { requestLogger, unknownEndpoint, errorHandler, userExtractor } from './utils/middleware.js'
 import servicesRouter from './routes/services.route.js'
 
 const app = express()

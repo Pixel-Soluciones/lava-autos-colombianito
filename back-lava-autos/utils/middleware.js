@@ -1,4 +1,29 @@
 import { info, error } from './logger.js'
+import jwt from 'jsonwebtoken'
+import User from '../models/user.model.js'
+import { SECRET_KEY } from "../utils/config.js";
+
+const tokenExtractor = (request) => {
+    const authorization = request.get('authorization')
+    if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+        return authorization.substring(7)
+    }
+    return null
+}
+
+export const userExtractor = async (request, response, next) => {
+    try {
+        const token = tokenExtractor(request)
+        const decodedToken = jwt.verify(token, SECRET_KEY)
+        if (!token || !decodedToken.id) {
+            return response.status(401).json({ error: 'token missing or invalid' })
+        }
+        request.user = await User.findByPk(decodedToken.id)    
+    } catch (error) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+    }
+    next()
+}
 
 export const requestLogger = (request, response, next) => {
     info('Method:', request.method)

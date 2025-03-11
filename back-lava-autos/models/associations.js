@@ -12,4 +12,7 @@ AsignedServices.belongsTo(VehicleEntry, {
     targetKey: 'placa'
 });
 
+
+
+
 export { VehicleEntry, AsignedServices };

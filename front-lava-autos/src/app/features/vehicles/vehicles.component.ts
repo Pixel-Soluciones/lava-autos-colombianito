@@ -76,6 +76,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   nuevoIngreso() {
+    this.entryService.setEntry(null);
     this.router.navigate(['nuevo-ingreso']);
   }
 

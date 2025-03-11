@@ -1,3 +1,4 @@
+import { ServicesService } from './../../core/services/services.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -9,7 +10,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EntryService } from '@services/entry.service';
-import { ServicesService } from '@services/services.service';
 import { VehiclesService } from '@services/vehicles.service';
 import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
@@ -20,6 +20,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select, SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { timeout } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -86,6 +87,7 @@ export class EntryComponent {
     this.servicesService.getAllServices().subscribe({
       next: (data) => {
         this.servicios = data;
+        this.filterAsignedServices()
       },
       error: (error) => {
         console.error('Error obteniendo servicios:', error);
@@ -102,9 +104,19 @@ export class EntryComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.entryToEdit = this.entryService.getEntrySelected();
-    if(this.entryToEdit!== null){
+    if (this.entryToEdit !== null) {
       this.flagEdit = true;
-      this.vehicleForm.patchValue(this.entryToEdit.Vehicle)
+      this.vehicleForm.patchValue(this.entryToEdit.Vehicle);
+    }
+  }
+
+ filterAsignedServices(){
+    if (this.entryToEdit !== null) {
+      this.selectedServices = this.servicios.filter((service) =>
+        this.entryToEdit?.AsignedServices.some(
+          (asigned) => asigned.id_servicio === service.id_servicio
+        )
+      );
     }
   }
 
@@ -131,6 +143,14 @@ export class EntryComponent {
     if (textoBusqueda === '') {
       this.vehicleForm.reset();
     }
+  }
+  editEntry() {
+    this.entryService.setEntry(null);
+    this.serviceForm.reset();
+    this.vehicleForm.reset();
+    this.selectedServices.length = 0;
+    this.router.navigate(['vehicles']);
+    
   }
 
   saveVehicle() {

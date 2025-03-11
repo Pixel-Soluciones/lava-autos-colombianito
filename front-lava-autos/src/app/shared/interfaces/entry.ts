@@ -4,7 +4,7 @@ import { IVehicle } from "./vehicle"
 
 export interface IEntry{
     Vehicle: IVehicle;
-    AsignedServices:  IServicio[]; 
+    AsignedServices: any[]; 
     placa: string;   
     tipo_pago: string;
     estado: string;

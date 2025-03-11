@@ -187,7 +187,7 @@
 
   <div class="flex justify-center gap-4">
     @if (flagEdit) {
-    <p-button severity="success" label="EDITAR"></p-button>
+    <p-button (onClick)="editEntry()" severity="success" label="EDITAR"></p-button>
     } @else {
       
       <p-button (onClick)="saveVehicle()" severity="success" label="GUARDAR"></p-button>

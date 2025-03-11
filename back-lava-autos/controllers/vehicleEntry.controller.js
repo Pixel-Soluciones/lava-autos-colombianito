@@ -1,6 +1,7 @@
 import VehicleEntry from '../models/vehicleEntry.model.js';
 import Vehicle from '../models/vehicle.model.js';
 import AsignedServices from '../models/asignedServices.model.js';
+import Service from '../models/service.model.js';
 import { Op, Sequelize } from 'sequelize';
 
 
@@ -26,7 +27,7 @@ const getVehicleEntries = async (req, res) => {
                                 Sequelize.fn("DATE", Sequelize.col("VehicleEntry.createdAt"))
                             )
                         ]
-                    }
+                    },
                 }
             ],
             where: {

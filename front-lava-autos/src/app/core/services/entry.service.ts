@@ -31,6 +31,11 @@ private readonly url = environment.API_URL
         const response = this.http.post<any>(`${this.url}/vehicle-entry/create`, {vehicle, services});
         return response;
       }
+
+  editEntry(vehicle: IVehicle, services: IServicio[], id :number): Observable<any> {      
+    const response = this.http.post<any>(`${this.url}/vehicle-entry/update/${id}`, {vehicle, services});
+    return response;
+  }
   
   getAll(): Observable<IEntry[]> {
       return this.http.get<IEntry[]>(`${this.url}/vehicle-entry`);

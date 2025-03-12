@@ -87,7 +87,7 @@ export class EntryComponent {
     this.servicesService.getAllServices().subscribe({
       next: (data) => {
         this.servicios = data;
-        this.filterAsignedServices()
+        this.filterAsignedServices();
       },
       error: (error) => {
         console.error('Error obteniendo servicios:', error);
@@ -110,7 +110,7 @@ export class EntryComponent {
     }
   }
 
- filterAsignedServices(){
+  filterAsignedServices() {
     if (this.entryToEdit !== null) {
       this.selectedServices = this.servicios.filter((service) =>
         this.entryToEdit?.AsignedServices.some(
@@ -144,13 +144,62 @@ export class EntryComponent {
       this.vehicleForm.reset();
     }
   }
+  
   editEntry() {
-    this.entryService.setEntry(null);
-    this.serviceForm.reset();
-    this.vehicleForm.reset();
-    this.selectedServices.length = 0;
-    this.router.navigate(['vehicles']);
-    
+    if (this.vehicleForm.invalid) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe ingresar la información en todos los campos',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else if (this.selectedServices.length === 0) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe asignar por lo menos 1 servicio',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
+      console.log(vehiculo);
+      this.entryService
+        .editEntry(
+          vehiculo,
+          this.selectedServices,
+          this.entryToEdit!.id_ingreso!
+        )
+        .subscribe(
+          (response) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Ingreso actualizado',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.entryService.setEntry(null);
+            this.serviceForm.reset();
+            this.vehicleForm.reset();
+            this.selectedServices.length = 0;
+            this.router.navigate(['vehicles']);
+          },
+          (error) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ocurrió un error',
+              text: 'No fue posible actualizar el ingreso',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        );
+    }
   }
 
   saveVehicle() {

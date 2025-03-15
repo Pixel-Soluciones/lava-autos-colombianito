@@ -57,7 +57,7 @@ export class EntryComponent {
     marca: new FormControl<string>('', Validators.required),
     linea: new FormControl<string>('', Validators.required),
     tipo: new FormControl<string | null>(null, Validators.required),
-    clave: new FormControl<string>('', Validators.required),
+    clave: new FormControl<string>(''),
     nombre_prop: new FormControl<string>('', Validators.required),
     contacto: new FormControl<string>('', Validators.required),
   });

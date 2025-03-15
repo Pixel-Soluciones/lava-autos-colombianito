@@ -23,9 +23,27 @@
             <ng-template pTemplate="body" let-employee>
                 <tr>
                     @for (col of cols; track $index) {
-                        <td>
+                        <ng-container [ngSwitch]="col.key">
+                            <ng-container *ngSwitchCase="'valor_servicio'">
+                                <td>
+                                    {{ employee[col.key] | currency }}
+                                </td>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="'fecha_nacimiento'">
+                                <td>
+                                    {{ employee[col.key] | date: 'dd/MM/yyyy' }}
+                                </td>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                <td>
+                                    {{ employee[col.key] }}
+                                </td>
+                            </ng-container>
+
+                        </ng-container>
+                        <!-- <td>
                             {{ employee[col.key] }}
-                        </td>
+                        </td> -->
                     }
                     <td>
                         <div class="w-full contents">

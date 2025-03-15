@@ -160,8 +160,92 @@ const updateVehicleEntry = async (req, res) => {
     }
 }
 
+// se cancela el servicio para el vehiculo
+const cancelService = async (req, res) => {
+    const transaction = await req.app.locals.db.transaction();
+
+    try {
+        const { id } = req.params;
+        const vehicleEntry = await VehicleEntry.findByPk(id, { transaction });
+        if (!vehicleEntry) {
+            return res.status(404).json({
+                error: 'Entrada de vehículo no encontrada'
+            });
+        }
+
+        await vehicleEntry.update({
+            estado: 'CANCELADO'
+        }, { transaction });
+
+        await transaction.commit();
+        return res.status(200).json({
+            message: 'Entrada de vehículo cancelada con éxito',
+            vehicleEntry
+        });
+    } catch (error) {
+        await transaction.rollback();
+        return res.status(500).json({
+            error: 'Error al cancelar entrada de vehículo',
+            details: error.message
+        });
+    }
+}
+
+// se completa el servicio para el vehiculo
+const completeService = async (req, res) => {
+    const transaction = await req.app.locals.db.transaction();
+    try {
+        const { vehicle: vehicleData, services,  tipo_pago} = req.body;
+        const { id } = req.params;
+        const vehicleEntry = await VehicleEntry.findByPk(id, { transaction });
+        if (!vehicleEntry) {
+            return res.status(404).json({
+                error: 'Entrada de vehículo no encontrada'
+            });
+        }
+
+        await vehicleEntry.update({
+            estado: 'TERMINADO',
+            tipo_pago: tipo_pago
+        }, { transaction });
+
+        const existingServices = await AsignedServices.findAll({
+            where: {
+                placa: vehicleData.placa,
+                createdAt: {
+                    [Op.gte]: vehicleEntry.createdAt
+                }
+            },
+            transaction
+        });
+
+        //actualizar los servicios con la data completa
+        const servicesToUpdate = existingServices.filter(service => services.some(s => s.id_servicio === service.id_servicio));
+        await Promise.all(servicesToUpdate.map(async (service) => {
+            const asignedService = await AsignedServices.findByPk(service.id, { transaction });
+            await asignedService.update({
+                id_trabajador: services.find(s => s.id_servicio === service.id_servicio).id_trabajador,
+            }, { transaction });
+        }));
+
+        await transaction.commit();
+        return res.status(200).json({
+            message: 'Entrada de vehículo completada con éxito',
+            vehicleEntry
+        });
+    } catch (error) {
+        await transaction.rollback();
+        return res.status(500).json({
+            error: 'Error al completar entrada de vehículo',
+            details: error.message
+        });
+    }
+}
+
 export const vehicleEntryController = {
     getVehicleEntries,
     createVehicleEntry,
-    updateVehicleEntry
+    updateVehicleEntry,
+    cancelService,
+    completeService
 }

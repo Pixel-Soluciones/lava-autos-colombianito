@@ -124,7 +124,7 @@
         <ng-template pTemplate="body" let-servicio>
           <tr>
             <td>{{ servicio.nombre_servicio }}</td>
-            <td>{{ servicio.valor_servicio }}</td>
+            <td>{{ servicio.valor_servicio | currency }}</td>
             <td>
               <form class="space-y-3" [formGroup]="employeeForm">
                 <p-floatlabel variant="in">

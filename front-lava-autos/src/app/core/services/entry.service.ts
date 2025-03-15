@@ -36,6 +36,12 @@ private readonly url = environment.API_URL
     const response = this.http.post<any>(`${this.url}/vehicle-entry/update/${id}`, {vehicle, services});
     return response;
   }
+
+  registerCheckout(entry: IEntry): Observable<any> {      
+    const response = this.http.post<any>(`${this.url}/vehicle-entry/checkout`, {entry});
+    return response;
+
+  }
   
   getAll(): Observable<IEntry[]> {
       return this.http.get<IEntry[]>(`${this.url}/vehicle-entry`);

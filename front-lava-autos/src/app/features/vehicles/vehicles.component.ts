@@ -76,13 +76,16 @@ export class VehiclesComponent implements OnInit {
 
   view(data: any) {
     console.log(data);
-    
+
     this.filterAsignedServices(data.AsignedServices).subscribe(
       (selectedServices) => {
         this.selectedServices = selectedServices;
         console.log(this.selectedServices);
         const vehiculo = data.Vehicle;
-        const valorPagar = selectedServices.reduce((total, service) => total + (service.valor_servicio || 0), 0);
+        const valorPagar = selectedServices.reduce(
+          (total, service) => total + (service.valor_servicio || 0),
+          0
+        );
 
         // Construimos la información del vehículo
         const vehiculoInfo = `
@@ -96,7 +99,12 @@ export class VehiclesComponent implements OnInit {
 
         // Convertimos los servicios en una lista HTML
         const serviceList = selectedServices
-          .map((service) => `<li>${service.nombre_servicio} - $${service.valor_servicio.toLocaleString()}</li>`)
+          .map(
+            (service) =>
+              `<li>${
+                service.nombre_servicio
+              } - $${service.valor_servicio.toLocaleString()}</li>`
+          )
           .join('');
 
         Swal.fire({
@@ -121,7 +129,8 @@ export class VehiclesComponent implements OnInit {
   }
 
   checkout(data: any) {
-    console.log('checkout', data);
+    this.entryService.setEntry(data);
+    this.router.navigate(['registrar-salida']);
   }
 
   atras() {
@@ -134,7 +143,7 @@ export class VehiclesComponent implements OnInit {
   }
 
   regSalida() {
-    this.router.navigate(['salida']);
+    this.router.navigate(['registrar-salida']);
   }
 
   filterAsignedServices(data: any): Observable<IServicio[]> {

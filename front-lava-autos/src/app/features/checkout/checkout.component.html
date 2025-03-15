@@ -1,34 +1,26 @@
 <div class="flex flex-col justify-center px-6 py-12 w-screen">
   <div class="flex items-center justify-center">
-    @if(flagEdit){
-    <h1 class="text-white text-4xl font-bold text-center">MODIFICAR INGRESO</h1>
-    } @else {
-    <h1 class="text-white text-4xl font-bold text-center">NUEVO INGRESO</h1>
-    }
+    <h1 class="text-white text-4xl font-bold text-center">REGISTRAR SALIDA</h1>
   </div>
+  <form class="space-y-3" [formGroup]="vehicleForm">
+    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
+      <p-floatlabel variant="in">
+        <p-select
+          [options]="entries_filtered"
+          [editable]="true"
+          (onChange)="filterEntry($event)"
+          optionLabel="placa"
+          class="w-full uppercase"
+          formControlName="placa"
+        />
+        <label for="placa">Placa</label>
+      </p-floatlabel>
+    </div>
 
-  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="text-white text-2xl">Información del vehículo</h2>
-    <div class="border-2 rounded-xl border-white p-4">
-      <form
-        class="space-y-3"
-        [formGroup]="vehicleForm"
-      >
+    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+      <h2 class="text-white text-2xl">Información del vehículo</h2>
+      <div class="border-2 rounded-xl border-white p-4">
         <div class="grid grid-cols-2 gap-2">
-          <div>
-            <p-floatlabel variant="in">
-              <p-select
-                [options]="vehicles_filtered"
-                [editable]="true"
-                (onChange)="filterVehicle($event)"
-                optionLabel="placa"
-                class="w-full"
-                formControlName="placa"
-                
-              />
-              <label for="placa">Placa</label>
-            </p-floatlabel>
-          </div>
           <div>
             <p-floatlabel variant="in">
               <input
@@ -104,35 +96,9 @@
             </p-floatlabel>
           </div>
         </div>
-      </form>
+      </div>
     </div>
-  </div>
-  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-    <h2 class="text-white text-2xl">Asignación de servicio</h2>
-    <div class="border-2 rounded-xl border-white p-4">
-      <form class="space-y-3" [formGroup]="serviceForm">
-        <div>
-          <p-floatlabel variant="in">
-            <p-select
-              formControlName="servicio"
-              [options]="servicios"
-              optionLabel="nombre_servicio"
-              class="w-full"
-            />
-            <label for="servicio">Servicios</label>
-          </p-floatlabel>
-        </div>
-        <div class="flex justify-center">
-          <p-button
-            severity="info"
-            label="ASIGNAR"
-            (onClick)="addService()"
-          ></p-button>
-        </div>
-      </form>
-    </div>
-  </div>
-
+  </form>
   <div
     class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
   >
@@ -149,19 +115,32 @@
         <ng-template pTemplate="header">
           <tr>
             <th style="color: cornflowerblue; width: 30%">Servicio</th>
-            <th style="color: cornflowerblue; width: 40%">Descripción</th>
-            <th style="color: cornflowerblue; width: 10%">Valor</th>
-            <th style="color: cornflowerblue; width: 10%">Duración</th>
-            <th style="color: cornflowerblue; width: 10%">Opción</th>
+            <th style="color: cornflowerblue; width: 20%">Valor</th>
+            <th style="color: cornflowerblue; width: 30%">Trabajador</th>
+            <th style="color: cornflowerblue; width: 20%">Opción</th>
           </tr>
         </ng-template>
 
         <ng-template pTemplate="body" let-servicio>
           <tr>
             <td>{{ servicio.nombre_servicio }}</td>
-            <td>{{ servicio.descrip_servicio }}</td>
             <td>{{ servicio.valor_servicio }}</td>
-            <td>{{ servicio.tiempo_estimado }}</td>
+            <td>
+              <form class="space-y-3" [formGroup]="employeeForm">
+                <p-floatlabel variant="in">
+                  <p-select
+                    formControlName="employee"
+                    (onChange)="setEmployee($event, servicio.id_servicio)"
+                    [options]="employees"
+                    [editable]="true"
+                    optionLabel="nombre"
+                    [appendTo]="'body'"
+                    class="w-full"
+                  />
+                  <label for="tipo">Trabajador</label>
+                </p-floatlabel>
+              </form>
+            </td>
             <td>
               <div class="w-full flex justify-center">
                 <button
@@ -186,14 +165,41 @@
     Total a pagar: {{ getTotalServicios() | currency }}
   </h2>
 
-  <div class="flex justify-center gap-4">
-    @if (flagEdit) {
-    <p-button (onClick)="editEntry()" severity="success" label="EDITAR"></p-button>
-    } @else {      
-      <p-button (onClick)="saveVehicle()" severity="success" label="GUARDAR"></p-button>
-    }
+  <form [formGroup]="tipoPagoForm">
+    <div class="card flex justify-center mt-3">
+      <div class="flex flex-wrap gap-10">
+        <div class="flex items-center">
+          <p-radiobutton
+            name="tipoPago"
+            formControlName="tipoPago"
+            value="Efectivo"
+            inputId="tipo1"
+          />
+          <label for="tipo1" class="ml-2 text-white">Efectivo</label>
+        </div>
+
+        <div class="flex items-center">
+          <p-radiobutton
+            name="tipoPago"
+            formControlName="tipoPago"
+            value="Transferencia"
+            inputId="tipo2"
+          />
+          <label for="tipo2" class="ml-2 text-white">Transferencia</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="flex justify-center gap-4 mt-5">
     <p-button
-      (onClick)="cancelar()"
+      (click)="saveCheckout()"
+      severity="success"
+      label="GUARDAR"
+    ></p-button>
+
+    <p-button
+      (click)="cancelar()"
       severity="danger"
       label="CANCELAR"
     ></p-button>

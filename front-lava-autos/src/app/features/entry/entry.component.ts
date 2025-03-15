@@ -121,6 +121,8 @@ export class EntryComponent {
   }
 
   filterVehicle(event: SelectChangeEvent) {
+    const value = event.value?.toUpperCase() || '';
+    this.vehicleForm.get('placa')?.setValue(value, { emitEvent: false });
     if (event.value.placa) {
       this.vehicleForm.patchValue(event.value);
       this.tipo_selected = event.value.tipo;
@@ -144,7 +146,7 @@ export class EntryComponent {
       this.vehicleForm.reset();
     }
   }
-  
+
   editEntry() {
     if (this.vehicleForm.invalid) {
       Swal.fire({
@@ -322,6 +324,7 @@ export class EntryComponent {
           icon: 'error',
           timer: 1500,
         });
+        this.entryService.setEntry(null);
         this.serviceForm.reset();
         this.vehicleForm.reset();
         this.selectedServices.length = 0;

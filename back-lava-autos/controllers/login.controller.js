@@ -24,8 +24,7 @@ const login = async (req, res) => {
             id: user.id,
             username: user.username,
             email: user.email,
-        }, SECRET_KEY,
-        { expiresIn: '1h' });
+        }, SECRET_KEY);
 
         return res.status(200).json({
             token,
@@ -34,8 +33,7 @@ const login = async (req, res) => {
                 email: user.email,
                 username: user.username,
                 status: user.status
-            },
-            expiresIn: '1h', });
+            }});
 
     } catch (error) {
         return res.status(500).json({ error: 'Internal server error' });

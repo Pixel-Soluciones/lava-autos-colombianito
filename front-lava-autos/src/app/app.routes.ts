@@ -56,6 +56,12 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'registrar-salida',
+        loadComponent: () => import('./features/checkout/checkout.component')
+        .then(c => c.CheckoutComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

@@ -186,7 +186,15 @@ export class CheckoutComponent {
       });
     } else if(this.entrie && this.tipoPagoForm.valid) {
       this.entrie.tipo_pago = this.tipoPagoForm.get('tipoPago')?.value ?? '';
-      //logica para enviar el registro a db, ya esta creado el servicio
+      this.entryService.registerCheckout(this.entrie).subscribe((res) => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Saida registrada',
+          showConfirmButton: false,
+          timer: 1500
+        });        
+      });
     }
   }
 

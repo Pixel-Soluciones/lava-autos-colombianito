@@ -121,27 +121,29 @@ export class EntryComponent {
   }
 
   filterVehicle(event: SelectChangeEvent) {
-    const value = event.value?.toUpperCase() || '';
+    const value =
+      typeof event.value === 'string' ? event.value.toUpperCase() : '';
     this.vehicleForm.get('placa')?.setValue(value, { emitEvent: false });
-    if (event.value.placa) {
+
+    if (typeof event.value === 'object' && event.value.placa) {
       this.vehicleForm.patchValue(event.value);
       this.tipo_selected = event.value.tipo;
       console.log(this.tipo_selected);
       return;
     }
-    const textoBusqueda = event.value.trim();
 
-    if (textoBusqueda && textoBusqueda.length > 1) {
+    const textoBusqueda = value.trim();
+
+    if (textoBusqueda.length > 1) {
       this.vehicles_filtered = this.vehicles.filter((vehicle) => {
-        const placa = vehicle.placa.replace(/[a-zA-Z]/g, (c) =>
-          c.toLowerCase()
-        );
-        const busqueda = textoBusqueda.replace(/[a-zA-Z]/g, (c: string) =>
-          c.toLowerCase()
-        );
+        const placa = vehicle.placa.toLowerCase();
+        const busqueda = textoBusqueda.toLowerCase();
         return placa.startsWith(busqueda);
       });
+    } else {
+      this.vehicles_filtered = []; 
     }
+
     if (textoBusqueda === '') {
       this.vehicleForm.reset();
     }

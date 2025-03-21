@@ -191,13 +191,12 @@ const cancelService = async (req, res) => {
     }
 }
 
-// se completa el servicio para el vehiculo
 const completeService = async (req, res) => {
     const transaction = await req.app.locals.db.transaction();
     try {
-        const { vehicle: vehicleData, services,  tipo_pago} = req.body;
-        const { id } = req.params;
-        const vehicleEntry = await VehicleEntry.findByPk(id, { transaction });
+        const { entry } = req.body; 
+
+        const vehicleEntry = await VehicleEntry.findByPk(entry.id_ingreso, { transaction });
         if (!vehicleEntry) {
             return res.status(404).json({
                 error: 'Entrada de vehículo no encontrada'
@@ -206,27 +205,21 @@ const completeService = async (req, res) => {
 
         await vehicleEntry.update({
             estado: 'TERMINADO',
-            tipo_pago: tipo_pago
+            tipo_pago: entry.tipo_pago
         }, { transaction });
 
-        const existingServices = await AsignedServices.findAll({
-            where: {
-                placa: vehicleData.placa,
-                createdAt: {
-                    [Op.gte]: vehicleEntry.createdAt
-                }
-            },
-            transaction
-        });
-
-        //actualizar los servicios con la data completa
-        const servicesToUpdate = existingServices.filter(service => services.some(s => s.id_servicio === service.id_servicio));
-        await Promise.all(servicesToUpdate.map(async (service) => {
-            const asignedService = await AsignedServices.findByPk(service.id, { transaction });
-            await asignedService.update({
-                id_trabajador: services.find(s => s.id_servicio === service.id_servicio).id_trabajador,
-            }, { transaction });
-        }));
+        // Update assigned services with worker IDs
+        if (entry.AsignedServices && entry.AsignedServices.length > 0) {
+            await Promise.all(entry.AsignedServices.map(async (service) => {
+                await AsignedServices.update(
+                    { id_trabajador: service.id_trabajador },
+                    { 
+                        where: { id: service.id },
+                        transaction 
+                    }
+                );
+            }));
+        }
 
         await transaction.commit();
         return res.status(200).json({

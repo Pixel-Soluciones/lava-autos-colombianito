@@ -24,6 +24,11 @@
                 <tr>
                     @for (col of cols; track $index) {
                         <ng-container [ngSwitch]="col.key">
+                            <ng-container *ngSwitchCase="'estado'">
+                                <td>
+                                    <p-badge [value]="employee[col.key]" [severity]="Severity(employee[col.key])"/>
+                                </td>
+                            </ng-container>
                             <ng-container *ngSwitchCase="'valor_servicio'">
                                 <td>
                                     {{ employee[col.key] | currency }}

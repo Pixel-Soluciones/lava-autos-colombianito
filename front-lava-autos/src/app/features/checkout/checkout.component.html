@@ -127,7 +127,7 @@
             <td>{{ servicio.valor_servicio | currency }}</td>
             <td>
               <form class="space-y-3" [formGroup]="employeeForm">
-                <p-floatlabel variant="in">
+                <p-floatlabel variant="in" class="w-full">
                   <p-select
                     formControlName="employee"
                     (onChange)="setEmployee($event, servicio.id_servicio)"
@@ -135,9 +135,9 @@
                     [editable]="true"
                     optionLabel="nombre"
                     [appendTo]="'body'"
-                    class="w-full"
+                    class="w-full !min-w-[120px]"
                   />
-                  <label for="tipo">Trabajador</label>
+                  <label for="tipo" class="text-sm whitespace-nowrap overflow-hidden text-ellipsis">Trabajador</label>
                 </p-floatlabel>
               </form>
             </td>

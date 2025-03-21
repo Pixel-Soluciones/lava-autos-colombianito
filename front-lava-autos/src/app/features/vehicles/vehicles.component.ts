@@ -56,7 +56,7 @@ export class VehiclesComponent implements OnInit {
     if (action.action == 'Edit') {
       this.edit(action.row);
     } else if (action.action == 'Delete') {
-      this.delete(action.row.placa);
+      this.delete(action.row.id_ingreso);
     } else if (action.action == 'View') {
       this.view(action.row);
     } else if (action.action == 'Checkout') {
@@ -71,7 +71,26 @@ export class VehiclesComponent implements OnInit {
   }
 
   delete(data: any) {
-    console.log('delete', data);
+    Swal.fire({
+      title: '¿Esta seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.entryService.cancelEntry(data).subscribe((res) => {
+          Swal.fire({
+            showConfirmButton: false,
+            title: 'Registro cancelado',
+            icon: 'error',
+            timer: 1500,
+          });
+        });
+      }
+    });
   }
 
   view(data: any) {

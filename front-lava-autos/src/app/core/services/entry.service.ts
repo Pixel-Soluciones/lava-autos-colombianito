@@ -40,7 +40,11 @@ private readonly url = environment.API_URL
   registerCheckout(entry: IEntry): Observable<any> {      
     const response = this.http.post<any>(`${this.url}/vehicle-entry/checkout`, {entry});
     return response;
+  }
 
+  cancelEntry(id_ingreso: number): Observable<any> {      
+    const response = this.http.delete<any>(`${this.url}/vehicle-entry/cancel/${id_ingreso}`);
+    return response;
   }
   
   getAll(): Observable<IEntry[]> {

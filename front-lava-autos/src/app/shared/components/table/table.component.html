@@ -49,11 +49,11 @@
                     }
                     <td>
                         <div class="w-full contents">
-                            <button *ngIf="employee['estado'] === 'EN PROCESO'" title="editar" (click)="onAction('Edit',employee)"
+                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" title="editar" (click)="onAction('Edit',employee)"
                                 class="transition-all duration-300 active:brightness-80">
                                 <img class="w-[30px] ml-1" src="iconos-botones/editar.png" alt="" />
                             </button>
-                            <button *ngIf="employee['estado'] === 'EN PROCESO'" title="eliminar" (click)="onAction('Delete',employee)"
+                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" title="eliminar" (click)="onAction('Delete',employee)"
                                 class="transition-all duration-300 active:brightness-80">
                                 <img class="w-[30px] ml-1" src="iconos-botones/eliminar.png" alt="" />
                             </button>

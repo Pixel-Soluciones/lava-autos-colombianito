@@ -1,0 +1,24 @@
+<div class="flex flex-col justify-center px-6 py-12 w-screen">
+  <div class="flex items-center justify-center">
+    <h1 class="text-white text-4xl font-bold text-center">
+      GESTIÓN DE VEHÍCULOS
+    </h1>
+  </div>
+
+  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form [formGroup]="dateForm">
+      <p-floatlabel variant="in">
+        <p-datepicker showIcon iconDisplay="input" formControlName="fecha" />
+        <label for="fechaNacimiento">Seleccione la fecha</label>
+      </p-floatlabel>
+    </form>
+  </div>
+
+  <div>
+    <h2 class="text-white text-2xl">{{ fecha_string }}</h2>
+  </div>
+
+  <div class="flex justify-center gap-2 mt-5">
+    <!-- botones -->
+  </div>
+</div>

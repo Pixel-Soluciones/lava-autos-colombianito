@@ -62,6 +62,12 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path: 'reporte-dia',
+        loadComponent: () => import('./features/reports/reports-day/reports-day.component')
+        .then(c => c.ReportsDayComponent),
+        canActivate: [authGuard]
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

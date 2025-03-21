@@ -193,7 +193,13 @@ export class CheckoutComponent {
           title: 'Saida registrada',
           showConfirmButton: false,
           timer: 1500
-        });        
+        });
+        this.entryService.setEntry(null);
+        this.employeeForm.reset();
+        this.vehicleForm.reset();
+        this.tipoPagoForm.reset();
+        this.selectedServices.length = 0;
+        this.router.navigate(['vehicles']);
       });
     }
   }

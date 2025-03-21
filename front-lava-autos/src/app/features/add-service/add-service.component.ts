@@ -101,7 +101,7 @@ export class AddServiceComponent {
         Swal.fire({
           showConfirmButton: false,
           title: 'Registro cancelado',
-          icon: 'error',
+          icon: 'success',
           timer: 1500,
         });
         this.cleanForm();

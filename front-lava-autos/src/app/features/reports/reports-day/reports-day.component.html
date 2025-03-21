@@ -8,12 +8,11 @@
   <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
     <form [formGroup]="dateForm">
       <p-floatlabel variant="in">
-        <p-datepicker showIcon iconDisplay="input" formControlName="fecha" />
+        <p-datepicker chan showIcon iconDisplay="input" formControlName="fecha" />
         <label for="fechaNacimiento">Seleccione la fecha</label>
       </p-floatlabel>
     </form>
   </div>
-
   <div>
     <h2 class="text-white text-2xl">{{ fecha_string }}</h2>
   </div>

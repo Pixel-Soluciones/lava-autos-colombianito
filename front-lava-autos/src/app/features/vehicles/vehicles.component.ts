@@ -85,9 +85,10 @@ export class VehiclesComponent implements OnInit {
           Swal.fire({
             showConfirmButton: false,
             title: 'Registro cancelado',
-            icon: 'error',
+            icon: 'success',
             timer: 1500,
           });
+          this.ngOnInit();
         });
       }
     });

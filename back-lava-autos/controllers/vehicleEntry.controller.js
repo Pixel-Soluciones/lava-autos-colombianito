@@ -181,7 +181,7 @@ const cancelService = async (req, res) => {
             where: {
                 placa: vehicleEntry.placa,
                 createdAt: {
-                    [Op.gte]: vehicleEntry.createdAt
+                    [Op.eq]: Sequelize.fn('DATE', Sequelize.col('VehicleEntry.createdAt'))
                 }
             },
             transaction

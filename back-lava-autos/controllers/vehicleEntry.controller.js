@@ -177,6 +177,16 @@ const cancelService = async (req, res) => {
             estado: 'CANCELADO'
         }, { transaction });
 
+        await AsignedServices.destroy({
+            where: {
+                placa: vehicleEntry.placa,
+                createdAt: {
+                    [Op.gte]: vehicleEntry.createdAt
+                }
+            },
+            transaction
+        });
+
         await transaction.commit();
         return res.status(200).json({
             message: 'Entrada de vehículo cancelada con éxito',

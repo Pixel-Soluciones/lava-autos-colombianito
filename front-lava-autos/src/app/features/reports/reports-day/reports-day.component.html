@@ -1,23 +1,120 @@
 <div class="flex flex-col justify-center px-6 py-12 w-screen">
   <div class="flex items-center justify-center">
     <h1 class="text-white text-4xl font-bold text-center">
-      GESTIÓN DE VEHÍCULOS
+      REPORTE DIARIO
     </h1>
   </div>
 
   <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
     <form [formGroup]="dateForm">
       <p-floatlabel variant="in">
-        <p-datepicker chan showIcon iconDisplay="input" formControlName="fecha" />
+        <p-datepicker
+          (onSelect)="setDate($event)"
+          chan
+          showIcon
+          iconDisplay="input"
+          formControlName="fecha"
+        />
         <label for="fechaNacimiento">Seleccione la fecha</label>
       </p-floatlabel>
     </form>
   </div>
-  <div>
+
+  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
     <h2 class="text-white text-2xl">{{ fecha_string }}</h2>
   </div>
 
+  <div
+    class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
+  >
+    <h2 class="text-xl font-bold mb-4 italic text-gray-400">
+      LISTA DE INGRESOS
+    </h2>
+    <div class="w-full overflow-auto">
+      <p-table
+        [value]="ingresosdia"
+        stripedRows
+        [scrollable]="true"
+        scrollHeight="300px"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="color: cornflowerblue; width: 20%">Placa</th>
+            <th style="color: cornflowerblue; width: 30%">Servicio</th>
+            <th style="color: cornflowerblue; width: 30%">Trabajador</th>
+            <th style="color: cornflowerblue; width: 20%">Valor</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-ingreso> </ng-template>
+      </p-table>
+    </div>
+  </div>
+
+  <div class="border-2 rounded-xl border-white p-4 mt-5">
+    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
+      <h2 class="text-white text-2xl">Reporte por Trabajador</h2>
+    </div>
+    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
+      <form class="space-y-3" [formGroup]="employeeForm">
+        <p-floatlabel variant="in" class="w-full">
+          <p-select
+            formControlName="employee"
+            (onChange)="setEmployee($event)"
+            [options]="employees"
+            [editable]="true"
+            optionLabel="nombre"
+            [appendTo]="'body'"
+            class="w-full !min-w-[120px]"
+          />
+          <label
+            for="tipo"
+            class="text-sm whitespace-nowrap overflow-hidden text-ellipsis"
+            >Trabajador</label
+          >
+        </p-floatlabel>
+      </form>
+    </div>
+    <div class="flex-col items-center justify-center w-screens">
+      <div
+        class="mt-5 h-[200px] bg-white rounded-lg p-4 flex flex-col items-center"
+      >
+        <h2 class="text-xl font-bold mb-4 italic text-gray-400">
+          LISTA DE INGRESOS
+        </h2>
+        <div class="w-full overflow-auto">
+          <p-table
+            [value]="serviciosEmployee"
+            stripedRows
+            [scrollable]="true"
+            scrollHeight="100px"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="color: cornflowerblue; width: 30%">Placa</th>
+                <th style="color: cornflowerblue; width: 50%">Servicio</th>
+                <th style="color: cornflowerblue; width: 20%">Valor</th>
+              </tr>
+            </ng-template>
+
+            <ng-template pTemplate="body" let-servicio> </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-l font-bold mb-4 italic text-white">
+          Total a pagar: 0
+        </h2>
+      </div>
+    </div>
+  </div>
+
   <div class="flex justify-center gap-2 mt-5">
-    <!-- botones -->
+    <p-button (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
+    <p-button
+      (onClick)="salir()"
+      severity="danger"
+      label="CANCELAR"
+    ></p-button>
   </div>
 </div>

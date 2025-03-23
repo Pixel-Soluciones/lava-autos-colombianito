@@ -7,6 +7,7 @@ import employeesRouter from './routes/employees.route.js'
 import vehiclesRouter from './routes/vehicles.route.js'
 import vehicleEntryRouter from './routes/vehicleEntry.route.js'
 import asignedServicesRouter from './routes/asignedServices.route.js'
+import reportsRouter from './routes/reports.route.js'
 import './models/associations.js';
 import { requestLogger, unknownEndpoint, errorHandler, userExtractor } from './utils/middleware.js'
 import servicesRouter from './routes/services.route.js'
@@ -30,6 +31,7 @@ app.use('/api/services', userExtractor, servicesRouter)
 app.use('/api/vehicles', userExtractor, vehiclesRouter)
 app.use('/api/vehicle-entry', userExtractor, vehicleEntryRouter)
 app.use('/api/asigned-services', userExtractor, asignedServicesRouter)
+app.use('/api/reports', reportsRouter)
 
 app.use(unknownEndpoint)
 app.use(errorHandler)

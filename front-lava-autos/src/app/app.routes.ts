@@ -68,6 +68,11 @@ export const routes: Routes = [
         canActivate: [authGuard]
     },
     {
+        path:'reporte-mes',
+        loadComponent: () => import('./features/reports/reports-month/reports-month.component'),
+        canActivate: [authGuard]
+    },
+    {
         path: '',
         redirectTo: 'dashboard',
         pathMatch: 'full'

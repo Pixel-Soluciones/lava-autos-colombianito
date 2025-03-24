@@ -3,7 +3,7 @@ import { reportsController } from "../controllers/reports.controller.js";
 
 const reportsRouter = Router();
 
-reportsRouter.get('/daily', reportsController.getDailyReport);
-reportsRouter.get('/monthly', reportsController.getMonthlyReport);
+reportsRouter.post('/daily', reportsController.getDailyReport);
+reportsRouter.post('/monthly', reportsController.getMonthlyReport);
 
 export default reportsRouter;

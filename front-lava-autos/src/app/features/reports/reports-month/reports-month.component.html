@@ -5,14 +5,54 @@
       </h1>
     </div>
 
-    <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-          <p-floatlabel variant="in">
-            <p-datepicker
-                [(ngModel)]="date" view="month" dateFormat="mm/yy" [readonlyInput]="true" 
-            />
-            <label for="fechaNacimiento">Seleccione la fecha</label>
-          </p-floatlabel>
-      </div>
+    <div class="mt-5 flex justify-center items-center w-full">
+        <div class="w-full max-w-sm">
+            <p-floatlabel variant="in">
+                <p-datepicker
+                    [(ngModel)]="date"
+                    view="month"
+                    dateFormat="mm/yy"
+                    [readonlyInput]="true"
+                    [iconDisplay]="'input'"
+                    [showIcon]="true"
+                    (ngModelChange)="selectedMonth($event)" />
+                <label for="fechaNacimiento">Seleccione el mes</label>
+            </p-floatlabel>
+        </div>
+    </div>
+
+    <div class="container">
+        @if (date) {
+            <table-report
+            [title]="'Lista de vehículos'"
+            [cols]="cols"
+            [dataSource]="services"
+            (action)="handleAction($event)"/>
+
+            @if (services.length > 0) {
+                <div class="container">
+                    <div class="p-6 mb-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 text-white">
+                            <div class="text-lg">
+                                <p class="font-bold">Total: <span>$</span></p>
+                                <p class="font-bold">Total pago a trabajadores: <span>$</span></p>
+                                <p class="font-bold">Total ganancias: <span>$</span></p>
+                            </div>
+                            <div class="text-lg">
+                                <p class="font-bold">Trabajador del mes: <span></span></p>
+                                <p class="font-bold">Servicio más solicitado: <span></span></p>
+                                <p class="font-bold">Cliente destacado: <span></span></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        } @else {
+            <div class="flex justify-center items-center mt-4">
+                <p class="text-white">Seleccione una fecha para continuar</p>
+            </div>
+        }
+    </div>
 
     <div class="flex justify-center gap-2 mt-5">
         <p-button (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>

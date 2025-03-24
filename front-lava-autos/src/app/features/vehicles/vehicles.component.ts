@@ -109,23 +109,32 @@ export class VehiclesComponent implements OnInit {
 
         // Construimos la información del vehículo
         const vehiculoInfo = `
-      <p>Placa: ${vehiculo.placa}</p>
-      <p>Marca: ${vehiculo.marca}</p>
-      <p>Línea: ${vehiculo.linea}</p>
-      <p>Propietario: ${vehiculo.nombre_prop}</p>
-      <p>Contacto: ${vehiculo.contacto}</p>
-      <p>Clave: ${vehiculo.clave}</p>
-    `;
+          <p>Placa: ${vehiculo.placa}</p>
+          <p>Marca: ${vehiculo.marca}</p>
+          <p>Línea: ${vehiculo.linea}</p>
+          <p>Propietario: ${vehiculo.nombre_prop}</p>
+          <p>Contacto: ${vehiculo.contacto}</p>
+          <p>Clave: ${vehiculo.clave}</p>
+        `;
 
         // Convertimos los servicios en una lista HTML
         const serviceList = selectedServices
           .map(
             (service) =>
-              `<li>${
-                service.nombre_servicio
+              `<li>${service.nombre_servicio
               } - $${service.valor_servicio.toLocaleString()}</li>`
           )
           .join('');
+
+          const ticketContent = `
+          🚗 Información del Vehículo
+          ${vehiculoInfo.replace(/<[^>]*>/g, '')}
+          
+          🛠️ Servicios Asignados
+          ${serviceList.replace(/<[^>]*>/g, '')}
+          
+          💰 Total a pagar: $${valorPagar.toLocaleString()}
+        `;
 
         Swal.fire({
           title: 'Información del ingreso',
@@ -141,8 +150,30 @@ export class VehiclesComponent implements OnInit {
           <p style="font-size: 18px; font-weight: bold; color: green;">$${valorPagar.toLocaleString()}</p>
         </div>
       `,
+          // icon: 'success',
+          // confirmButtonText: 'Cerrar',
           icon: 'success',
-          confirmButtonText: 'Cerrar',
+          showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonText: 'Descargar',
+          denyButtonText: 'WhatsApp',
+          cancelButtonText: 'Cerrar',
+          denyButtonColor: '#25D366'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            //Download ticket
+            const element = document.createElement('a');
+            const file = new Blob([ticketContent], {type: 'text/plain'});
+            element.href = URL.createObjectURL(file);
+            element.download = `ticket_${vehiculo.placa}.txt`;
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+          } else if (result.isDenied) {
+            // share via whatsapp
+            const whatsappUrl = `https://wa.me/${vehiculo.contacto}?text=${encodeURIComponent(ticketContent)}`;
+            window.open(whatsappUrl, '_blank');
+          }
         });
       }
     );

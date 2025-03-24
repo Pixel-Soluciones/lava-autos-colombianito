@@ -9,53 +9,59 @@
         <div class="w-full max-w-sm">
             <p-floatlabel variant="in">
                 <p-datepicker
-                    [(ngModel)]="date"
+                    id="monthPicker"
+                    [ngModel]="date()"
                     view="month"
                     dateFormat="mm/yy"
                     [readonlyInput]="true"
                     [iconDisplay]="'input'"
                     [showIcon]="true"
                     (ngModelChange)="selectedMonth($event)" />
-                <label for="fechaNacimiento">Seleccione el mes</label>
+                <label for="monthPicker">Seleccione el mes</label>
             </p-floatlabel>
         </div>
     </div>
 
-    <div class="container mx-auto px-4 max-w-6x">
-        @if (date) {
-            <table-report
-            [title]="'Lista de vehículos'"
-            [cols]="cols"
-            [dataSource]="services"
-            (action)="handleAction($event)"/>
+    <ng-container *ngIf="isLoading(); else content">
+        <p class="text-white text-center">Cargando datos...</p>
+    </ng-container>
+    <ng-template #content>
+        <div class="container mx-auto px-4 max-w-6x">
+            @if (date() !== null) {
+                <table-report
+                [title]="'Lista de vehículos'"
+                [cols]="cols()"
+                [dataSource]="services()"
+                (action)="handleAction($event)"/>
 
-            @if (services.length > 0) {
-                <div class="mb-4">
-                    <div class="p-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 text-white">
-                            <div class="text-lg">
-                                <p>Total: <span class="font-bold">{{total | currency: 'USD'}}</span></p>
-                                <p>Total pago a trabajadores: <span class="font-bold">{{total_trabajadores | currency: 'USD'}}</span></p>
-                                <p>Total ganancias: <span class="font-bold">{{total_ganancias | currency: 'USD'}}</span></p>
-                            </div>
-                            <div class="text-lg">
-                                <p>Trabajador del mes: <span class="font-bold"></span></p>
-                                <p>Servicio más solicitado: <span class="font-bold">{{servicioMasSolicitado}}</span></p>
-                                <p>Cliente destacado: <span class="font-bold"></span></p>
+                @if (services().length > 0) {
+                    <div class="mb-4">
+                        <div class="p-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 text-white">
+                                <div class="text-lg">
+                                    <p>Total: <span class="font-bold">{{total() | currency: 'USD'}}</span></p>
+                                    <p>Total pago a trabajadores: <span class="font-bold">{{total_trabajadores() | currency: 'USD'}}</span></p>
+                                    <p>Total ganancias: <span class="font-bold">{{total_ganancias() | currency: 'USD'}}</span></p>
+                                </div>
+                                <div class="text-lg">
+                                    <p>Trabajador del mes: <span class="font-bold"></span></p>
+                                    <p>Servicio más solicitado: <span class="font-bold">{{servicioMasSolicitado()}}</span></p>
+                                    <p>Cliente destacado: <span class="font-bold"></span></p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                }
+            } @else {
+                <div class="flex justify-center items-center mt-4">
+                    <p class="text-white">Seleccione una fecha para continuar</p>
                 </div>
             }
-        } @else {
-            <div class="flex justify-center items-center mt-4">
-                <p class="text-white">Seleccione una fecha para continuar</p>
-            </div>
-        }
-    </div>
+        </div>
+    </ng-template>
 
     <div class="flex justify-center gap-2 mt-5">
-        <p-button [disabled]="services.length == 0" (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
+        <p-button [disabled]="services().length == 0" (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
         <p-button (onClick)="salir()" severity="danger" label="CANCELAR"></p-button>
     </div>
 </div>

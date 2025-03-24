@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -9,11 +9,20 @@ import { TableReportComponent } from "../../../shared/components/table-report/ta
 import { getEntityPropiedades } from 'app/shared/models/columnsTables';
 import { MonthlyReportService } from './services/monthly-report.service';
 import { generateExcelReport } from 'app/shared/utils/generateExcelReport';
+import Swal from 'sweetalert2';
 
 export interface monthSelected {
   month: number;
   year: number;
 }
+
+interface Service {
+  id: number;
+  servicio: string;
+  valor: number;
+  valor_porcentaje: number;
+}
+
 
 @Component({
   selector: 'app-reports-month',
@@ -26,53 +35,60 @@ export default class ReportsMonthComponent {
   #router= inject(Router);
   #monthlyReportService = inject(MonthlyReportService);
 
-  date: Date[] | undefined;
-  cols: any[] = [];
-  services: any[] = [];
+  isLoading = signal(false);
 
-  total: number = 0;
-  total_trabajadores: number = 0;
-  total_ganancias: number = 0;
-  servicioMasSolicitado: string = '';
+  date = signal<Date | null>(null);
+  cols = signal<{key: string, value: string}[]>(getEntityPropiedades('monthlyReport'));
+  services = signal<Service[]>([]);
+
+  total = computed(() => this.services().reduce((acc, service) => acc + service.valor, 0));
+  total_trabajadores = computed(() => this.services().reduce((acc, service) => acc + service.valor_porcentaje, 0));
+  total_ganancias = computed(() => this.total() - this.total_trabajadores());
+  servicioMasSolicitado = computed(() => {
+    const frequencyMap = new Map<string, number>();
+    this.services().forEach(service => {
+      frequencyMap.set(service.servicio, (frequencyMap.get(service.servicio) || 0) + 1);
+    });
+    return Array.from(frequencyMap.entries()).reduce((acc, [value, count]) => 
+      count > acc.count ? { value, count } : acc, 
+      { value: '', count: 0 }
+    ).value;
+  });
 
   selectedMonth(date: Date) {
-    if (date) {
-      const formattedDate = this.formatDate(date);
-      this.#monthlyReportService.get(formattedDate).subscribe((response) => {
-        this.services = response;
-        this.cols = getEntityPropiedades('monthlyReport');
-
-        this.total = response.reduce((acc, service) => acc + service.valor, 0);
-        this.total_trabajadores = response.reduce((acc, service) => acc + service.valor_porcentaje, 0);
-        this.total_ganancias = this.total - this.total_trabajadores;
-        this.servicioMasSolicitado = response
-          .map(item => item.servicio)
-          .reduce((acc, curr, _, arr) => {
-            const count = arr.filter(item => item === curr).length;
-            return acc.count < count ? { value: curr, count } : acc;
-          }, { value: '', count: 0 }).value;
-      });
+    if (!date) return;
+    this.isLoading.set(true);
+    this.date.set(date);
+    const formattedDate = this.formatDate(date);
+    this.#monthlyReportService.get(formattedDate).subscribe({
+      next: (response: Service[]) => {
+        this.services.set(response);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+        Swal.fire({
+          title: 'Error',
+          text: 'No se pudo obtener el reporte',
+          icon: 'error',
+          confirmButtonText: 'Aceptar'
+        });
+      }
     }
+    );
   }
 
   private formatDate(date: Date): monthSelected {
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return { month, year };
+    return { month: date.getMonth() + 1, year: date.getFullYear() };
   }
 
   exportReport() {
-    if (this.services.length === 0) {
-      return;
-    }
-    const worksheet: any[] = [];
+    if (this.services().length === 0) return;
 
-    const headers = this.cols.map(col => col.key);
-    worksheet.push(headers);
+    const worksheet: any[] = [this.cols().map(col => col.key)];
 
-    this.services.forEach(service => {
-      const row = this.cols.map(col => service[col.key]);
-      worksheet.push(row);
+    this.services().forEach(service => {
+      worksheet.push(this.cols().map(col => service[col.key as keyof Service]));
     });
 
     generateExcelReport(worksheet);
@@ -82,7 +98,5 @@ export default class ReportsMonthComponent {
     this.#router.navigate(['reports']);
   }
 
-  handleAction(event: any) {
-    console.log(event);
-  }
+  handleAction(event: any) {}
 }

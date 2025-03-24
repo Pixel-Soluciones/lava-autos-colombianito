@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container mx-auto px-4 max-w-6x">
         @if (date) {
             <table-report
             [title]="'Lista de vehículos'"
@@ -30,18 +30,18 @@
             (action)="handleAction($event)"/>
 
             @if (services.length > 0) {
-                <div class="container">
-                    <div class="p-6 mb-4">
+                <div class="mb-4">
+                    <div class="p-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 text-white">
                             <div class="text-lg">
-                                <p class="font-bold">Total: <span>$</span></p>
-                                <p class="font-bold">Total pago a trabajadores: <span>$</span></p>
-                                <p class="font-bold">Total ganancias: <span>$</span></p>
+                                <p>Total: <span class="font-bold">{{total | currency: 'USD'}}</span></p>
+                                <p>Total pago a trabajadores: <span class="font-bold">{{total_trabajadores | currency: 'USD'}}</span></p>
+                                <p>Total ganancias: <span class="font-bold">{{total_ganancias | currency: 'USD'}}</span></p>
                             </div>
                             <div class="text-lg">
-                                <p class="font-bold">Trabajador del mes: <span></span></p>
-                                <p class="font-bold">Servicio más solicitado: <span></span></p>
-                                <p class="font-bold">Cliente destacado: <span></span></p>
+                                <p>Trabajador del mes: <span class="font-bold"></span></p>
+                                <p>Servicio más solicitado: <span class="font-bold">{{servicioMasSolicitado}}</span></p>
+                                <p>Cliente destacado: <span class="font-bold"></span></p>
                             </div>
                         </div>
                     </div>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="flex justify-center gap-2 mt-5">
-        <p-button (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
+        <p-button [disabled]="services.length == 0" (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
         <p-button (onClick)="salir()" severity="danger" label="CANCELAR"></p-button>
     </div>
 </div>

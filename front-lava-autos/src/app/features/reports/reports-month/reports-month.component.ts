@@ -18,7 +18,9 @@ export interface monthSelected {
 
 interface Service {
   id: number;
+  placa: string;
   servicio: string;
+  trabajador: string;
   valor: number;
   valor_porcentaje: number;
 }
@@ -44,6 +46,16 @@ export default class ReportsMonthComponent {
   total = computed(() => this.services().reduce((acc, service) => acc + service.valor, 0));
   total_trabajadores = computed(() => this.services().reduce((acc, service) => acc + service.valor_porcentaje, 0));
   total_ganancias = computed(() => this.total() - this.total_trabajadores());
+  trabajadorDelMes = computed(() => {
+    const frequencyMap = new Map<string, number>();
+    this.services().forEach(service => {
+      frequencyMap.set(service.trabajador, (frequencyMap.get(service.trabajador) || 0) + 1);
+    });
+    return Array.from(frequencyMap.entries()).reduce((acc, [value, count]) =>
+      count > acc.count? { value, count } : acc,
+      { value: '', count: 0 }
+    ).value;
+  });
   servicioMasSolicitado = computed(() => {
     const frequencyMap = new Map<string, number>();
     this.services().forEach(service => {

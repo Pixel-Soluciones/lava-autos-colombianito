@@ -14,7 +14,7 @@ const VehicleEntry = sequelize.define('VehicleEntry', {
         allowNull: false,
     },
     tipo_pago: {
-        type: DataTypes.ENUM('efectivo', 'tarjeta'),
+        type: DataTypes.ENUM('efectivo', 'transferencia'),
         allowNull: true,
     },
     estado: {

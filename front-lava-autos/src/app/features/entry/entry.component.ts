@@ -1,3 +1,4 @@
+import { ServicesService } from './../../core/services/services.service';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import {
@@ -9,7 +10,6 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EntryService } from '@services/entry.service';
-import { ServicesService } from '@services/services.service';
 import { VehiclesService } from '@services/vehicles.service';
 import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
@@ -20,6 +20,7 @@ import { FloatLabel } from 'primeng/floatlabel';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select, SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
+import { timeout } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -56,7 +57,7 @@ export class EntryComponent {
     marca: new FormControl<string>('', Validators.required),
     linea: new FormControl<string>('', Validators.required),
     tipo: new FormControl<string | null>(null, Validators.required),
-    clave: new FormControl<string>('', Validators.required),
+    clave: new FormControl<string>(''),
     nombre_prop: new FormControl<string>('', Validators.required),
     contacto: new FormControl<string>('', Validators.required),
   });
@@ -86,6 +87,7 @@ export class EntryComponent {
     this.servicesService.getAllServices().subscribe({
       next: (data) => {
         this.servicios = data;
+        this.filterAsignedServices();
       },
       error: (error) => {
         console.error('Error obteniendo servicios:', error);
@@ -102,33 +104,105 @@ export class EntryComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.entryToEdit = this.entryService.getEntrySelected();
-    if(this.entryToEdit !== null){
+    if (this.entryToEdit !== null) {
       this.flagEdit = true;
+      this.vehicleForm.patchValue(this.entryToEdit.Vehicle);
+    }
+  }
+
+  filterAsignedServices() {
+    if (this.entryToEdit !== null) {
+      this.selectedServices = this.servicios.filter((service) =>
+        this.entryToEdit?.AsignedServices.some(
+          (asigned) => asigned.id_servicio === service.id_servicio
+        )
+      );
     }
   }
 
   filterVehicle(event: SelectChangeEvent) {
-    if (event.value.placa) {
+    const value =
+      typeof event.value === 'string' ? event.value.toUpperCase() : '';
+    this.vehicleForm.get('placa')?.setValue(value, { emitEvent: false });
+
+    if (typeof event.value === 'object' && event.value.placa) {
       this.vehicleForm.patchValue(event.value);
       this.tipo_selected = event.value.tipo;
       console.log(this.tipo_selected);
       return;
     }
-    const textoBusqueda = event.value.trim();
 
-    if (textoBusqueda && textoBusqueda.length > 1) {
+    const textoBusqueda = value.trim();
+
+    if (textoBusqueda.length > 1) {
       this.vehicles_filtered = this.vehicles.filter((vehicle) => {
-        const placa = vehicle.placa.replace(/[a-zA-Z]/g, (c) =>
-          c.toLowerCase()
-        );
-        const busqueda = textoBusqueda.replace(/[a-zA-Z]/g, (c: string) =>
-          c.toLowerCase()
-        );
+        const placa = vehicle.placa.toLowerCase();
+        const busqueda = textoBusqueda.toLowerCase();
         return placa.startsWith(busqueda);
       });
+    } else {
+      this.vehicles_filtered = []; 
     }
+
     if (textoBusqueda === '') {
       this.vehicleForm.reset();
+    }
+  }
+
+  editEntry() {
+    if (this.vehicleForm.invalid) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe ingresar la información en todos los campos',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else if (this.selectedServices.length === 0) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Informacion incompleta',
+        text: 'Debe asignar por lo menos 1 servicio',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    } else {
+      const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
+      console.log(vehiculo);
+      this.entryService
+        .editEntry(
+          vehiculo,
+          this.selectedServices,
+          this.entryToEdit!.id_ingreso!
+        )
+        .subscribe(
+          (response) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Ingreso actualizado',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            this.entryService.setEntry(null);
+            this.serviceForm.reset();
+            this.vehicleForm.reset();
+            this.selectedServices.length = 0;
+            this.router.navigate(['vehicles']);
+          },
+          (error) => {
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Ocurrió un error',
+              text: 'No fue posible actualizar el ingreso',
+              showConfirmButton: false,
+              timer: 1500,
+            });
+          }
+        );
     }
   }
 
@@ -252,6 +326,7 @@ export class EntryComponent {
           icon: 'error',
           timer: 1500,
         });
+        this.entryService.setEntry(null);
         this.serviceForm.reset();
         this.vehicleForm.reset();
         this.selectedServices.length = 0;

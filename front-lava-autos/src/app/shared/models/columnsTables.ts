@@ -1,5 +1,6 @@
 import { Employee } from "./employee";
 import { Entry } from "./entry";
+import { MonthlyReport } from "./monthlyReport";
 
 export const getEntityPropiedades = (entidad: string): Array<any> => {
     let resultados: any = [];
@@ -10,6 +11,8 @@ export const getEntityPropiedades = (entidad: string): Array<any> => {
             clase = new Employee(); break;
         case 'entries':
             clase = new Entry(); break;
+        case 'monthlyReport':
+            clase = new MonthlyReport(); break;
     }
 
     if (clase) {

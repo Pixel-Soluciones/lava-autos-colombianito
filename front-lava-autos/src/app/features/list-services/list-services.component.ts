@@ -4,12 +4,12 @@ import { ServicesService } from '@services/services.service';
 import { IServicio } from 'app/shared/interfaces/servicio';
 import { TableModule } from 'primeng/table';
 import Swal from 'sweetalert2';
-
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
   selector: 'app-list-services',
-  imports: [TableModule],
+  imports: [TableModule, CurrencyPipe],
   templateUrl: './list-services.component.html',
   styleUrl: './list-services.component.scss'
 })

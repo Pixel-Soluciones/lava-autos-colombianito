@@ -56,6 +56,7 @@ export default class ReportsMonthComponent {
       { value: '', count: 0 }
     ).value;
   });
+  
   servicioMasSolicitado = computed(() => {
     const frequencyMap = new Map<string, number>();
     this.services().forEach(service => {

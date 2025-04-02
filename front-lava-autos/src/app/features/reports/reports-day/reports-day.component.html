@@ -17,11 +17,8 @@
       </p-floatlabel>
     </form>
   </div>
-
-  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
-    <h2 class="text-white text-2xl">{{ fecha_string }}</h2>
-  </div>
-
+  
+@if(ingresosdia.length > 0){
   <div
     class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
   >
@@ -124,9 +121,14 @@
       </div>
     </div>
   </div>
-
+}@else {
+  <div class="flex justify-center items-center mt-4">
+      <p class="text-white text-l italic">Seleccione una fecha para continuar</p>
+  </div>
+}
   <div class="flex justify-center gap-2 mt-5">
     <p-button
+    [disabled]="ingresosdia.length == 0"
       (onClick)="exportReport()"
       severity="success"
       label="EXPORTAR"

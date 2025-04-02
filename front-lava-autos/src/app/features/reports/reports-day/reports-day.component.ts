@@ -17,6 +17,9 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectChangeEvent, SelectModule } from 'primeng/select';
 import { TableModule } from 'primeng/table';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { generateExcelReport } from 'app/shared/utils/generateExcelReport';
 
 @Component({
   selector: 'app-reports-day',
@@ -53,7 +56,8 @@ export class ReportsDayComponent {
 
   constructor(
     private reportsService: ReportsService,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private router: Router
   ) {
     this.employeesService.getAll().subscribe((res) => {
       this.employees = res;
@@ -64,6 +68,15 @@ export class ReportsDayComponent {
     const fecha = new Date(event);
 
     this.reportsService.getDayReport(fecha).subscribe((res) => {
+      if (res.length == 0) {
+        Swal.fire({
+          title: 'Error',
+          text: 'No existe información en el día seleccionado',
+          icon: 'error',
+          confirmButtonText: 'Aceptar',
+        });
+        return;
+      }
       console.log(res);
       this.ingresosdia = res;
       this.totalIngDay = this.ingresosdia.reduce(
@@ -71,20 +84,6 @@ export class ReportsDayComponent {
         0
       );
     });
-
-    const opcionesDia: Intl.DateTimeFormatOptions = { weekday: 'long' };
-    const diaSemana = fecha.toLocaleDateString('es-ES', opcionesDia);
-    const diaCapitalizado =
-      diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1);
-
-    const opcionesFecha: Intl.DateTimeFormatOptions = {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    };
-    const fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesFecha);
-
-    this.fecha_string = `${diaCapitalizado}, ${fechaFormateada}`;
   }
 
   setEmployee(event: SelectChangeEvent) {
@@ -92,19 +91,50 @@ export class ReportsDayComponent {
     console.log(this.ingresosdia);
 
     this.ingresosFiltrados = this.ingresosdia.filter(
-      (ingreso) =>
-        ingreso.trabajador === event.value.nombre
+      (ingreso) => ingreso.trabajador === event.value.nombre
     );
     console.log(this.ingresosFiltrados);
-    this.totalEmployee = this.ingresosFiltrados.reduce(
-      (sum, ingreso) => sum + ingreso.valor,
-      0
-    )*event.value.porcentaje_servicio/100;
+    this.totalEmployee =
+      (this.ingresosFiltrados.reduce((sum, ingreso) => sum + ingreso.valor, 0) *
+        event.value.porcentaje_servicio) /
+      100;
   }
 
-  exportReport() {}
+  exportReport() {
+    if (this.ingresosdia.length === 0) return;
+    const worksheet: any[] = [
+      ['Id', 'Placa', 'Servicio', 'Trabajador', 'Valor'],
+    ];
+
+    this.ingresosdia.forEach((ingreso) => {
+      worksheet.push([
+        ingreso.id,
+        ingreso.placa,
+        ingreso.servicio,
+        ingreso.trabajador,
+        ingreso.valor,
+      ]);
+    });
+
+    generateExcelReport(worksheet, 'D');
+  }
 
   salir() {
-    
+    Swal.fire({
+      title: '¿Esta seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Confirmar',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.dateForm.reset();
+        this.employeeForm.reset();
+        this.ingresosFiltrados.length = 0;
+        this.router.navigate(['reports']);
+      }
+    });
   }
 }

@@ -8,6 +8,7 @@ import { ActionButton } from 'app/shared/interfaces/actionButton';
 import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
 import { getEntityPropiedades } from 'app/shared/models/columnsTables';
+import { generateTicket } from 'app/shared/utils/generateTicket';
 import { catchError, map, Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -95,8 +96,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   view(data: any) {
-    console.log(data);
-
     this.filterAsignedServices(data.AsignedServices).subscribe(
       (selectedServices) => {
         this.selectedServices = selectedServices;
@@ -161,14 +160,8 @@ export class VehiclesComponent implements OnInit {
           denyButtonColor: '#25D366'
         }).then((result) => {
           if (result.isConfirmed) {
-            //Download ticket
-            const element = document.createElement('a');
-            const file = new Blob([ticketContent], {type: 'text/plain'});
-            element.href = URL.createObjectURL(file);
-            element.download = `ticket_${vehiculo.placa}.txt`;
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+            // download pdf
+            generateTicket();
           } else if (result.isDenied) {
             // share via whatsapp
             const whatsappUrl = `https://wa.me/${vehiculo.contacto}?text=${encodeURIComponent(ticketContent)}`;

@@ -172,7 +172,7 @@ export class VehiclesComponent implements OnInit {
         }).then((result) => {
           if (result.isConfirmed) {
             // download pdf
-            generateTicket();
+            generateTicket(ticketContent, 'SALIDA');
           } else if (result.isDenied) {
             // share via whatsapp
             const whatsappUrl = `https://wa.me/${vehiculo.contacto}?text=${encodeURIComponent(ticketContent)}`;

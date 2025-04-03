@@ -1,73 +1,118 @@
 import jdPDF from 'jspdf';
-import { autoTable } from 'jspdf-autotable'
+import { autoTable } from 'jspdf-autotable';
+import { IServicio } from '../interfaces/servicio';
 
-export const generateTicket = (data: any, type: string) => {
-    const doc = new jdPDF({
-        orientation: 'landscape',
-        unit: "cm",
-        format: [14, 21.5],
-    });
+export const generateTicket = (data: any, services: any, type: string) => {
+  const doc = new jdPDF({
+    orientation: 'landscape',
+    unit: 'cm',
+    format: [14, 21.5],
+  });
 
-    // Agregar marca de agua con imagen
-    doc.addImage('iconos-botones/water-Mark.png', 'PNG', 5, 3, 11, 8);
-    
-    // Encabezado
-    doc.setFontSize(18);
-    doc.setFont("helvetica", "bold");
-    doc.text("LAVA AUTOS COLOMBIANITO", 10.75, 2, { align: "center" });
+  const total = services.reduce(
+    (sum: number, service: { valor_servicio: string }) =>
+      sum + (parseFloat(service.valor_servicio) || 0),
+    0
+  );
 
-    doc.setFontSize(16);
-    doc.text(`REPORTE DE ${type}`, 10.75, 2.5, { align: "center" });
+  // Agregar marca de agua con imagen
+  doc.addImage(
+    'iconos-botones/guatermarc.jpg',
+    'jpeg',
+    3,
+    1,
+    14,
+    11,
+    undefined,
+    'FAST'
+  );
 
-    doc.setFontSize(10);
+  // Encabezado
+  doc.setFontSize(18);
+  doc.setFont('helvetica', 'bold');
+  doc.text('LAVA AUTOS COLOMBIANITO', 10.75, 2, { align: 'center' });
 
-    // FECHA
-    doc.setFont("helvetica", "bold");
-    doc.text("FECHA:", 2, 4);
-    doc.setFont("helvetica", "normal");
-    doc.text(`${new Date().toLocaleDateString()}`, 4, 4);
+  doc.setFontSize(16);
+  doc.text(`REPORTE DE ${type}`, 10.75, 3, { align: 'center' });
 
-    // PLACA VEHÍCULO
-    doc.setFont("helvetica", "bold");
-    doc.text("PLACA VEHÍCULO:", 2, 4.5);
-    doc.setFont("helvetica", "normal");
-    doc.text("vehiculo.placa", 5.8, 4.5);
+  doc.setFontSize(10);
 
-    // NOMBRE PROPIETARIO
-    doc.setFont("helvetica", "bold");
-    doc.text("NOMBRE PROPIETARIO:", 2, 5);
-    doc.setFont("helvetica", "normal");
-    doc.text("vehiculo.nombre_prop", 6.8, 5);
+  // FECHA
+  doc.setFont('helvetica', 'bold');
+  doc.text('FECHA:', 2, 4);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${new Date().toLocaleDateString()}`, 4, 4);
 
-    // CONTACTO
-    doc.setFont("helvetica", "bold");
-    doc.text("CONTACTO:", 2, 5.5);
-    doc.setFont("helvetica", "normal");
-    doc.text("vehiculo.contacto", 5, 5.5);
+  // PLACA VEHÍCULO
+  doc.setFont('helvetica', 'bold');
+  doc.text('PLACA VEHÍCULO:', 2, 4.5);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${data.placa}`, 5.8, 4.5);
 
-    // Espaciado antes de la tabla
-    let startY = 6;
+  // NOMBRE PROPIETARIO
+  doc.setFont('helvetica', 'bold');
+  doc.text('NOMBRE PROPIETARIO:', 2, 5);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${data.Vehicle.nombre_prop}`, 6.8, 5);
 
-    // Tabla de servicios
-    const tableHead = [['SERVICIO', 'DESCRIPCIÓN', 'VALOR']];
-    const tableBody =  [
-        ['SERVICIO', 'DESCRIPCIÓN', 'VALOR'],
-        ['SERVICIO2', 'DESCRIPCION2', 'VALOR2'],
-        ['SERVICIO2', 'DESCRIPCION2', 'VALOR2'],
-        ['SERVICIO3', 'DESCRIPCION3 es  muy karga porque así le gusta a zambrano y el se emociona cuando lo arrinconan en la mañana el pobre hombre ya se va a trabajar', 'VALOR3'],
+  // CONTACTO
+  doc.setFont('helvetica', 'bold');
+  doc.text('CONTACTO:', 2, 5.5);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${data.Vehicle.contacto}`, 5, 5.5);
+
+  // Espaciado antes de la tabla
+  let startY = 6;
+
+  // Tabla de servicios
+  const tableHead = [['SERVICIO', 'DESCRIPCIÓN', 'VALOR']];
+  const tableBody = services.map(
+    (service: {
+      nombre_servicio: any;
+      descrip_servicio: any;
+      valor_servicio: any;
+    }) => [
+      service.nombre_servicio || 'Sin nombre',
+      service.descrip_servicio || 'Sin descripción',
+      service.valor_servicio
+        ? service.valor_servicio.toLocaleString('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+          })
+        : 'N/A',
     ]
-    autoTable(doc, {
-        startY,
-        head: tableHead,
-        body: tableBody,
-    });
+  );
 
-    // Posición del total después de la tabla
-    let finalY = 13;
-    doc.setFontSize(14);
-    doc.setFont("helvetica", "bold");
-    doc.text(`TOTAL A PAGAR: $total`, 2, finalY);
+  autoTable(doc, {
+    startY,
+    head: tableHead,
+    body: tableBody,
+  });
 
-    // Save the PDF
-    doc.save("ticket.pdf");
-}
+  // Posición del total después de la tabla
+  let finalY = 13;
+  doc.setFontSize(14);
+  doc.setFont('helvetica', 'bold');
+  const formattedTotal = total.toLocaleString('es-CO', {
+    style: 'currency',
+    currency: 'COP',
+  });
+  if (type == 'SALIDA') {
+    doc.text(`MÉTODO DE PAGO: ${data.tipo_pago}`, 1, 12.5);
+  }
+  doc.text(`TOTAL A PAGAR: ${formattedTotal}`, 1, finalY);
+
+  // Save the PDF
+  doc.autoPrint({ variant: 'non-conform' });
+  const pdfBlob = doc.output('blob');
+  const pdfUrl = URL.createObjectURL(pdfBlob);
+  const printWindow = window.open(pdfUrl, '_blank');
+
+  if (printWindow) {
+    printWindow.onload = () => {
+      printWindow.print();
+    };
+  } else {
+    console.error('No se pudo abrir la ventana de impresión.');
+  }
+};

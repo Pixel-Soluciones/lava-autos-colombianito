@@ -30,7 +30,6 @@ export default class EmployeeFormComponent implements OnInit {
   employeeForm: FormGroup = this.#fb.group({
     cedula: ['null', Validators.required],
     nombre: ['', Validators.required],
-    apellido: ['', Validators.required],
     contacto: ['null', Validators.required],
     direccion: ['', Validators.required],
     fecha_nacimiento: ['', Validators.required],
@@ -46,7 +45,11 @@ export default class EmployeeFormComponent implements OnInit {
         if (formData['fecha_nacimiento']) {
           formData['fecha_nacimiento'] = new Date(formData['fecha_nacimiento']);
         }
+        if (formData['porcentaje_servicio']) {
+          formData['porcentaje_servicio'] = parseFloat(formData['porcentaje_servicio']);
+        }
         this.employeeForm.patchValue(formData);
+        
       } else {
         this.editMode = false;
       }

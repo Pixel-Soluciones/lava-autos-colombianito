@@ -39,7 +39,7 @@ export class VehiclesComponent implements OnInit {
       title: 'Imprimir',
       action: 'Print',
       icon: 'iconos-botones/imprimir.png',
-    }
+    },
   ];
 
   constructor(
@@ -67,13 +67,30 @@ export class VehiclesComponent implements OnInit {
       this.view(action.row);
     } else if (action.action == 'Checkout') {
       this.checkout(action.row);
-    } else if (action.action == 'Print'){
+    } else if (action.action == 'Print') {
       this.print(action.row);
     }
   }
 
-  print(data: IEntry){
-    console.log(data);    
+  print(data: IEntry) {
+    this.filterAsignedServices(data.AsignedServices).subscribe(
+      (selectedServices) => {
+        const servicesTolist = selectedServices;
+        console.log(servicesTolist);
+        if (data.estado === 'EN PROCESO') {
+          generateTicket(data, servicesTolist, 'INGRESO');
+        } else if (data.estado === 'TERMINADO') {
+          generateTicket(data, servicesTolist, 'SALIDA');
+        } else {
+          Swal.fire({
+            showConfirmButton: false,
+            title: 'No hay información',
+            icon: 'error',
+            timer: 1500,
+          });
+        }    
+      }
+    );
   }
 
   edit(data: IEntry) {
@@ -131,12 +148,13 @@ export class VehiclesComponent implements OnInit {
         const serviceList = selectedServices
           .map(
             (service) =>
-              `<li>${service.nombre_servicio
+              `<li>${
+                service.nombre_servicio
               } - $${service.valor_servicio.toLocaleString()}</li>`
           )
           .join('');
 
-          const ticketContent = `
+        const ticketContent = `
           🚗 Información del Vehículo
           ${vehiculoInfo.replace(/<[^>]*>/g, '')}
           
@@ -165,17 +183,15 @@ export class VehiclesComponent implements OnInit {
           icon: 'success',
           showDenyButton: true,
           showCancelButton: true,
-          confirmButtonText: 'Descargar',
           denyButtonText: 'WhatsApp',
           cancelButtonText: 'Cerrar',
-          denyButtonColor: '#25D366'
+          denyButtonColor: '#25D366',
         }).then((result) => {
-          if (result.isConfirmed) {
-            // download pdf
-            generateTicket(ticketContent, 'SALIDA');
-          } else if (result.isDenied) {
+          if (result.isDenied) {
             // share via whatsapp
-            const whatsappUrl = `https://wa.me/${vehiculo.contacto}?text=${encodeURIComponent(ticketContent)}`;
+            const whatsappUrl = `https://wa.me/${
+              vehiculo.contacto
+            }?text=${encodeURIComponent(ticketContent)}`;
             window.open(whatsappUrl, '_blank');
           }
         });

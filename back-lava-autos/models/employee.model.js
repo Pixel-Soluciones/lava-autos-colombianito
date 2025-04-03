@@ -12,10 +12,6 @@ const Employee = sequelize.define('Employee', {
         type: DataTypes.STRING(25),
         allowNull: false,
     },
-    apellido: {
-        type: DataTypes.STRING(25),
-        allowNull: false,
-    },
     contacto: {
         type: DataTypes.STRING(15),
         allowNull: false,

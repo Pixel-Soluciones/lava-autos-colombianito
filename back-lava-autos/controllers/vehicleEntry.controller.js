@@ -7,6 +7,7 @@ import { Op, Sequelize } from "sequelize";
 const getVehicleEntries = async (req, res) => {
   try {
     const vehicleEntries = await VehicleEntry.findAll({
+      order: [['createdAt', 'DESC']],
       include: [
         {
           model: Vehicle,

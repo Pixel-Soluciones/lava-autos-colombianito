@@ -33,14 +33,14 @@
             <td>{{ servicio.valor_servicio | currency  }}</td>
             <td>{{ servicio.tiempo_estimado }}</td>
             <td>
-              <div class="w-full flex justify-center">
+              <div class="w-full flex justify-center gap-1">
                 <button
                   title="editar"
                   (click)="editarServicio(servicio.id_servicio)"
-                  class="transition-all duration-300 active:brightness-80"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300 active:brightness-80"
                 >
                   <img
-                    class="w-[30px]"
+                  class="w-8 h-8"
                     src="iconos-botones/editar.png"
                     alt=""
                   />
@@ -48,10 +48,10 @@
                 <button
                   title="eliminar"
                   (click)="eliminarServicio(servicio.id_servicio)"
-                  class="transition-all duration-300 active:brightness-80"
+                  class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300 active:brightness-80"
                 >
                   <img
-                    class="w-[30px]"
+                  class="w-8 h-8"
                     src="iconos-botones/eliminar.png"
                     alt=""
                   />

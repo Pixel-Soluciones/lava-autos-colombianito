@@ -35,6 +35,11 @@ export class VehiclesComponent implements OnInit {
       action: 'Checkout',
       icon: 'iconos-botones/reg-salida.png',
     },
+    {
+      title: 'Imprimir',
+      action: 'Print',
+      icon: 'iconos-botones/imprimir.png',
+    }
   ];
 
   constructor(
@@ -62,7 +67,13 @@ export class VehiclesComponent implements OnInit {
       this.view(action.row);
     } else if (action.action == 'Checkout') {
       this.checkout(action.row);
+    } else if (action.action == 'Print'){
+      this.print(action.row);
     }
+  }
+
+  print(data: IEntry){
+    console.log(data);    
   }
 
   edit(data: IEntry) {

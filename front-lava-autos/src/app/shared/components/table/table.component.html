@@ -56,24 +56,28 @@
                         </ng-container>
                     }
                     <td>
-                        <div class="w-full contents">
-                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" title="editar" (click)="onAction('Edit',employee)"
-                                class="transition-all duration-300 active:brightness-80">
-                                <img class="w-[30px] ml-1" src="iconos-botones/editar.png" alt="" />
+                        <div class="w-full flex flex-nowrap justify-center items-center gap-1">
+                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" 
+                                title="editar" (click)="onAction('Edit',employee)"
+                                class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300 active:brightness-80">
+                                <img class="w-8 h-8" src="iconos-botones/editar.png" alt="Editar" />
                             </button>
-                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" title="eliminar" (click)="onAction('Delete',employee)"
-                                class="transition-all duration-300 active:brightness-80">
-                                <img class="w-[30px] ml-1" src="iconos-botones/eliminar.png" alt="" />
+                            <button *ngIf="!employee['estado'] || employee['estado'] === 'EN PROCESO'" 
+                                title="eliminar" (click)="onAction('Delete',employee)"
+                                class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300 active:brightness-80">
+                                <img class="w-8 h-8" src="iconos-botones/eliminar.png" alt="Eliminar" />
                             </button>
                             <ng-container *ngIf="actions.length > 0">
                                 @for (btn of actions; track $index) {
-                                    <button *ngIf="!(btn.action === 'Checkout' && employee['estado'] !== 'EN PROCESO')" title="{{btn.title}}" (click)="onAction(btn.action,employee)"
-                                        class="transition-all duration-300 active:brightness-80">
-                                        <img class="w-[30px] ml-1" src="{{btn.icon}}" alt="">
+                                    <button *ngIf="!(btn.action === 'Checkout' && employee['estado'] !== 'EN PROCESO')" 
+                                        title="{{btn.title}}" (click)="onAction(btn.action,employee)"
+                                        class="w-10 h-10 flex items-center justify-center bg-gray-200 rounded-lg shadow-md hover:bg-gray-300 transition-all duration-300 active:brightness-80">
+                                        <img class="w-8 h-8" src="{{btn.icon}}" alt="{{btn.title}}">
                                     </button>
                                 }
                             </ng-container>
                         </div>
+                        
                     </td>
                 </tr>
             </ng-template>

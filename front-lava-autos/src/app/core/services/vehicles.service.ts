@@ -6,22 +6,22 @@ import { IVehicle } from 'app/shared/interfaces/vehicle';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VehiclesService {
-  
-  private readonly url = environment.API_URL
+  private readonly url = environment.API_URL;
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  constructor(private http: HttpClient) {}
 
   getAll(): Observable<IVehicle[]> {
-      return this.http.get<IVehicle[]>(`${this.url}/vehicles`);
-    }
+    return this.http.get<IVehicle[]>(`${this.url}/vehicles`);
+  }
 
-  saveVehicle(vehicle: IVehicle): Observable<any> {      
-      const response = this.http.post<any>(`${this.url}/vehicles/create`, vehicle);
-      return response;
-    }
+  saveVehicle(vehicle: IVehicle): Observable<any> {
+    const response = this.http.post<any>(
+      `${this.url}/vehicles/create`,
+      vehicle
+    );
+    return response;
+  }
 }

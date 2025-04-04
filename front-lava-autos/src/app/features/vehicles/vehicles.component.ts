@@ -8,6 +8,7 @@ import { ActionButton } from 'app/shared/interfaces/actionButton';
 import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
 import { getEntityPropiedades } from 'app/shared/models/columnsTables';
+import { generateTicket } from 'app/shared/utils/generateTicket';
 import { catchError, map, Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -33,6 +34,11 @@ export class VehiclesComponent implements OnInit {
       title: 'Registrar Salida',
       action: 'Checkout',
       icon: 'iconos-botones/reg-salida.png',
+    },
+    {
+      title: 'Imprimir',
+      action: 'Print',
+      icon: 'iconos-botones/imprimir.png',
     },
   ];
 
@@ -61,7 +67,30 @@ export class VehiclesComponent implements OnInit {
       this.view(action.row);
     } else if (action.action == 'Checkout') {
       this.checkout(action.row);
+    } else if (action.action == 'Print') {
+      this.print(action.row);
     }
+  }
+
+  print(data: IEntry) {
+    this.filterAsignedServices(data.AsignedServices).subscribe(
+      (selectedServices) => {
+        const servicesTolist = selectedServices;
+        console.log(servicesTolist);
+        if (data.estado === 'EN PROCESO') {
+          generateTicket(data, servicesTolist, 'INGRESO');
+        } else if (data.estado === 'TERMINADO') {
+          generateTicket(data, servicesTolist, 'SALIDA');
+        } else {
+          Swal.fire({
+            showConfirmButton: false,
+            title: 'No hay información',
+            icon: 'error',
+            timer: 1500,
+          });
+        }    
+      }
+    );
   }
 
   edit(data: IEntry) {
@@ -95,8 +124,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   view(data: any) {
-    console.log(data);
-
     this.filterAsignedServices(data.AsignedServices).subscribe(
       (selectedServices) => {
         this.selectedServices = selectedServices;
@@ -121,12 +148,13 @@ export class VehiclesComponent implements OnInit {
         const serviceList = selectedServices
           .map(
             (service) =>
-              `<li>${service.nombre_servicio
+              `<li>${
+                service.nombre_servicio
               } - $${service.valor_servicio.toLocaleString()}</li>`
           )
           .join('');
 
-          const ticketContent = `
+        const ticketContent = `
           🚗 Información del Vehículo
           ${vehiculoInfo.replace(/<[^>]*>/g, '')}
           
@@ -155,23 +183,15 @@ export class VehiclesComponent implements OnInit {
           icon: 'success',
           showDenyButton: true,
           showCancelButton: true,
-          confirmButtonText: 'Descargar',
           denyButtonText: 'WhatsApp',
           cancelButtonText: 'Cerrar',
-          denyButtonColor: '#25D366'
+          denyButtonColor: '#25D366',
         }).then((result) => {
-          if (result.isConfirmed) {
-            //Download ticket
-            const element = document.createElement('a');
-            const file = new Blob([ticketContent], {type: 'text/plain'});
-            element.href = URL.createObjectURL(file);
-            element.download = `ticket_${vehiculo.placa}.txt`;
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
-          } else if (result.isDenied) {
+          if (result.isDenied) {
             // share via whatsapp
-            const whatsappUrl = `https://wa.me/${vehiculo.contacto}?text=${encodeURIComponent(ticketContent)}`;
+            const whatsappUrl = `https://wa.me/${
+              vehiculo.contacto
+            }?text=${encodeURIComponent(ticketContent)}`;
             window.open(whatsappUrl, '_blank');
           }
         });

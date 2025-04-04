@@ -134,7 +134,7 @@
   </div>
 
   <div
-    class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
+    class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center text-center"
   >
     <h2 class="text-xl font-bold mb-4 italic text-gray-400">
       LISTA DE SERVICIOS ASIGNADOS
@@ -160,7 +160,7 @@
           <tr>
             <td>{{ servicio.nombre_servicio }}</td>
             <td>{{ servicio.descrip_servicio }}</td>
-            <td>{{ servicio.valor_servicio }}</td>
+            <td>{{ servicio.valor_servicio | currency }}</td>
             <td>{{ servicio.tiempo_estimado }}</td>
             <td>
               <div class="w-full flex justify-center">

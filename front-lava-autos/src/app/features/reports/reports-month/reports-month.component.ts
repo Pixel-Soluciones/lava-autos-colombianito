@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { DatePicker } from 'primeng/datepicker';
 import { FloatLabel } from 'primeng/floatlabel';
-import { TableReportComponent } from "../../../shared/components/table-report/table-report.component";
+import { TableReportComponent } from '../../../shared/components/table-report/table-report.component';
 import { getEntityPropiedades } from 'app/shared/models/columnsTables';
 import { MonthlyReportService } from './services/monthly-report.service';
 import { generateExcelReport } from 'app/shared/utils/generateExcelReport';
@@ -25,44 +25,72 @@ interface Service {
   valor_porcentaje: number;
 }
 
-
 @Component({
   selector: 'app-reports-month',
-  imports: [FloatLabel, DatePicker, FormsModule, ButtonModule, TableReportComponent, CommonModule],
+  imports: [
+    FloatLabel,
+    DatePicker,
+    FormsModule,
+    ButtonModule,
+    TableReportComponent,
+    CommonModule,
+  ],
   templateUrl: './reports-month.component.html',
-  styleUrl: './reports-month.component.scss'
+  styleUrl: './reports-month.component.scss',
 })
 export default class ReportsMonthComponent {
-  
-  #router= inject(Router);
+  #router = inject(Router);
   #monthlyReportService = inject(MonthlyReportService);
 
   isLoading = signal(false);
 
   date = signal<Date | null>(null);
-  cols = signal<{key: string, value: string}[]>(getEntityPropiedades('monthlyReport'));
+  cols = signal<{ key: string; value: string }[]>(
+    getEntityPropiedades('monthlyReport')
+  );
   services = signal<Service[]>([]);
 
-  total = computed(() => this.services().reduce((acc, service) => acc + service.valor, 0));
-  total_trabajadores = computed(() => this.services().reduce((acc, service) => acc + service.valor_porcentaje, 0));
-  total_ganancias = computed(() => this.total() - this.total_trabajadores());
+  total = computed(() =>
+    this.services().reduce((acc, service) => acc + service.valor, 0)
+  );
   trabajadorDelMes = computed(() => {
     const frequencyMap = new Map<string, number>();
-    this.services().forEach(service => {
-      frequencyMap.set(service.trabajador, (frequencyMap.get(service.trabajador) || 0) + 1);
+    this.services().forEach((service) => {
+      frequencyMap.set(
+        service.trabajador,
+        (frequencyMap.get(service.trabajador) || 0) + 1
+      );
     });
-    return Array.from(frequencyMap.entries()).reduce((acc, [value, count]) =>
-      count > acc.count? { value, count } : acc,
+    return Array.from(frequencyMap.entries()).reduce(
+      (acc, [value, count]) => (count > acc.count ? { value, count } : acc),
       { value: '', count: 0 }
     ).value;
   });
+
+  clienteDelMes = computed(() => {
+    const frequencyMap = new Map<string, number>();
+    this.services().forEach((service) => {
+      frequencyMap.set(
+        service.placa,
+        (frequencyMap.get(service.placa) || 0) + 1
+      );
+    });
+    return Array.from(frequencyMap.entries()).reduce(
+      (acc, [value, count]) => (count > acc.count ? { value, count } : acc),
+      { value: '', count: 0 }
+    ).value;
+  });
+
   servicioMasSolicitado = computed(() => {
     const frequencyMap = new Map<string, number>();
-    this.services().forEach(service => {
-      frequencyMap.set(service.servicio, (frequencyMap.get(service.servicio) || 0) + 1);
+    this.services().forEach((service) => {
+      frequencyMap.set(
+        service.servicio,
+        (frequencyMap.get(service.servicio) || 0) + 1
+      );
     });
-    return Array.from(frequencyMap.entries()).reduce((acc, [value, count]) => 
-      count > acc.count ? { value, count } : acc, 
+    return Array.from(frequencyMap.entries()).reduce(
+      (acc, [value, count]) => (count > acc.count ? { value, count } : acc),
       { value: '', count: 0 }
     ).value;
   });
@@ -74,6 +102,17 @@ export default class ReportsMonthComponent {
     const formattedDate = this.formatDate(date);
     this.#monthlyReportService.get(formattedDate).subscribe({
       next: (response: Service[]) => {
+        if (response.length == 0) {
+          Swal.fire({
+            title: 'Error',
+            text: 'No existe información en el mes seleccionado',
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+          });
+          this.isLoading.set(false);
+          this.services.set([]);
+          return;
+        }
         this.services.set(response);
         this.isLoading.set(false);
       },
@@ -83,11 +122,10 @@ export default class ReportsMonthComponent {
           title: 'Error',
           text: 'No se pudo obtener el reporte',
           icon: 'error',
-          confirmButtonText: 'Aceptar'
+          confirmButtonText: 'Aceptar',
         });
-      }
-    }
-    );
+      },
+    });
   }
 
   private formatDate(date: Date): monthSelected {
@@ -96,14 +134,16 @@ export default class ReportsMonthComponent {
 
   exportReport() {
     if (this.services().length === 0) return;
+    const worksheet: any[] = [this.cols().map((col) => col.key)];
 
-    const worksheet: any[] = [this.cols().map(col => col.key)];
-
-    this.services().forEach(service => {
-      worksheet.push(this.cols().map(col => service[col.key as keyof Service]));
+    this.services().forEach((service) => {
+      worksheet.push(
+        this.cols().map((col) => service[col.key as keyof Service])
+      );
     });
+    console.log(worksheet);
 
-    generateExcelReport(worksheet);
+    generateExcelReport(worksheet, 'M');
   }
 
   salir() {

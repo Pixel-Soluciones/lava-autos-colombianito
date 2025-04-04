@@ -27,7 +27,7 @@
     </ng-container>
     <ng-template #content>
         <div class="container mx-auto px-4 max-w-6x">
-            @if (date() !== null) {
+            @if (services().length > 0) {
                 <table-report
                 [title]="'Lista de vehículos'"
                 [cols]="cols()"
@@ -37,16 +37,12 @@
                 @if (services().length > 0) {
                     <div class="mb-4">
                         <div class="p-6">
-                            <div class="grid grid-cols-1 md:grid-cols-2 text-white">
+                            <div class="grid grid-cols-1 md:grid-cols-2 text-white text-l mb-4 italic">
                                 <div class="text-lg">
                                     <p>Total: <span class="font-bold">{{total() | currency: 'USD'}}</span></p>
-                                    <p>Total pago a trabajadores: <span class="font-bold">{{total_trabajadores() | currency: 'USD'}}</span></p>
-                                    <p>Total ganancias: <span class="font-bold">{{total_ganancias() | currency: 'USD'}}</span></p>
-                                </div>
-                                <div class="text-lg">
                                     <p>Trabajador del mes: <span class="font-bold"></span>{{trabajadorDelMes()}}</p>
                                     <p>Servicio más solicitado: <span class="font-bold">{{servicioMasSolicitado()}}</span></p>
-                                    <p>Cliente destacado: <span class="font-bold"></span></p>
+                                    <p>Cliente destacado: <span class="font-bold">{{clienteDelMes()}}</span></p>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +50,7 @@
                 }
             } @else {
                 <div class="flex justify-center items-center mt-4">
-                    <p class="text-white">Seleccione una fecha para continuar</p>
+                    <p class="text-white text-l italic">Seleccione una fecha para continuar</p>
                 </div>
             }
         </div>

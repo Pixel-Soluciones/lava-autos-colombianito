@@ -1,8 +1,6 @@
 <div class="flex flex-col justify-center px-6 py-12 w-screen">
   <div class="flex items-center justify-center">
-    <h1 class="text-white text-4xl font-bold text-center">
-      REPORTE DIARIO
-    </h1>
+    <h1 class="text-white text-4xl font-bold text-center">REPORTE DIARIO</h1>
   </div>
 
   <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
@@ -19,11 +17,8 @@
       </p-floatlabel>
     </form>
   </div>
-
-  <div class="mt-5 sm:mx-auto sm:w-full sm:max-w-sm flex justify-center">
-    <h2 class="text-white text-2xl">{{ fecha_string }}</h2>
-  </div>
-
+  
+@if(ingresosdia.length > 0){
   <div
     class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
   >
@@ -46,9 +41,21 @@
           </tr>
         </ng-template>
 
-        <ng-template pTemplate="body" let-ingreso> </ng-template>
+        <ng-template pTemplate="body" let-ingreso>
+          <tr>
+            <td>{{ ingreso.placa }}</td>
+            <td>{{ ingreso.servicio }}</td>
+            <td>{{ ingreso.trabajador }}</td>
+            <td>{{ ingreso.valor }}</td>
+          </tr>
+        </ng-template>
       </p-table>
     </div>
+  </div>
+  <div>
+    <h2 class="text-l font-bold mb-4 italic text-white">
+      Total: {{ totalIngDay | currency }}
+    </h2>
   </div>
 
   <div class="border-2 rounded-xl border-white p-4 mt-5">
@@ -77,17 +84,17 @@
     </div>
     <div class="flex-col items-center justify-center w-screens">
       <div
-        class="mt-5 h-[200px] bg-white rounded-lg p-4 flex flex-col items-center"
+        class="mt-5 h-[400px] bg-white rounded-lg p-4 flex flex-col items-center"
       >
         <h2 class="text-xl font-bold mb-4 italic text-gray-400">
           LISTA DE INGRESOS
         </h2>
         <div class="w-full overflow-auto">
           <p-table
-            [value]="serviciosEmployee"
+            [value]="ingresosFiltrados"
             stripedRows
             [scrollable]="true"
-            scrollHeight="100px"
+            scrollHeight="300px"
           >
             <ng-template pTemplate="header">
               <tr>
@@ -97,24 +104,35 @@
               </tr>
             </ng-template>
 
-            <ng-template pTemplate="body" let-servicio> </ng-template>
+            <ng-template pTemplate="body" let-ingresoF>
+              <tr>
+                <td>{{ ingresoF.placa }}</td>
+                <td>{{ ingresoF.servicio }}</td>
+                <td>{{ ingresoF.valor }}</td>
+              </tr>
+            </ng-template>
           </p-table>
         </div>
       </div>
       <div>
         <h2 class="text-l font-bold mb-4 italic text-white">
-          Total a pagar: 0
+          Total a pagar: {{ totalEmployee | currency }}
         </h2>
       </div>
     </div>
   </div>
-
+}@else {
+  <div class="flex justify-center items-center mt-4">
+      <p class="text-white text-l italic">Seleccione una fecha para continuar</p>
+  </div>
+}
   <div class="flex justify-center gap-2 mt-5">
-    <p-button (onClick)="exportReport()" severity="success" label="EXPORTAR"></p-button>
     <p-button
-      (onClick)="salir()"
-      severity="danger"
-      label="CANCELAR"
+    [disabled]="ingresosdia.length == 0"
+      (onClick)="exportReport()"
+      severity="success"
+      label="EXPORTAR"
     ></p-button>
+    <p-button (onClick)="salir()" severity="danger" label="CANCELAR"></p-button>
   </div>
 </div>

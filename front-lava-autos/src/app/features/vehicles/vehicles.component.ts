@@ -178,9 +178,8 @@ export class VehiclesComponent implements OnInit {
           <p style="font-size: 18px; font-weight: bold; color: green;">$${valorPagar.toLocaleString()}</p>
         </div>
       `,
-          // icon: 'success',
-          // confirmButtonText: 'Cerrar',
           icon: 'success',
+          showConfirmButton: false,
           showDenyButton: true,
           showCancelButton: true,
           denyButtonText: 'WhatsApp',

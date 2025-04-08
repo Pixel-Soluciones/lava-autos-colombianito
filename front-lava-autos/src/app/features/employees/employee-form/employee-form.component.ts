@@ -135,6 +135,26 @@ export default class EmployeeFormComponent implements OnInit {
   }
 
   cancel() {
-    this.#router.navigate(['/employees']);
+    Swal.fire({
+          title: '¿Esta seguro?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#32cd32',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Confirmar',
+          cancelButtonText: 'Cancelar',
+        }).then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire({
+              showConfirmButton: false,
+              title: 'Registro cancelado',
+              icon: 'success',
+              timer: 1500,
+            });
+            this.employeeForm.reset();
+            this.#router.navigate(['/employees']);
+          }
+        });
+    
   }
 }

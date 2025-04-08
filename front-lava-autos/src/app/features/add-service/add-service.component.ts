@@ -16,6 +16,7 @@ import { ServicesService } from '@services/services.service';
 import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-add-service',
@@ -27,6 +28,7 @@ import { Router } from '@angular/router';
     CardModule,
     DatePicker,
     CalendarModule,
+    InputNumberModule
   ],
   templateUrl: './add-service.component.html',
   styleUrl: './add-service.component.scss',

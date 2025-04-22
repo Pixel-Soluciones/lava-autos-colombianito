@@ -155,6 +155,12 @@ export default class EmployeeFormComponent implements OnInit {
             this.#router.navigate(['/employees']);
           }
         });
-    
+  }
+
+  limitPercentage(): void {
+    const value = this.employeeForm.get('porcentaje_servicio')?.value;
+    if (value > 100) {
+      this.employeeForm.get('porcentaje_servicio')?.setValue(100);
+    }
   }
 }

@@ -35,7 +35,14 @@
             </p-floatlabel>
 
             <p-floatlabel variant="in">
-                <p-inputnumber class="w-full" id="porcentajeServicio" suffix="%" autocomplete="off" formControlName="porcentaje_servicio" />
+                <p-inputnumber class="w-full" id="porcentajeServicio"
+                    suffix="%"
+                    autocomplete="off"
+                    formControlName="porcentaje_servicio"
+                    max="100"
+                    maxlength="3"
+                    (onInput)="limitPercentage()"
+                />
                 <label for="porcentajeServicio">Porcentaje de Servicio</label>
             </p-floatlabel>
 

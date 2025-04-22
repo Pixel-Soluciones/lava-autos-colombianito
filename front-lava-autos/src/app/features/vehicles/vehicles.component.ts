@@ -181,7 +181,6 @@ export class VehiclesComponent implements OnInit {
           icon: 'success',
           showConfirmButton: false,
           showDenyButton: true,
-          showConfirmButton: false,
           showCancelButton: true,
           denyButtonText: 'WhatsApp',
           cancelButtonText: 'Cerrar',

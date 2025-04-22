@@ -10,7 +10,7 @@
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="space-y-6">
             <p-floatlabel variant="in">
-                <p-inputnumber class="w-full" [useGrouping]="false" id="cedula" autocomplete="off" formControlName="cedula" [readonly]="editMode" />
+                <p-inputnumber class="w-full" [useGrouping]="false" id="cedula" autocomplete="off" formControlName="cedula" [readonly]="editMode" maxlength="12" />
                 <label for="cedula">Cédula</label>
             </p-floatlabel>
 
@@ -20,7 +20,7 @@
             </p-floatlabel>
 
             <p-floatlabel variant="in">
-                <p-inputnumber class="w-full" mode="decimal" [useGrouping]="false" inputId="contacto" autocomplete="off" formControlName="contacto" />
+                <p-inputnumber class="w-full" mode="decimal" [useGrouping]="false" inputId="contacto" autocomplete="off" formControlName="contacto" maxlength="10"/>
                 <label for="contacto">Contacto</label>
             </p-floatlabel>
 

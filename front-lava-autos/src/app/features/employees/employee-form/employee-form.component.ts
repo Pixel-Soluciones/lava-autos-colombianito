@@ -28,9 +28,9 @@ export default class EmployeeFormComponent implements OnInit {
   originalData: any;
 
   employeeForm: FormGroup = this.#fb.group({
-    cedula: ['null', Validators.required],
+    cedula: ['null', [Validators.required, Validators.maxLength(12)]],
     nombre: ['', Validators.required],
-    contacto: ['null', Validators.required],
+    contacto: ['null',[Validators.required, Validators.maxLength(10)]],
     direccion: ['', Validators.required],
     fecha_nacimiento: ['', Validators.required],
     porcentaje_servicio: ['null', [Validators.required]]

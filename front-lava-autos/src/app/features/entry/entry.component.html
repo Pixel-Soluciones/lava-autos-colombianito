@@ -69,12 +69,13 @@
           </div>
           <div>
             <p-floatlabel variant="in">
-              <input
+                <input
                 class="w-full"
                 pInputText
                 id="propietario"
                 autocomplete="off"
                 formControlName="nombre_prop"
+                oninput="this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '')"
               />
               <label for="propietario">Propietario</label>
             </p-floatlabel>
@@ -87,6 +88,8 @@
                 id="contacto"
                 autocomplete="off"
                 formControlName="contacto"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
               />
               <label for="contacto">Contacto</label>
             </p-floatlabel>

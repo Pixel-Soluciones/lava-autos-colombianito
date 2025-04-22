@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    API_URL: 'https://back-lavautos.onrender.com/api',
+    API_URL: 'http://50.17.201.240/api',
 };

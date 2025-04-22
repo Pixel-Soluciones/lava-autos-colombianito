@@ -1,39 +1,53 @@
 import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '@services/auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main',
   imports: [RouterModule],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  styleUrl: './main.component.scss',
 })
 export class MainComponent {
-  constructor(
-    private router: Router,
-    private auth: AuthService
-  ){}
+  constructor(private router: Router, private auth: AuthService) {}
 
-  goToServices(){
+  goToServices() {
     this.router.navigate(['list-services']);
   }
 
-  goToEmployees(){
+  goToEmployees() {
     this.router.navigate(['employees']);
   }
 
-  goToReports(){
+  goToReports() {
     this.router.navigate(['reports']);
   }
 
-  goToVehicles(){
+  goToVehicles() {
     this.router.navigate(['vehicles']);
   }
 
-  logout(){
-    this.auth.logout();
-    this.router.navigate(['login']);
-
+  logout() {
+    Swal.fire({
+      title: '¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          showConfirmButton: false,
+          title: 'Sesión cerrada',
+          icon: 'success',
+          timer: 1500,
+        });
+        this.auth.logout();
+        this.router.navigate(['login']);
+      }
+    });
   }
-
 }

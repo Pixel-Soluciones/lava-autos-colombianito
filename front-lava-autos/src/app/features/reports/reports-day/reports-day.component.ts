@@ -77,8 +77,10 @@ export class ReportsDayComponent {
         });
         return;
       }
-      console.log(res);
-      this.ingresosdia = res;
+      console.log(res);      
+      this.ingresosdia = res.filter(item => item. trabajador !== null);
+      console.log(this.ingresosdia);
+      
       this.totalIngDay = this.ingresosdia.reduce(
         (sum, ingreso) => sum + ingreso.valor,
         0
@@ -121,13 +123,13 @@ export class ReportsDayComponent {
 
   salir() {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         this.dateForm.reset();

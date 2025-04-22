@@ -57,6 +57,13 @@ export class LoginComponent {
         .subscribe({
           next: (res) => {
             console.log('Usuario logueado');
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Inicio de sesión exitoso',
+              showConfirmButton: false,
+              timer: 2000,
+            });
             this.loginForm.reset();
             this.router.navigate(['dashboard']);
           },

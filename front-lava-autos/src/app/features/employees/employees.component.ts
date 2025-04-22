@@ -62,13 +62,13 @@ export default class EmployeesComponent implements OnInit {
 
   delete(id: number) {
     Swal.fire({
-      title: "¿Esta seguro?",
-      icon: "warning",
+      title: '¿Está seguro?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#32cd32",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Confirmar",
-      cancelButtonText: 'Cancelar'
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({

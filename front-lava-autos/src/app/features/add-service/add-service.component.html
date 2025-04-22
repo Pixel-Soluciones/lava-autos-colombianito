@@ -71,7 +71,7 @@
           (onClick)="editService()"
         ></p-button>
         } @else {
-        <p-button type="ngSubmit" label="GUARDAR"></p-button>
+        <p-button type="ngSubmit" [disabled]="flagSaving" label="GUARDAR"></p-button>
         }
 
         <p-button

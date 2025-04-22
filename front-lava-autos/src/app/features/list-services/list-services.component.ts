@@ -41,13 +41,13 @@ export class ListServicesComponent {
 
   eliminarServicio(id_servicio: number){
     Swal.fire({
-          title: "¿Esta seguro?",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#32cd32",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Confirmar",
-          cancelButtonText: 'Cancelar'
+      title: '¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
         }).then((result) => {
           if (result.isConfirmed) {
             Swal.fire({

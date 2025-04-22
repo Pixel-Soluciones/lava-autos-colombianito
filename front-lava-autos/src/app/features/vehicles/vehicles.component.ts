@@ -101,13 +101,13 @@ export class VehiclesComponent implements OnInit {
 
   delete(data: any) {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         this.entryService.cancelEntry(data).subscribe((res) => {
@@ -182,6 +182,7 @@ export class VehiclesComponent implements OnInit {
           // confirmButtonText: 'Cerrar',
           icon: 'success',
           showDenyButton: true,
+          showConfirmButton: false,
           showCancelButton: true,
           denyButtonText: 'WhatsApp',
           cancelButtonText: 'Cerrar',

@@ -28,7 +28,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     CardModule,
     DatePicker,
     CalendarModule,
-    InputNumberModule
+    InputNumberModule,
   ],
   templateUrl: './add-service.component.html',
   styleUrl: './add-service.component.scss',
@@ -47,6 +47,7 @@ export class AddServiceComponent {
   serviceToEdit!: IServicio;
   flagEdit = false;
   id_service: any;
+  flagSaving = false;
 
   addServiceForm = new FormGroup({
     nombreServicio: new FormControl<string>('', Validators.required),
@@ -67,7 +68,7 @@ export class AddServiceComponent {
   loadServiceById(id_service: number) {
     this.servicesService.getOneService(this.id_service).subscribe((res) => {
       this.serviceToEdit = res;
-      const tiempoEstimado = this.serviceToEdit.tiempo_estimado; 
+      const tiempoEstimado = this.serviceToEdit.tiempo_estimado;
       const [hours, minutes, seconds] = tiempoEstimado.split(':').map(Number);
       this.time = new Date(0, 0, 0, hours, minutes, seconds);
       this.addServiceForm.patchValue({
@@ -91,13 +92,13 @@ export class AddServiceComponent {
 
   cancelar() {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({
@@ -124,6 +125,10 @@ export class AddServiceComponent {
   }
 
   saveData() {
+    if (this.flagSaving) return;
+
+    this.flagSaving = true;
+
     const servicioExiste = this.servicios.some(
       (servicio) =>
         servicio.nombre_servicio ===
@@ -170,6 +175,7 @@ export class AddServiceComponent {
             showConfirmButton: false,
             timer: 1500,
           });
+          this.flagSaving = false;
           this.cleanForm();
           this.router.navigate(['list-services']);
         },
@@ -182,12 +188,14 @@ export class AddServiceComponent {
             showConfirmButton: false,
             timer: 1500,
           });
+          this.flagSaving = false;
+
         }
       );
     }
   }
 
-  editService(){
+  editService() {
     if (this.addServiceForm.invalid) {
       Swal.fire({
         position: 'center',
@@ -204,7 +212,7 @@ export class AddServiceComponent {
       const tiempoFormateado = duracionServicio
         ? duracionServicio.toTimeString().split(' ')[0]
         : '';
-      
+
       const servicio: IServicio = {
         nombre_servicio: this.addServiceForm.get('nombreServicio')?.value!,
         descrip_servicio: this.addServiceForm.get('descripcionServicio')
@@ -217,7 +225,7 @@ export class AddServiceComponent {
           Swal.fire({
             position: 'center',
             icon: 'success',
-            title: 'Servicio agregado',
+            title: 'Servicio modificado exitosamente',
             showConfirmButton: false,
             timer: 1500,
           });
@@ -229,13 +237,12 @@ export class AddServiceComponent {
             position: 'center',
             icon: 'error',
             title: 'Ocurrió un error',
-            text: 'No fue posible guardar el servicio',
+            text: 'No fue posible editar el servicio',
             showConfirmButton: false,
             timer: 1500,
           });
         }
       );
     }
-
   }
 }

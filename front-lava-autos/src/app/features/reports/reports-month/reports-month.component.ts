@@ -114,6 +114,9 @@ export default class ReportsMonthComponent {
           return;
         }
         this.services.set(response);
+        this.services.set(this.services().filter((s) => s.trabajador !== null));
+
+        console.log(this.services());
         this.isLoading.set(false);
       },
       error: () => {
@@ -147,7 +150,19 @@ export default class ReportsMonthComponent {
   }
 
   salir() {
-    this.#router.navigate(['reports']);
+    Swal.fire({
+      title: '¿Está seguro?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#32cd32',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.#router.navigate(['reports']);
+      }
+    });
   }
 
   handleAction(event: any) {}

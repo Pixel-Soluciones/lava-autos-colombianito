@@ -129,7 +129,6 @@ export class CheckoutComponent {
       this.servicesService.getAllServices().subscribe({
         next: (res) => {
           this.services = res; // Guardamos los servicios cargados
-          console.log('Servicios cargados:', this.services);
 
           // Ahora que los servicios están listos, hacemos el filtrado
           this.selectedServices = this.services.filter((service) =>
@@ -157,7 +156,7 @@ export class CheckoutComponent {
   }
 
   saveCheckout() {
-    if(!this.entrie){
+    if (!this.entrie) {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -165,8 +164,8 @@ export class CheckoutComponent {
         text: 'Ingrese una placa',
         showConfirmButton: false,
         timer: 1500,
-      });      
-    } else if(this.veryfyEmployees() === false) {
+      });
+    } else if (this.veryfyEmployees() === false) {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -175,7 +174,7 @@ export class CheckoutComponent {
         showConfirmButton: false,
         timer: 1500,
       });
-    } else if(this.tipoPagoForm.invalid) {
+    } else if (this.tipoPagoForm.invalid) {
       Swal.fire({
         position: 'center',
         icon: 'error',
@@ -184,15 +183,15 @@ export class CheckoutComponent {
         showConfirmButton: false,
         timer: 1500,
       });
-    } else if(this.entrie && this.tipoPagoForm.valid) {
+    } else if (this.entrie && this.tipoPagoForm.valid) {
       this.entrie.tipo_pago = this.tipoPagoForm.get('tipoPago')?.value ?? '';
       this.entryService.registerCheckout(this.entrie).subscribe((res) => {
         Swal.fire({
           position: 'center',
           icon: 'success',
-          title: 'Saida registrada',
+          title: 'Salida registrada',
           showConfirmButton: false,
-          timer: 1500
+          timer: 1500,
         });
         this.entryService.setEntry(null);
         this.employeeForm.reset();
@@ -217,7 +216,20 @@ export class CheckoutComponent {
 
   filterEntry(event: SelectChangeEvent) {
     console.log(event);
-    if (event.value.placa) {
+    if (event.value.estado === 'TERMINADO') {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Salida registrada',
+        text: 'El vehículo ya reportó salida del establecimiento',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.vehicleForm.reset();
+      return;
+    } 
+
+    if (event.value.placa && event.value.tipo_pago !== null) {
       this.vehicleForm.patchValue(event.value.Vehicle);
       this.entrie = event.value;
       this.selectedServices = this.services.filter((service) =>
@@ -247,13 +259,13 @@ export class CheckoutComponent {
 
   eliminarServicio(id_servicio: number) {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         this.selectedServices = this.selectedServices.filter(
@@ -278,13 +290,13 @@ export class CheckoutComponent {
 
   cancelar() {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({

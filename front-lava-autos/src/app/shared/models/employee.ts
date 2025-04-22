@@ -1,5 +1,4 @@
 export class Employee {
-    cedula = 'cédula';
     nombre = 'nombre';
     contacto = 'contacto';
     direccion = 'dirección';

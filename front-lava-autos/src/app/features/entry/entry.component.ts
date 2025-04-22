@@ -96,7 +96,6 @@ export class EntryComponent {
 
     this.vehiclesService.getAll().subscribe((res) => {
       this.vehicles = res;
-      console.log(this.vehicles);
     });
   }
 
@@ -128,7 +127,6 @@ export class EntryComponent {
     if (typeof event.value === 'object' && event.value.placa) {
       this.vehicleForm.patchValue(event.value);
       this.tipo_selected = event.value.tipo;
-      console.log(this.tipo_selected);
       return;
     }
 
@@ -170,7 +168,6 @@ export class EntryComponent {
       });
     } else {
       const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
-      console.log(vehiculo);
       this.entryService
         .editEntry(
           vehiculo,
@@ -211,7 +208,7 @@ export class EntryComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Debe ingresar la información en todos los campos',
         showConfirmButton: false,
         timer: 1500,
@@ -220,8 +217,8 @@ export class EntryComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
-        text: 'Debe asignar por lo menos 1 servicio',
+        title: 'Información incompleta',
+        text: 'Debe asignar al menos un servicio',
         showConfirmButton: false,
         timer: 1500,
       });
@@ -280,13 +277,13 @@ export class EntryComponent {
 
   eliminarServicio(id_servicio: number) {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         this.selectedServices = this.selectedServices.filter(
@@ -311,13 +308,13 @@ export class EntryComponent {
 
   cancelar() {
     Swal.fire({
-      title: '¿Esta seguro?',
+      title: '¿Está seguro?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#32cd32',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Confirmar',
-      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No',
     }).then((result) => {
       if (result.isConfirmed) {
         Swal.fire({

@@ -215,7 +215,6 @@ export class CheckoutComponent {
   }
 
   filterEntry(event: SelectChangeEvent) {
-    console.log(event);
     if (event.value.estado === 'TERMINADO') {
       Swal.fire({
         position: 'center',

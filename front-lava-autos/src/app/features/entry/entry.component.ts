@@ -245,7 +245,6 @@ export class EntryComponent {
       });
     } else {
       const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
-      console.log(vehiculo);
       this.entryService.saveEntry(vehiculo, this.selectedServices).subscribe(
         (response) => {
           Swal.fire({
@@ -340,7 +339,7 @@ export class EntryComponent {
       if (result.isConfirmed) {
         Swal.fire({
           showConfirmButton: false,
-          title: 'Registro cancelado',
+          title: 'Proceso cancelado',
           icon: 'error',
           timer: 1500,
         });

@@ -75,7 +75,6 @@ export class VehiclesComponent implements OnInit {
     this.filterAsignedServices(data.AsignedServices).subscribe(
       (selectedServices) => {
         const servicesTolist = selectedServices;
-        console.log(servicesTolist);
         if (data.estado === 'EN PROCESO') {
           generateTicket(data, servicesTolist, 'INGRESO');
         } else if (data.estado === 'TERMINADO') {

@@ -54,7 +54,6 @@ export class VehiclesComponent implements OnInit {
     this.columns = getEntityPropiedades('entries');
     this.entryService.getAll().subscribe((res: IEntry[]) => {
       this.entries = res;
-      console.log(this.entries);
     });
   }
 
@@ -94,7 +93,6 @@ export class VehiclesComponent implements OnInit {
   }
 
   edit(data: IEntry) {
-    console.log('edit', data);
     this.entryService.setEntry(data);
     this.router.navigate(['nuevo-ingreso']);
   }
@@ -127,7 +125,6 @@ export class VehiclesComponent implements OnInit {
     this.filterAsignedServices(data.AsignedServices).subscribe(
       (selectedServices) => {
         this.selectedServices = selectedServices;
-        console.log(this.selectedServices);
         const vehiculo = data.Vehicle;
         const valorPagar = selectedServices.reduce(
           (total, service) => total + (service.valor_servicio || 0),

@@ -51,6 +51,7 @@ export class EntryComponent {
   vehicles_filtered: IVehicle[] = [];
   tipo_selected: any;
   entryToEdit?: IEntry | null;
+  entries: IEntry[] = [];
 
   vehicleForm = new FormGroup({
     placa: new FormControl<string | null>(null, Validators.required),
@@ -102,10 +103,14 @@ export class EntryComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.entryService.getAll().subscribe((res: IEntry[]) => {
+      this.entries = res;
+    });
     this.entryToEdit = this.entryService.getEntrySelected();
     if (this.entryToEdit !== null) {
-      this.flagEdit = true;
       this.vehicleForm.patchValue(this.entryToEdit.Vehicle);
+      this.flagEdit = true;
+      this.vehicleForm.get('placa')?.disable(); // Desactiva
     }
   }
 
@@ -125,9 +130,25 @@ export class EntryComponent {
     this.vehicleForm.get('placa')?.setValue(value, { emitEvent: false });
 
     if (typeof event.value === 'object' && event.value.placa) {
-      this.vehicleForm.patchValue(event.value);
-      this.tipo_selected = event.value.tipo;
-      return;
+      const vExiste = this.entries.some(
+        (entry) =>
+          entry.estado === 'EN PROCESO' && entry.placa === event.value.placa
+      );
+
+      if (vExiste) {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'El vehículo ya se encuentra en proceso',
+          text: 'Registre un nuevo vehículo',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } else {
+        this.vehicleForm.patchValue(event.value);
+        this.tipo_selected = event.value.tipo;
+        return;
+      }
     }
 
     const textoBusqueda = value.trim();
@@ -139,7 +160,7 @@ export class EntryComponent {
         return placa.startsWith(busqueda);
       });
     } else {
-      this.vehicles_filtered = []; 
+      this.vehicles_filtered = [];
     }
 
     if (textoBusqueda === '') {

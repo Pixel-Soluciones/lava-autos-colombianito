@@ -63,7 +63,7 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
 
       <div style="text-align:center; margin-top:15px">
         *****************************<br/>
-        Este documento no es factura legal.<br/>.<br/>
+        Este documento es solo de carácter informativo<br/>.<br/>
         .
         </div>
     </div>
@@ -72,41 +72,17 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
   // 3. Agregar al DOM de forma temporal
   document.body.appendChild(container);
 
-  // // 4. Capturar y convertir a imagen
+  // 4. Capturar y convertir a imagen
   // const canvas = await html2canvas(container);
 
-<<<<<<< HEAD
-//   const base64Data = base64.split(',')[1];
-
-// Convertir a binario
-// const byteCharacters = atob(base64Data);
-// const byteNumbers = new Array(byteCharacters.length);
-// for (let i = 0; i < byteCharacters.length; i++) {
-//   byteNumbers[i] = byteCharacters.charCodeAt(i);
-// }
-// const byteArray = new Uint8Array(byteNumbers);
-
-// Crear blob
-// const blob = new Blob([byteArray], { type: 'image/png' });
-
-// Crear URL y abrir
-// const blobUrl = URL.createObjectURL(blob);
-// window.open(blobUrl);
-  
-
-
-  // 5. Quitar del DOM
-  document.body.removeChild(container);
-=======
-  // // Convertir el canvas a imagen en base64
+  // Convertir el canvas a imagen en base64
   // const imageBase64 = canvas.toDataURL('image/png').split(',')[1];
   // const rawbtUrl = `rawbt:data:image/png;base64,${imageBase64}`;
->>>>>>> ac2d315b6b730b6ec7ba2651806f7ba41bb0886e
 
-  // // console.log("📄", imageBase64);
+  // console.log("📄", imageBase64);
   // window.open(rawbtUrl);
 
-  // // 5. Quitar del DOM
+  // 5. Quitar del DOM
   // document.body.removeChild(container);
   try {
     const canvas = await html2canvas(container);

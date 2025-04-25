@@ -6,7 +6,6 @@ import html2canvas from 'html2canvas';
  * Genera el HTML del contenido del voucher.
  */
 export const generateVoucher = async ( data: IEntry, services: IServicio[], type: string ) => {
-  // 1. Construir HTML
   const container = document.createElement('div');
   container.id                = 'voucher';
   container.style.width       = '58mm';
@@ -14,7 +13,6 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
   container.style.fontSize    = '14px';
   container.style.padding     = '5px';
 
-  // 2. Lista de servicios en HTML
   const serviciosHTML = services
     .map(
       (s: IServicio) =>
@@ -69,30 +67,30 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
     </div>
   `;
 
-  // 3. Agregar al DOM de forma temporal
   document.body.appendChild(container);
-
-  // 4. Capturar y convertir a imagen
-  // const canvas = await html2canvas(container);
-
-  // Convertir el canvas a imagen en base64
-  // const imageBase64 = canvas.toDataURL('image/png').split(',')[1];
-  // const rawbtUrl = `rawbt:data:image/png;base64,${imageBase64}`;
-
-  // console.log("📄", imageBase64);
-  // window.open(rawbtUrl);
-
-  // 5. Quitar del DOM
-  // document.body.removeChild(container);
   try {
     const canvas = await html2canvas(container);
     const imageBase64 = canvas.toDataURL('image/png').split(',')[1];
     const rawbtUrl = `rawbt:data:image/png;base64,${imageBase64}`;
-    window.location.href = rawbtUrl;
+    const imageFull = `data:image/png;base64,${imageBase64}`;
+  
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  
+    if (isMobile) {
+      // En móvil, usar rawbt
+      window.location.href = rawbtUrl;
+    } else {
+      // En PC, abrir en nueva pestaña
+      const newWindow = window.open();
+      if (newWindow) {
+        newWindow.document.write(`<img src="${imageFull}" alt="Voucher">`);
+      } else {
+        console.error('No se pudo abrir una nueva pestaña');
+      }
+    }
   } catch (error) {
     console.error('Error al generar la imagen del voucher:', error);
   } finally {
-    // Limpiar el DOM
     document.body.removeChild(container);
   }
 };

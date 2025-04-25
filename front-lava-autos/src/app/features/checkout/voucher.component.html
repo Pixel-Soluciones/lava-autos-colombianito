@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      body {
+        width: 58mm;
+        font-family: monospace;
+        font-size: 12px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .ticket {
+        padding: 5px;
+        width: 100%;
+      }
+
+      .center {
+        text-align: center;
+      }
+
+      .logo {
+        width: 100px;
+        height: auto;
+        margin: 0 auto 10px;
+        display: block;
+      }
+
+      .datos {
+        margin-bottom: 10px;
+      }
+
+      .servicios {
+        width: 100%;
+        border-top: 1px dashed #000;
+        border-bottom: 1px dashed #000;
+        margin: 10px 0;
+      }
+
+      .servicio {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .total {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 5px;
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 15px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="ticket">
+      <div class="center">
+        <!-- Logotipo -->
+        <img src="data:image/png;base64,{{LOGO_BASE64}}" alt="Logo" class="logo" />
+        <strong>Lavadero Mi Vehículo</strong><br />
+        NIT: 900000000-1<br />
+        Calle 123 #45-67<br />
+        Tel: 300 123 4567
+      </div>
+
+      <hr />
+
+      <!-- Fecha -->
+      <div class="datos">
+        Fecha: {{FECHA}}<br />
+        Placa: {{PLACA}}<br />
+        Propietario: {{PROPIETARIO}}<br />
+        Contacto: {{CONTACTO}}
+      </div>
+
+      <!-- Lista de servicios -->
+      <div class="servicios">
+        <div class="servicio"><span>Aspirado</span><span>$5.000</span></div>
+        <div class="servicio"><span>Lavado general</span><span>$12.000</span></div>
+        <div class="servicio"><span>Brillado</span><span>$8.000</span></div>
+      </div>
+
+      <!-- Total -->
+      <div class="total">
+        TOTAL: $25.000
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        ¡Gracias por su visita!<br />
+        Firma ______________________<br />
+        Este documento no es factura legal.
+      </div>
+    </div>
+  </body>
+</html>

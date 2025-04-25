@@ -9,6 +9,7 @@ import { IEntry } from 'app/shared/interfaces/entry';
 import { IServicio } from 'app/shared/interfaces/servicio';
 import { getEntityPropiedades } from 'app/shared/models/columnsTables';
 import { generateTicket } from 'app/shared/utils/generateTicket';
+import { generateVoucher } from 'app/shared/utils/generateVoucher';
 import { catchError, map, Observable, of } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -76,9 +77,9 @@ export class VehiclesComponent implements OnInit {
       (selectedServices) => {
         const servicesTolist = selectedServices;
         if (data.estado === 'EN PROCESO') {
-          generateTicket(data, servicesTolist, 'INGRESO');
+          generateVoucher(data, servicesTolist, 'INGRESO');
         } else if (data.estado === 'TERMINADO') {
-          generateTicket(data, servicesTolist, 'SALIDA');
+          generateVoucher(data, servicesTolist, 'SALIDA');
         } else {
           Swal.fire({
             showConfirmButton: false,

@@ -188,6 +188,7 @@ export class EntryComponent {
         timer: 1500,
       });
     } else {
+      this.vehicleForm.get('placa')?.enable();
       const vehiculo: IVehicle = this.vehicleForm.value as IVehicle;
       this.entryService
         .editEntry(

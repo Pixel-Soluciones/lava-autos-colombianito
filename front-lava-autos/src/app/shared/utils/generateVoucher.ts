@@ -39,9 +39,9 @@ export const generateVoucher = async (
       <div style="text-align:center">
         <img src="iconos-botones/icono-voucher.png" alt="Logo" style="width:130px; margin:10px auto; display:block; padding-top: 15px;" />
         <strong>Lavadero Colombianito</strong><br/>
-        NIT: 900000000-1<br/>
-        Calle 123 #45-67<br/>
-        Tel: 300 123 4567
+        NIT: 27.220.560 <br/>
+        Carrera 16 No. 21-39, Pasto - Nariño <br/>
+        Tel: 321 641 7934
       </div>
 
       <hr />
@@ -78,6 +78,25 @@ export const generateVoucher = async (
   // 4. Capturar y convertir a imagen
   const canvas = await html2canvas(container);
   const base64 = canvas.toDataURL('image/png');
+
+//   const base64Data = base64.split(',')[1];
+
+// Convertir a binario
+// const byteCharacters = atob(base64Data);
+// const byteNumbers = new Array(byteCharacters.length);
+// for (let i = 0; i < byteCharacters.length; i++) {
+//   byteNumbers[i] = byteCharacters.charCodeAt(i);
+// }
+// const byteArray = new Uint8Array(byteNumbers);
+
+// Crear blob
+// const blob = new Blob([byteArray], { type: 'image/png' });
+
+// Crear URL y abrir
+// const blobUrl = URL.createObjectURL(blob);
+// window.open(blobUrl);
+  
+
 
   // 5. Quitar del DOM
   document.body.removeChild(container);

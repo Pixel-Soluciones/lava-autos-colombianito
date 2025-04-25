@@ -215,32 +215,34 @@ export class CheckoutComponent {
   }
 
   filterEntry(event: SelectChangeEvent) {
-    if (event.value.estado === 'TERMINADO') {
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Salida registrada',
-        text: 'El vehículo ya reportó salida del establecimiento',
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      this.vehicleForm.reset();
-      return;
-    } 
+    if (event.value.placa) {
+      if (event.value.estado === 'TERMINADO') {
+        Swal.fire({
+          position: 'center',
+          icon: 'error',
+          title: 'Salida registrada',
+          text: 'El vehículo ya reportó salida del establecimiento',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        this.vehicleForm.reset();
+      }
 
-    if (event.value.placa && event.value.tipo_pago !== null) {
-      this.vehicleForm.patchValue(event.value.Vehicle);
-      this.entrie = event.value;
-      this.selectedServices = this.services.filter((service) =>
-        event.value.AsignedServices.some(
-          (asigned: { id_servicio: number | undefined }) =>
-            asigned.id_servicio === service.id_servicio
-        )
-      );
-
-      return;
+      if (event.value.estado === 'EN PROCESO') {
+        this.vehicleForm.patchValue(event.value.Vehicle);
+        this.entrie = event.value;
+        this.selectedServices = this.services.filter((service) =>
+          event.value.AsignedServices.some(
+            (asigned: { id_servicio: number | undefined }) =>
+              asigned.id_servicio === service.id_servicio
+          )
+        );
+        return;
+      }
     }
-    const textoBusqueda = event.value.trim();
+
+    const textoBusqueda =
+      typeof event.value === 'string' ? event.value.trim() : '';
     if (textoBusqueda && textoBusqueda.length > 1) {
       this.entries_filtered = this.entriesOfDay.filter((entrie) => {
         const placa = entrie.placa.replace(/[a-zA-Z]/g, (c) => c.toLowerCase());

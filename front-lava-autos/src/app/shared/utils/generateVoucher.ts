@@ -25,33 +25,34 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
 
   const total = services.reduce((sum, s) => sum + s.valor_servicio, 0);
 
-  const flag = type;
-  const tipoPago =
-    flag === 'SALIDA'
-      ? `MÉTODO DE PAGO: ${data.tipo_pago.toUpperCase()}`
-      : flag === 'INGRESO'
-      ? ''
-      : '';
+//   const flag = type;
+//   const tipoPago =
+//     flag === 'SALIDA'
+//       ? `MÉTODO DE PAGO: ${data.tipo_pago.toUpperCase()}`
+//       : flag === 'INGRESO'
+//       ? ''
+//       : '';
   container.innerHTML = `
     <div class="ticket">
       <div style="text-align:center">
         <img src="iconos-botones/icono-voucher.png" alt="Logo" style="width:130px; margin:10px auto; display:block; padding-top: 15px;" />
         <strong>Lavadero Colombianito</strong><br/>
-        NIT: 27.220.560 <br/>
-        Carrera 16 No. 21-39, Pasto - Nariño <br/>
-        Tel: 321 641 7934
+        NIT: 27220560 <br/>
+        Carrera 16 No. 21-39 </br> Pasto - Nariño <br/>
+        Tel: 3216417934
+        Fecha: ${new Date().toLocaleDateString('es-ES')}<br/>
       </div>
 
       <hr />
-
-      <div style="text-align:center; font-size: 24px; padding: 5px;" ><strong>${
-        data.placa
-      }</strong><br/></div>
+      <div style="text-align:center; font-size: 30px; padding: 5px; font-weight:bold" ><strong>INGRESO DE VEHÍCULO</strong><br/></div>
+      <div style="text-align:center; font-size: 24px; padding: 5px;" ><strong>PLACA: ${data.placa}</strong><br/></div>
 
       <div>
-        Fecha: ${new Date().toLocaleDateString('es-ES')}<br/>
+        Tipo: ${data.Vehicle.tipo}
+        Marca: ${data.Vehicle.marca}
+        Línea: ${data.Vehicle.linea}
         Propietario: ${data.Vehicle.nombre_prop}<br/>
-        Contacto: ${data.Vehicle.contacto}
+        
       </div>
 
       <div style="margin:10px 0; border-top:1px dashed #000; border-bottom:1px dashed #000; padding-top: 10px; padding-bottom: 10px;">
@@ -59,11 +60,10 @@ export const generateVoucher = async ( data: IEntry, services: IServicio[], type
       </div>
 
       <div style="text-align:right; font-weight:bold">TOTAL: $${total.toLocaleString()}</div>
-      <div style="text-align:right; font-weight:bold">${tipoPago}</div>
 
       <div style="text-align:center; margin-top:15px">
         *****************************<br/>
-        Este documento es solo de carácter informativo<br/>.<br/>
+        Este documento de carácter informativo y no constituye una factura<br/>.<br/>
         .
         </div>
     </div>

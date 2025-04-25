@@ -129,12 +129,11 @@ export class EntryComponent {
       typeof event.value === 'string' ? event.value.toUpperCase() : '';
     this.vehicleForm.get('placa')?.setValue(value, { emitEvent: false });
 
-    if (typeof event.value === 'object' && event.value.placa) {
+    if (typeof event.value === 'object' && event.value.placa) {      
       const vExiste = this.entries.some(
         (entry) =>
           entry.estado === 'EN PROCESO' && entry.placa === event.value.placa
       );
-
       if (vExiste) {
         Swal.fire({
           position: 'center',
@@ -151,7 +150,22 @@ export class EntryComponent {
       }
     }
 
-    const textoBusqueda = value.trim();
+    const textoBusqueda = value.trim();    
+    const vExiste2 = this.entries.some(
+      (entry) =>
+        entry.estado === 'EN PROCESO' && entry.placa === textoBusqueda
+    );
+    if (vExiste2) {
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'El vehículo ya se encuentra en proceso',
+        text: 'Registre un nuevo vehículo',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      this.vehicleForm.reset();
+    }    
 
     if (textoBusqueda.length > 1) {
       this.vehicles_filtered = this.vehicles.filter((vehicle) => {

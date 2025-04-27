@@ -68,6 +68,7 @@ export class ReportsDayComponent {
     const fecha = new Date(event);
 
     this.reportsService.getDayReport(fecha).subscribe((res) => {
+      res = res.filter(item => item.trabajador !== null);
       if (res.length == 0) {
         Swal.fire({
           title: 'Error',

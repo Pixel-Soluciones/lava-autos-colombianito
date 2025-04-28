@@ -75,7 +75,7 @@ export const generateVoucher = async (
 
       <div style="text-align:center; margin-top:15px">
         *****************************<br/>
-        Este documento de carácter informativo y no constituye una factura<br/>.<br/>
+        Este documento es de carácter informativo y no constituye una factura<br/>.<br/>
         .
         </div>
     </div>

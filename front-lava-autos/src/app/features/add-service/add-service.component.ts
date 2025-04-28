@@ -143,6 +143,7 @@ export class AddServiceComponent {
         showConfirmButton: false,
         timer: 1500,
       });
+      this.flagSaving = false;
     } else if (this.addServiceForm.invalid) {
       Swal.fire({
         position: 'center',
@@ -152,6 +153,7 @@ export class AddServiceComponent {
         showConfirmButton: false,
         timer: 1500,
       });
+      this.flagSaving = false;
     } else {
       const duracionServicio = new Date(
         this.addServiceForm.get('duracionServicio')?.value!

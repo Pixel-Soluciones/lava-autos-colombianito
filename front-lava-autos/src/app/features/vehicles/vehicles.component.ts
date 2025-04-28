@@ -27,7 +27,7 @@ export class VehiclesComponent implements OnInit {
   servicios: IServicio[] = [];
   actions: ActionButton[] = [
     {
-      title: 'Ver Info',
+      title: 'Detalle',
       action: 'View',
       icon: 'iconos-botones/ver.png',
     },

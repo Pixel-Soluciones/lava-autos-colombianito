@@ -88,7 +88,7 @@ export const generateVoucher = async (
     const rawbtUrl = `rawbt:data:image/png;base64,${imageBase64}`;
     const imageFull = `data:image/png;base64,${imageBase64}`;
 
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isMobile = /Android/i.test(navigator.userAgent);
 
     if (isMobile) {
       // En móvil, usar rawbt

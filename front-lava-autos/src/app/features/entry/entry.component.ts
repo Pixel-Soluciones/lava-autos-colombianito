@@ -302,7 +302,7 @@ export class EntryComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Ya esta agregado',
+        title: 'Ya está agregado',
         text: 'Debe registrar un servicio distinto',
         showConfirmButton: false,
         timer: 1500,

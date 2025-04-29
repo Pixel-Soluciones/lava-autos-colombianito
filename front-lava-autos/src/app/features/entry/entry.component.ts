@@ -187,7 +187,7 @@ export class EntryComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Debe ingresar la información en todos los campos',
         showConfirmButton: false,
         timer: 1500,
@@ -196,7 +196,7 @@ export class EntryComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Debe asignar por lo menos 1 servicio',
         showConfirmButton: false,
         timer: 1500,

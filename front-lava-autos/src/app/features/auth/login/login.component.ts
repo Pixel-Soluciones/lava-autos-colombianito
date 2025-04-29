@@ -71,7 +71,7 @@ export class LoginComponent {
             Swal.fire({
               position: 'center',
               icon: 'error',
-              title: 'Atencion',
+              title: 'Atención',
               text: 'Su usuario o contraseña es icorrecto',
               showConfirmButton: false,
               timer: 1500,

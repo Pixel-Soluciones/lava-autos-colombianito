@@ -160,7 +160,7 @@ export class CheckoutComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Ingrese una placa',
         showConfirmButton: false,
         timer: 1500,
@@ -169,7 +169,7 @@ export class CheckoutComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Asigne un trabajador a cada servicio',
         showConfirmButton: false,
         timer: 1500,
@@ -178,7 +178,7 @@ export class CheckoutComponent {
       Swal.fire({
         position: 'center',
         icon: 'error',
-        title: 'Informacion incompleta',
+        title: 'Información incompleta',
         text: 'Seleccione el tipo de pago',
         showConfirmButton: false,
         timer: 1500,

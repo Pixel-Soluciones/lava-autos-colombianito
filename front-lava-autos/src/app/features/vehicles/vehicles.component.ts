@@ -135,10 +135,10 @@ export class VehiclesComponent implements OnInit {
         const vehiculoInfo = `
           <p>Placa: ${vehiculo.placa}</p>
           <p>Marca: ${vehiculo.marca}</p>
-          <p>Línea: ${vehiculo.linea}</p>
+          <p>Cédula: ${vehiculo.cedula_prop || "No aplica"}</p>
           <p>Propietario: ${vehiculo.nombre_prop}</p>
           <p>Contacto: ${vehiculo.contacto}</p>
-          <p>Clave: ${vehiculo.clave}</p>
+          <p>Clave: ${vehiculo.clave || "No aplica"}</p>
         `;
 
         // Convertimos los servicios en una lista HTML

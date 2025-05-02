@@ -4,6 +4,7 @@ export interface IVehicle {
     linea?: string;
     tipo?: string;
     nombre_prop?: string;
+    cedula_prop?: string;
     contacto?: string;
     clave?: string;
 }

@@ -59,7 +59,11 @@ export class CheckoutComponent {
       { value: '', disabled: true },
       Validators.required
     ),
-    linea: new FormControl<string>(
+    // linea: new FormControl<string>(
+    //   { value: '', disabled: true },
+    //   Validators.required
+    // ),
+    cedula_prop: new FormControl<string>(
       { value: '', disabled: true },
       Validators.required
     ),

@@ -63,8 +63,8 @@ export const generateVoucher = async (
       <div style="margin: 10px;">
         Tipo: ${data.Vehicle.tipo}<br/>
         Marca: ${data.Vehicle.marca}<br/>
-        Línea: ${data.Vehicle.linea}<br/>
         Propietario: ${data.Vehicle.nombre_prop}<br/>        
+        Cédula: ${data.Vehicle.cedula_prop}<br/>
       </div>
 
       <div style="margin:5px; border-top:1px dashed #000; border-bottom:1px dashed #000; padding-top: 10px; padding-bottom: 5px;">

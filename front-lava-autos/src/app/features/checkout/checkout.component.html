@@ -35,20 +35,6 @@
           </div>
           <div>
             <p-floatlabel variant="in">
-              <input
-                class="w-full"
-                pInputText
-                id="linea"
-                autocomplete="on"
-                formControlName="linea"
-              />
-              <label for="linea">Línea</label>
-            </p-floatlabel>
-          </div>
-
-          <!-- Columna 2 -->
-          <div>
-            <p-floatlabel variant="in">
               <p-select
                 formControlName="tipo"
                 [options]="tiposVehiculo"
@@ -59,6 +45,7 @@
               <label for="tipo">Tipo</label>
             </p-floatlabel>
           </div>
+          <!-- Columna 2 -->
           <div>
             <p-floatlabel variant="in">
               <input
@@ -69,6 +56,18 @@
                 formControlName="nombre_prop"
               />
               <label for="propietario">Propietario</label>
+            </p-floatlabel>
+          </div>
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="cedula_prop"
+                autocomplete="on"
+                formControlName="cedula_prop"
+              />
+              <label for="cedula_prop">Cédula</label>
             </p-floatlabel>
           </div>
           <div>

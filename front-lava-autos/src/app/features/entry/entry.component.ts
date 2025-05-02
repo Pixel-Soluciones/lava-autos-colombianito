@@ -56,7 +56,8 @@ export class EntryComponent {
   vehicleForm = new FormGroup({
     placa: new FormControl<string | null>(null, Validators.required),
     marca: new FormControl<string>('', Validators.required),
-    linea: new FormControl<string>('', Validators.required),
+    // linea: new FormControl<string>('', Validators.required),
+    cedula_prop: new FormControl<string>(''),
     tipo: new FormControl<string | null>(null, Validators.required),
     clave: new FormControl<string>(''),
     nombre_prop: new FormControl<string>('', Validators.required),

@@ -40,7 +40,7 @@
               <label for="marca">Marca</label>
             </p-floatlabel>
           </div>
-          <div>
+          <!-- <div>
             <p-floatlabel variant="in">
               <input
                 class="w-full"
@@ -50,6 +50,20 @@
                 formControlName="linea"
               />
               <label for="linea">Línea</label>
+            </p-floatlabel>
+          </div> -->
+          <div>
+            <p-floatlabel variant="in">
+              <input
+                class="w-full"
+                pInputText
+                id="cedula_prop"
+                autocomplete="on"
+                formControlName="cedula_prop"
+                maxlength="10"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+              />
+              <label for="cedula_prop">Cédula</label>
             </p-floatlabel>
           </div>
 

@@ -152,6 +152,8 @@ export class VehiclesComponent implements OnInit {
           .join('');
 
         const ticketContent = `
+          *Lavautos Colombianito*
+
           🚗 Información del Vehículo
           ${vehiculoInfo.replace(/<[^>]*>/g, '')}
           

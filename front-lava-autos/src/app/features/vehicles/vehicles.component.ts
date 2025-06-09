@@ -185,7 +185,7 @@ export class VehiclesComponent implements OnInit {
         }).then((result) => {
           if (result.isDenied) {
             // share via whatsapp
-            const whatsappUrl = `https://wa.me/${
+            const whatsappUrl = `https://wa.me/+57${
               vehiculo.contacto
             }?text=${encodeURIComponent(ticketContent)}`;
             window.open(whatsappUrl, '_blank');
